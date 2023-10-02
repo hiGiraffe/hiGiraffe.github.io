@@ -1,6 +1,391 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Lecture 3 Bit Hacks</title>
+    <url>/2023/01/08/mit-6-172-3/</url>
+    <content><![CDATA[<h1 id="Bit-Hacks"><a href="#Bit-Hacks" class="headerlink" title="Bit Hacks"></a>Bit Hacks</h1><h3 id="二进制表示"><a href="#二进制表示" class="headerlink" title="二进制表示"></a>二进制表示</h3><p>略</p>
+<h3 id="反补码性质"><a href="#反补码性质" class="headerlink" title="反补码性质"></a>反补码性质</h3><p>略</p>
+<h3 id="八进制、十六进制"><a href="#八进制、十六进制" class="headerlink" title="八进制、十六进制"></a>八进制、十六进制</h3><p>略</p>
+<h3 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h3><p>略</p>
+<h3 id="Set-the-kth-Bit"><a href="#Set-the-kth-Bit" class="headerlink" title="Set the kth Bit"></a>Set the k<sup>th</sup> Bit</h3><pre><code>y = x | (1 &lt;&lt; k);
+</code></pre>
+<h3 id="Clear-the-kth-Bit"><a href="#Clear-the-kth-Bit" class="headerlink" title="Clear the kth Bit"></a>Clear the k<sup>th</sup> Bit</h3><pre><code>y = x &amp;(1 &lt;&lt; k);
+</code></pre>
+<h3 id="Toggle-the-kth-Bit"><a href="#Toggle-the-kth-Bit" class="headerlink" title="Toggle the kth Bit"></a>Toggle the k<sup>th</sup> Bit</h3><pre><code>y = x ^ (1 &lt;&lt; k);
+</code></pre>
+<h3 id="Extract-a-Bit-Field"><a href="#Extract-a-Bit-Field" class="headerlink" title="Extract a Bit Field"></a>Extract a Bit Field</h3><pre><code>(x % mask) &gt;&gt; shift;
+//mask 将待抽取的位 置一
+</code></pre>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/extract1.png"
+                     
+                ></p>
+<h3 id="Set-a-Bit-Field"><a href="#Set-a-Bit-Field" class="headerlink" title="Set a Bit Field"></a>Set a Bit Field</h3><pre><code>x = (x &amp; ~mask) | (y &lt;&lt; shift);
+//For safety’s sake:((y &lt;&lt; shift) &amp; mask)
+</code></pre>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/set1.png"
+                     
+                ></p>
+<h3 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h3><ul>
+<li><h4 id="Ordinary-Swap"><a href="#Ordinary-Swap" class="headerlink" title="Ordinary Swap"></a>Ordinary Swap</h4><pre><code>  t = x;
+  x = y;
+  y = t;
+</code></pre>
+</li>
+<li><h4 id="No-Temp-Swap"><a href="#No-Temp-Swap" class="headerlink" title="No-Temp Swap"></a>No-Temp Swap</h4><pre><code>  x = x ^ y;
+  y = x ^ y;
+  x = x ^ y;
+</code></pre>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/swap1.png"
+                     
+                ></p>
+<p><strong>Why it works</strong> : XOR is its own inverse (x ^ y) ^ y &#x3D; x</p>
+<p><strong>Performance</strong> : poor at exploiting instruction-level parallelism(slower than the original code)</p>
+</li>
+</ul>
+<h3 id="Minimum-of-Two-Integers"><a href="#Minimum-of-Two-Integers" class="headerlink" title="Minimum of Two Integers"></a>Minimum of Two Integers</h3><ul>
+<li><h4 id="Ordinary-Minimum"><a href="#Ordinary-Minimum" class="headerlink" title="Ordinary Minimum"></a>Ordinary Minimum</h4><pre><code>  r = (x &lt; y) ? x : y;
+</code></pre>
+<p><strong>Performance</strong> : A mispredicted branch empties the processor pipeline<br><strong>Caveat</strong> : The compiler is usually smart enough to optimize away the unpredictable branch, but maybe not.</p>
+</li>
+<li><h4 id="No-Branch-Minimum"><a href="#No-Branch-Minimum" class="headerlink" title="No-Branch Minimum"></a>No-Branch Minimum</h4><pre><code>  r = y ^ ((x ^ y) &amp; -(x &lt; y));
+</code></pre>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/min1.png"
+                     
+                ></p>
+</li>
+</ul>
+<h3 id="Merging-Two-Sorted-Arrays"><a href="#Merging-Two-Sorted-Arrays" class="headerlink" title="Merging Two Sorted Arrays"></a>Merging Two Sorted Arrays</h3><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/merge1.png"
+                     
+                ></p>
+<p><strong>if branch is predictable</strong>: most of the time it retrun true, and once it return false you are never going to look at that again.<br>it is predictable &#x3D; it can do prefetching efficiently</p>
+<h4 id="Modular-Additon"><a href="#Modular-Additon" class="headerlink" title="Modular Additon"></a>Modular Additon</h4><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_30.png"
+                     
+                ></p>
+<ul>
+<li>n 是 2 的幂</li>
+<li>z 可能小于 n</li>
+<li>同 minimum 方法</li>
+</ul>
+<h4 id="Round-up-to-a-Power-of-2"><a href="#Round-up-to-a-Power-of-2" class="headerlink" title="Round up to a Power of 2"></a>Round up to a Power of 2</h4><p>进一至 2 的幂次<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_31.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_41.png"
+                     
+                ></p>
+<ul>
+<li>注意向右填充所有位的方法</li>
+</ul>
+<ul>
+<li>这是一种处理边界条件的方法</li>
+</ul>
+<h4 id="Least-Significant-1"><a href="#Least-Significant-1" class="headerlink" title="Least-Significant 1"></a>Least-Significant 1</h4><p>最小的 1<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_43.png"
+                     
+                ></p>
+<h4 id="Log-Base-2-of-a-Power-of-2"><a href="#Log-Base-2-of-a-Power-of-2" class="headerlink" title="Log Base 2 of a Power of 2"></a>Log Base 2 of a Power of 2</h4><p>课堂表演魔术-利用德布鲁因序列的数学性质</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_44.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_46.png"
+                     
+                ></p>
+<ul>
+<li>德布鲁因序列</li>
+</ul>
+<h4 id="n-Queens-Problem"><a href="#n-Queens-Problem" class="headerlink" title="n Queens Problem"></a>n Queens Problem</h4><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_47.png"
+                     
+                ></p>
+<ul>
+<li>每一行从左往右试 符合就下一行。若都不符合就上一行继续往后试</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_58.png"
+                     
+                ></p>
+<ul>
+<li>三个向量 分别对应下文三图</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_59.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_60.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_61.png"
+                     
+                ></p>
+<h4 id="Population-Count"><a href="#Population-Count" class="headerlink" title="Population Count"></a>Population Count</h4><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_62.png"
+                     
+                ></p>
+<ul>
+<li>留意清除最低位的 1 的使用</li>
+<li>数字小的时候才好用</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_63.png"
+                     
+                ></p>
+<ul>
+<li>内存操作的成本是性能的主要瓶颈</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_64.png"
+                     
+                ></p>
+<ul>
+<li>这里加法是真加法 不是或</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_65.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_66.png"
+                     
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_67.png"
+                     
+                ></p>
+<ul>
+<li>popcount 指令比自己编码快很多</li>
+</ul>
+<h1 id="英语词汇笔记"><a href="#英语词汇笔记" class="headerlink" title="英语词汇笔记"></a>英语词汇笔记</h1><table>
+<thead>
+<tr>
+<th>单词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>binary</td>
+<td>二进制</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td>前置</td>
+</tr>
+<tr>
+<td>toggle</td>
+<td>切换</td>
+</tr>
+<tr>
+<td>prefetching</td>
+<td>预取</td>
+</tr>
+<tr>
+<td>Modular</td>
+<td>模</td>
+</tr>
+<tr>
+<td>boundary case</td>
+<td>边界条件</td>
+</tr>
+</tbody></table>
+]]></content>
+      <tags>
+        <tag>Performance Engineering Of Software Systems</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenMp优化方法</title>
+    <url>/2023/07/03/openmp/</url>
+    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
+<li><p>设置<strong>要使用</strong>的<strong>线程数</strong></p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">omp_set_num_threads</span><span class="params">(<span class="type">int</span> num_threads)</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取<strong>当前线程数</strong></p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_num_threads</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取当前线程的<strong>编号</strong></p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_thread_num</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取<strong>可以使用</strong>的<strong>最大线程数</strong></p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_max_threads</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取系统中的<strong>处理器核心数</strong></p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_num_procs</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>获取<strong>当前时间</strong>（以秒为单位），用于计算代码执行时间</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">omp_get_wtime</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>创建并行区域，其中包含并行执行的代码块</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 并行执行的代码块</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>指示<strong>一个</strong>for 循环可以被并行执行</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// 并行执行的循环体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>指示代码块被划分为多个独立的部分，并行执行各个部分</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp sections</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp section</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 第一部分代码</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp section</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 第二部分代码</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 更多部分...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>将<strong>一个</strong>for 循环并行化，使多个线程并行执行迭代</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// 并行执行的循环体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>创建一个<strong>临界区</strong>，在其中只允许一个线程同时执行</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp critical</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 临界区代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>对共享变量执行原子操作，确保操作的原子性</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp atomic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 原子操作代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>对共享变量执行归约操作，例如求和、求积等</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp reduction(operator: variable)</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>使用指定数量的线程并行</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(nthreads)</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<ul>
+<li><p>指定循环迭代的调度方式</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp for schedule(kind,chunk_size)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>kind：static, dynamic, guided<ul>
+<li>静态调度（Static Schedule）：<ul>
+<li><code>kind</code>参数为<code>static</code>时，采用静态调度方式。</li>
+<li>静态调度将循环迭代均匀地划分为固定大小的迭代块，每个线程获取一个或多个连续的迭代块。</li>
+<li><code>chunk_size</code>参数表示每个线程获取的连续迭代块的大小。</li>
+</ul>
+</li>
+<li>动态调度（Dynamic Schedule）：<ul>
+<li><code>kind</code>参数为<code>dynamic</code>时，采用动态调度方式。</li>
+<li>动态调度将循环迭代均匀地划分为较小的迭代块，每个线程获取一个迭代块执行完毕后再获取下一个迭代块。</li>
+<li><code>chunk_size</code>参数表示每个线程获取的迭代块的大小。</li>
+</ul>
+</li>
+<li>导引式调度（Guided Schedule）：<ul>
+<li><code>kind</code>参数为<code>guided</code>时，采用导引式调度方式。</li>
+<li>导引式调度类似于动态调度，但初始的迭代块较大，逐渐减小。</li>
+<li>初始迭代块的大小由系统设定，每个线程获取一个迭代块执行完毕后再获取下一个较小的迭代块。</li>
+<li><code>chunk_size</code>参数可以用于指定最小的迭代块大小，如果没有指定，则使用系统设定的默认值。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/1.png"
+                      alt="2023-07-03-openmp"
+                ></p>
+<ul>
+<li><p>并行循环结束后避免隐式的同步等待</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp parallel</span><br><span class="line">&#123;</span><br><span class="line">	#pragma omp for nowait</span><br><span class="line">	for (i=1; i&lt;n; i++)</span><br><span class="line">		b[i] = (a[i] + a[i-1]) / 2.0;</span><br><span class="line">	#pragma omp for nowait</span><br><span class="line">	for (i=0; i&lt;m; i++)</span><br><span class="line">		y[i] = sqrt(z[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><code>#pragma omp for</code>指令会在循环结束后进行隐式的同步等待，确保所有线程都完成了循环的执行。这会引入一定的同步开销。</p>
+<p>注意，使用<code>nowait</code>指令需要确保循环之后没有任何依赖于循环结果的计算，否则可能会导致错误的结果。</p>
+</li>
+<li><p>将多个嵌套的并行循环合并为一个并行循环</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for collapse(2)private(i, k, j)</span></span><br><span class="line">	<span class="keyword">for</span> (k=kl; k&lt;=ku; k+=ks)</span><br><span class="line">        <span class="keyword">for</span> (j=jl; j&lt;=ju; j+=js)</span><br><span class="line">            <span class="keyword">for</span> (i=il; i&lt;=iu; i+=is)</span><br><span class="line">                bar(a,i,j,k);</span><br></pre></td></tr></table></figure></div>
+
+<p>默认情况下，<code>#pragma omp for</code>指令只会并行化最外层的循环，对于嵌套的循环不会进行并行化。</p>
+<ul>
+<li><code>#pragma omp for collapse(2)</code>：这是 OpenMP 的并行化指令，表示要并行化下面的嵌套循环。<code>collapse(2)</code>指定将两个嵌套循环（<code>j</code>和<code>i</code>）合并为一个循环，并进行并行化。</li>
+<li><code>private(i, k, j)</code>：这是 OpenMP 的私有变量指令，指定了在并行执行中每个线程所使用的私有变量。在这个例子中，<code>i</code>、<code>k</code>、<code>j</code>被声明为私有变量，每个线程都有它们的私有副本，避免了数据竞争。</li>
+</ul>
+</li>
+<li><p>在并行区域中的每个线程拥有自己的私有副本。</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> is_private = <span class="number">-2</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel private(is_private)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> rand_tid = rand();</span><br><span class="line">	is_private = rand_tid;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Thread ID %2d | is_private = %d\n&quot;</span>, omp_get_thread_num(), is_private); 		assert(is_private == rand_tid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>使用<code>private</code>子句声明了变量<code>is_private</code>为私有变量。每个线程都有自己的<code>is_private</code>变量的副本，且初始值与线程的随机 ID 相同</p>
+</li>
+</ul>
+<ul>
+<li><p>创建并行任务。标记一段代码作为一个独立的任务，该任务可以由可用的线程池中的任何线程执行。</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task priority(i) <span class="comment">//i越小优先级越高</span></span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>设置依赖关系</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">depend</span><br><span class="line">in: 在开始前改该变量的修改要结束</span><br><span class="line">out：需要修改变量</span><br><span class="line">inout：两者兼之</span><br><span class="line">mutexinoutset：</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp parallel</span><br><span class="line">#pragma omp single</span><br><span class="line">&#123;</span><br><span class="line">#pragma omp task shared(x) depend(out: x)</span><br><span class="line">  x = 2;</span><br><span class="line">#pragma omp task shared(x) depend(in: x)</span><br><span class="line">  printf(&quot;x = %d\n&quot;, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>遍历中使用并行</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">do</span><span class="params">(...)</span></span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task</span></span><br><span class="line">        <span class="keyword">do</span>(...);</span><br><span class="line">&#125;</span><br><span class="line">main()&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp single</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Only a single thread should execute this</span></span><br><span class="line">        <span class="keyword">do</span>(...);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在函数中需要用’#pragma omp task’，在 main 函数中需要采用‘#pragma omp parallel‘和’#pragma omp single’</p>
+</li>
+</ul>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><ul>
+<li><p>设置线程数的用法</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(n_thread)</span></span><br><span class="line">    &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">            ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>等同于</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(n_thread)</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">      ...</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li><p>#pragma omp parallel for<code>和</code>#pragma omp for 有什么区别</p>
+<p>#pragma omp parallel for<code>和</code>#pragma omp for 是 OpenMP 中用于并行化 for 循环的指令。它们的差别在于并行化的方式和默认行为。</p>
+<p><code>#pragma omp for</code>指示编译器将其后面的 for 循环并行化执行。编译器根据线程数量自动划分迭代空间，每个线程负责执行一部分迭代。使用<code>#pragma omp for</code>时，需要确保循环的迭代之间不存在数据依赖关系或竞争条件。</p>
+<p><code>#pragma omp parallel for</code>与<code>#pragma omp for</code>类似，也是用于并行化 for 循环。但是，<code>#pragma omp parallel for</code>更为灵活，允许更多的控制选项。使用<code>#pragma omp parallel for</code>时，可以设置循环迭代的调度方式（例如静态调度、动态调度等）、指定循环迭代的块大小等。</p>
+<p>总结来说，<code>#pragma omp for</code>是一种简化的并行化 for 循环的方式，而<code>#pragma omp parallel for</code>则提供了更多的灵活性和控制选项。如果你只需要简单地并行化 for 循环，<code>#pragma omp for</code>足以满足需求。如果你需要更多的控制权或者对循环迭代的调度方式有特定要求，那么可以使用<code>#pragma omp parallel for</code>。</p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Parallel Computing</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Lecture 1 Introduction and Matrix Multiplication</title>
     <url>/2023/01/05/mit-6-172-1/</url>
     <content><![CDATA[<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>略</p>
@@ -352,252 +737,6 @@ return result
       </tags>
   </entry>
   <entry>
-    <title>Lecture 3 Bit Hacks</title>
-    <url>/2023/01/08/mit-6-172-3/</url>
-    <content><![CDATA[<h1 id="Bit-Hacks"><a href="#Bit-Hacks" class="headerlink" title="Bit Hacks"></a>Bit Hacks</h1><h3 id="二进制表示"><a href="#二进制表示" class="headerlink" title="二进制表示"></a>二进制表示</h3><p>略</p>
-<h3 id="反补码性质"><a href="#反补码性质" class="headerlink" title="反补码性质"></a>反补码性质</h3><p>略</p>
-<h3 id="八进制、十六进制"><a href="#八进制、十六进制" class="headerlink" title="八进制、十六进制"></a>八进制、十六进制</h3><p>略</p>
-<h3 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h3><p>略</p>
-<h3 id="Set-the-kth-Bit"><a href="#Set-the-kth-Bit" class="headerlink" title="Set the kth Bit"></a>Set the k<sup>th</sup> Bit</h3><pre><code>y = x | (1 &lt;&lt; k);
-</code></pre>
-<h3 id="Clear-the-kth-Bit"><a href="#Clear-the-kth-Bit" class="headerlink" title="Clear the kth Bit"></a>Clear the k<sup>th</sup> Bit</h3><pre><code>y = x &amp;(1 &lt;&lt; k);
-</code></pre>
-<h3 id="Toggle-the-kth-Bit"><a href="#Toggle-the-kth-Bit" class="headerlink" title="Toggle the kth Bit"></a>Toggle the k<sup>th</sup> Bit</h3><pre><code>y = x ^ (1 &lt;&lt; k);
-</code></pre>
-<h3 id="Extract-a-Bit-Field"><a href="#Extract-a-Bit-Field" class="headerlink" title="Extract a Bit Field"></a>Extract a Bit Field</h3><pre><code>(x % mask) &gt;&gt; shift;
-//mask 将待抽取的位 置一
-</code></pre>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/extract1.png"
-                     
-                ></p>
-<h3 id="Set-a-Bit-Field"><a href="#Set-a-Bit-Field" class="headerlink" title="Set a Bit Field"></a>Set a Bit Field</h3><pre><code>x = (x &amp; ~mask) | (y &lt;&lt; shift);
-//For safety’s sake:((y &lt;&lt; shift) &amp; mask)
-</code></pre>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/set1.png"
-                     
-                ></p>
-<h3 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h3><ul>
-<li><h4 id="Ordinary-Swap"><a href="#Ordinary-Swap" class="headerlink" title="Ordinary Swap"></a>Ordinary Swap</h4><pre><code>  t = x;
-  x = y;
-  y = t;
-</code></pre>
-</li>
-<li><h4 id="No-Temp-Swap"><a href="#No-Temp-Swap" class="headerlink" title="No-Temp Swap"></a>No-Temp Swap</h4><pre><code>  x = x ^ y;
-  y = x ^ y;
-  x = x ^ y;
-</code></pre>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/swap1.png"
-                     
-                ></p>
-<p><strong>Why it works</strong> : XOR is its own inverse (x ^ y) ^ y &#x3D; x</p>
-<p><strong>Performance</strong> : poor at exploiting instruction-level parallelism(slower than the original code)</p>
-</li>
-</ul>
-<h3 id="Minimum-of-Two-Integers"><a href="#Minimum-of-Two-Integers" class="headerlink" title="Minimum of Two Integers"></a>Minimum of Two Integers</h3><ul>
-<li><h4 id="Ordinary-Minimum"><a href="#Ordinary-Minimum" class="headerlink" title="Ordinary Minimum"></a>Ordinary Minimum</h4><pre><code>  r = (x &lt; y) ? x : y;
-</code></pre>
-<p><strong>Performance</strong> : A mispredicted branch empties the processor pipeline<br><strong>Caveat</strong> : The compiler is usually smart enough to optimize away the unpredictable branch, but maybe not.</p>
-</li>
-<li><h4 id="No-Branch-Minimum"><a href="#No-Branch-Minimum" class="headerlink" title="No-Branch Minimum"></a>No-Branch Minimum</h4><pre><code>  r = y ^ ((x ^ y) &amp; -(x &lt; y));
-</code></pre>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/min1.png"
-                     
-                ></p>
-</li>
-</ul>
-<h3 id="Merging-Two-Sorted-Arrays"><a href="#Merging-Two-Sorted-Arrays" class="headerlink" title="Merging Two Sorted Arrays"></a>Merging Two Sorted Arrays</h3><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/merge1.png"
-                     
-                ></p>
-<p><strong>if branch is predictable</strong>: most of the time it retrun true, and once it return false you are never going to look at that again.<br>it is predictable &#x3D; it can do prefetching efficiently</p>
-<h4 id="Modular-Additon"><a href="#Modular-Additon" class="headerlink" title="Modular Additon"></a>Modular Additon</h4><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_30.png"
-                     
-                ></p>
-<ul>
-<li>n 是 2 的幂</li>
-<li>z 可能小于 n</li>
-<li>同 minimum 方法</li>
-</ul>
-<h4 id="Round-up-to-a-Power-of-2"><a href="#Round-up-to-a-Power-of-2" class="headerlink" title="Round up to a Power of 2"></a>Round up to a Power of 2</h4><p>进一至 2 的幂次<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_31.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_41.png"
-                     
-                ></p>
-<ul>
-<li>注意向右填充所有位的方法</li>
-</ul>
-<ul>
-<li>这是一种处理边界条件的方法</li>
-</ul>
-<h4 id="Least-Significant-1"><a href="#Least-Significant-1" class="headerlink" title="Least-Significant 1"></a>Least-Significant 1</h4><p>最小的 1<br><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_43.png"
-                     
-                ></p>
-<h4 id="Log-Base-2-of-a-Power-of-2"><a href="#Log-Base-2-of-a-Power-of-2" class="headerlink" title="Log Base 2 of a Power of 2"></a>Log Base 2 of a Power of 2</h4><p>课堂表演魔术-利用德布鲁因序列的数学性质</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_44.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_46.png"
-                     
-                ></p>
-<ul>
-<li>德布鲁因序列</li>
-</ul>
-<h4 id="n-Queens-Problem"><a href="#n-Queens-Problem" class="headerlink" title="n Queens Problem"></a>n Queens Problem</h4><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_47.png"
-                     
-                ></p>
-<ul>
-<li>每一行从左往右试 符合就下一行。若都不符合就上一行继续往后试</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_58.png"
-                     
-                ></p>
-<ul>
-<li>三个向量 分别对应下文三图</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_59.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_60.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_61.png"
-                     
-                ></p>
-<h4 id="Population-Count"><a href="#Population-Count" class="headerlink" title="Population Count"></a>Population Count</h4><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_62.png"
-                     
-                ></p>
-<ul>
-<li>留意清除最低位的 1 的使用</li>
-<li>数字小的时候才好用</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_63.png"
-                     
-                ></p>
-<ul>
-<li>内存操作的成本是性能的主要瓶颈</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_64.png"
-                     
-                ></p>
-<ul>
-<li>这里加法是真加法 不是或</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_65.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_66.png"
-                     
-                ></p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/images/mit-6-172-3/Lecture-3-Bit-Hacks_67.png"
-                     
-                ></p>
-<ul>
-<li>popcount 指令比自己编码快很多</li>
-</ul>
-<h1 id="英语词汇笔记"><a href="#英语词汇笔记" class="headerlink" title="英语词汇笔记"></a>英语词汇笔记</h1><table>
-<thead>
-<tr>
-<th>单词</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>binary</td>
-<td>二进制</td>
-</tr>
-<tr>
-<td>prefix</td>
-<td>前置</td>
-</tr>
-<tr>
-<td>toggle</td>
-<td>切换</td>
-</tr>
-<tr>
-<td>prefetching</td>
-<td>预取</td>
-</tr>
-<tr>
-<td>Modular</td>
-<td>模</td>
-</tr>
-<tr>
-<td>boundary case</td>
-<td>边界条件</td>
-</tr>
-</tbody></table>
-]]></content>
-      <tags>
-        <tag>Performance Engineering Of Software Systems</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HW2 Profiling Serial MergeSort</title>
     <url>/2023/02/15/mit-6-172-hw2/</url>
     <content><![CDATA[<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><ul>
@@ -733,145 +872,6 @@ return result
 ]]></content>
       <tags>
         <tag>Performance Engineering Of Software Systems</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OpenMp优化方法</title>
-    <url>/2023/07/03/openmp/</url>
-    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
-<li><p>设置<strong>要使用</strong>的<strong>线程数</strong></p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">omp_set_num_threads</span><span class="params">(<span class="type">int</span> num_threads)</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>获取<strong>当前线程数</strong></p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_num_threads</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>获取当前线程的<strong>编号</strong></p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_thread_num</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>获取<strong>可以使用</strong>的<strong>最大线程数</strong></p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_max_threads</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>获取系统中的<strong>处理器核心数</strong></p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">omp_get_num_procs</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>获取<strong>当前时间</strong>（以秒为单位），用于计算代码执行时间</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">omp_get_wtime</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>创建并行区域，其中包含并行执行的代码块</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 并行执行的代码块</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>指示<strong>一个</strong>for 循环可以被并行执行</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// 并行执行的循环体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>指示代码块被划分为多个独立的部分，并行执行各个部分</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp sections</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp section</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 第一部分代码</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp section</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 第二部分代码</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 更多部分...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>将<strong>一个</strong>for 循环并行化，使多个线程并行执行迭代</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="comment">// 并行执行的循环体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>创建一个<strong>临界区</strong>，在其中只允许一个线程同时执行</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp critical</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 临界区代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>对共享变量执行原子操作，确保操作的原子性</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp atomic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 原子操作代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>对共享变量执行归约操作，例如求和、求积等</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp reduction(operator: variable)</span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>使用指定数量的线程并行</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(nthreads)</span></span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<ul>
-<li><p>指定循环迭代的调度方式</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp for schedule(kind,chunk_size)</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li>kind：static, dynamic, guided<ul>
-<li>静态调度（Static Schedule）：<ul>
-<li><code>kind</code>参数为<code>static</code>时，采用静态调度方式。</li>
-<li>静态调度将循环迭代均匀地划分为固定大小的迭代块，每个线程获取一个或多个连续的迭代块。</li>
-<li><code>chunk_size</code>参数表示每个线程获取的连续迭代块的大小。</li>
-</ul>
-</li>
-<li>动态调度（Dynamic Schedule）：<ul>
-<li><code>kind</code>参数为<code>dynamic</code>时，采用动态调度方式。</li>
-<li>动态调度将循环迭代均匀地划分为较小的迭代块，每个线程获取一个迭代块执行完毕后再获取下一个迭代块。</li>
-<li><code>chunk_size</code>参数表示每个线程获取的迭代块的大小。</li>
-</ul>
-</li>
-<li>导引式调度（Guided Schedule）：<ul>
-<li><code>kind</code>参数为<code>guided</code>时，采用导引式调度方式。</li>
-<li>导引式调度类似于动态调度，但初始的迭代块较大，逐渐减小。</li>
-<li>初始迭代块的大小由系统设定，每个线程获取一个迭代块执行完毕后再获取下一个较小的迭代块。</li>
-<li><code>chunk_size</code>参数可以用于指定最小的迭代块大小，如果没有指定，则使用系统设定的默认值。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/1.png"
-                      alt="2023-07-03-openmp"
-                ></p>
-<ul>
-<li><p>并行循环结束后避免隐式的同步等待</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp parallel</span><br><span class="line">&#123;</span><br><span class="line">	#pragma omp for nowait</span><br><span class="line">	for (i=1; i&lt;n; i++)</span><br><span class="line">		b[i] = (a[i] + a[i-1]) / 2.0;</span><br><span class="line">	#pragma omp for nowait</span><br><span class="line">	for (i=0; i&lt;m; i++)</span><br><span class="line">		y[i] = sqrt(z[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p><code>#pragma omp for</code>指令会在循环结束后进行隐式的同步等待，确保所有线程都完成了循环的执行。这会引入一定的同步开销。</p>
-<p>注意，使用<code>nowait</code>指令需要确保循环之后没有任何依赖于循环结果的计算，否则可能会导致错误的结果。</p>
-</li>
-<li><p>将多个嵌套的并行循环合并为一个并行循环</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for collapse(2)private(i, k, j)</span></span><br><span class="line">	<span class="keyword">for</span> (k=kl; k&lt;=ku; k+=ks)</span><br><span class="line">        <span class="keyword">for</span> (j=jl; j&lt;=ju; j+=js)</span><br><span class="line">            <span class="keyword">for</span> (i=il; i&lt;=iu; i+=is)</span><br><span class="line">                bar(a,i,j,k);</span><br></pre></td></tr></table></figure></div>
-
-<p>默认情况下，<code>#pragma omp for</code>指令只会并行化最外层的循环，对于嵌套的循环不会进行并行化。</p>
-<ul>
-<li><code>#pragma omp for collapse(2)</code>：这是 OpenMP 的并行化指令，表示要并行化下面的嵌套循环。<code>collapse(2)</code>指定将两个嵌套循环（<code>j</code>和<code>i</code>）合并为一个循环，并进行并行化。</li>
-<li><code>private(i, k, j)</code>：这是 OpenMP 的私有变量指令，指定了在并行执行中每个线程所使用的私有变量。在这个例子中，<code>i</code>、<code>k</code>、<code>j</code>被声明为私有变量，每个线程都有它们的私有副本，避免了数据竞争。</li>
-</ul>
-</li>
-<li><p>在并行区域中的每个线程拥有自己的私有副本。</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> is_private = <span class="number">-2</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel private(is_private)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> rand_tid = rand();</span><br><span class="line">	is_private = rand_tid;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Thread ID %2d | is_private = %d\n&quot;</span>, omp_get_thread_num(), is_private); 		assert(is_private == rand_tid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>使用<code>private</code>子句声明了变量<code>is_private</code>为私有变量。每个线程都有自己的<code>is_private</code>变量的副本，且初始值与线程的随机 ID 相同</p>
-</li>
-</ul>
-<ul>
-<li><p>创建并行任务。标记一段代码作为一个独立的任务，该任务可以由可用的线程池中的任何线程执行。</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task priority(i) <span class="comment">//i越小优先级越高</span></span></span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>设置依赖关系</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">depend</span><br><span class="line">in: 在开始前改该变量的修改要结束</span><br><span class="line">out：需要修改变量</span><br><span class="line">inout：两者兼之</span><br><span class="line">mutexinoutset：</span><br></pre></td></tr></table></figure></div>
-
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">#pragma omp parallel</span><br><span class="line">#pragma omp single</span><br><span class="line">&#123;</span><br><span class="line">#pragma omp task shared(x) depend(out: x)</span><br><span class="line">  x = 2;</span><br><span class="line">#pragma omp task shared(x) depend(in: x)</span><br><span class="line">  printf(&quot;x = %d\n&quot;, x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</li>
-<li><p>遍历中使用并行</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">do</span><span class="params">(...)</span></span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp task</span></span><br><span class="line">        <span class="keyword">do</span>(...);</span><br><span class="line">&#125;</span><br><span class="line">main()&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp single</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Only a single thread should execute this</span></span><br><span class="line">        <span class="keyword">do</span>(...);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>在函数中需要用’#pragma omp task’，在 main 函数中需要采用‘#pragma omp parallel‘和’#pragma omp single’</p>
-</li>
-</ul>
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><ul>
-<li><p>设置线程数的用法</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(n_thread)</span></span><br><span class="line">    &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp for</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">            ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>等同于</p>
-<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(n_thread)</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">      ...</span><br></pre></td></tr></table></figure></div></li>
-</ul>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
-<li><p>#pragma omp parallel for<code>和</code>#pragma omp for 有什么区别</p>
-<p>#pragma omp parallel for<code>和</code>#pragma omp for 是 OpenMP 中用于并行化 for 循环的指令。它们的差别在于并行化的方式和默认行为。</p>
-<p><code>#pragma omp for</code>指示编译器将其后面的 for 循环并行化执行。编译器根据线程数量自动划分迭代空间，每个线程负责执行一部分迭代。使用<code>#pragma omp for</code>时，需要确保循环的迭代之间不存在数据依赖关系或竞争条件。</p>
-<p><code>#pragma omp parallel for</code>与<code>#pragma omp for</code>类似，也是用于并行化 for 循环。但是，<code>#pragma omp parallel for</code>更为灵活，允许更多的控制选项。使用<code>#pragma omp parallel for</code>时，可以设置循环迭代的调度方式（例如静态调度、动态调度等）、指定循环迭代的块大小等。</p>
-<p>总结来说，<code>#pragma omp for</code>是一种简化的并行化 for 循环的方式，而<code>#pragma omp parallel for</code>则提供了更多的灵活性和控制选项。如果你只需要简单地并行化 for 循环，<code>#pragma omp for</code>足以满足需求。如果你需要更多的控制权或者对循环迭代的调度方式有特定要求，那么可以使用<code>#pragma omp parallel for</code>。</p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Parallel Computing</tag>
       </tags>
   </entry>
   <entry>
