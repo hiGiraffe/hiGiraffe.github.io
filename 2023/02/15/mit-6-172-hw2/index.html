@@ -1,1 +1,942 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="keywords" content="Hexo Theme Redefine"><meta name="author" content="Julian"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="canonical" href="https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/"><meta name="robots" content="index,follow"><meta name="googlebot" content="index,follow"><meta name="revisit-after" content="1 days"><meta name="description" content="Homework 2 in mit 6.172,Performance Engineering Of Software Systems."><meta property="og:type" content="article"><meta property="og:title" content="HW2 Profiling Serial MergeSort"><meta property="og:url" content="https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/index.html"><meta property="og:site_name" content="HiGiraffe"><meta property="og:description" content="Homework 2 in mit 6.172,Performance Engineering Of Software Systems."><meta property="og:locale" content="en_US"><meta property="article:published_time" content="2023-02-15T15:42:57.000Z"><meta property="article:modified_time" content="2023-10-02T14:49:57.169Z"><meta property="article:author" content="Julian"><meta property="article:tag" content="Performance Engineering Of Software Systems"><meta name="twitter:card" content="summary"><link rel="icon" type="image/png" href="/images/giraffe.png" sizes="192x192"><link rel="apple-touch-icon" sizes="180x180" href="/images/giraffe.png"><meta name="theme-color" content="#A31F34"><link rel="shortcut icon" href="/images/giraffe.png"><title>HW2 Profiling Serial MergeSort - HiGiraffe</title><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/build/styles.css"><link rel="stylesheet" href="/fonts/fonts.css"><link rel="stylesheet" href="/fonts/Satoshi/satoshi.css"><link rel="stylesheet" href="/fonts/Chillax/chillax.css"><link href="home_banner.custom_font.url" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"><script id="hexo-configurations">let Global=window.Global||{};Global.hexo_config={hostname:"higiraffe.github.io",root:"/",language:"en",path:"search.xml"},Global.theme_config={articles:{style:{font_size:"16px",line_height:1.5,image_border_radius:"14px",image_alignment:"center",image_caption:!1,link_icon:!0},word_count:{enable:!0,count:!0,min2read:!0},author_label:{enable:!0,auto:!1,list:[]},code_block:{copy:!0,style:"mac",font:{enable:!1,family:null,url:null}},toc:{enable:!0,max_depth:3,number:!1,expand:!0,init_open:!0},copyright:!0,lazyload:!0,recommendation:{enable:!1,title:"推荐阅读",limit:3,mobile_limit:2,placeholder:"/images/wallhaven-wqery6-light.webp",skip_dirs:[]}},colors:{primary:"#A31F34",secondary:null},global:{fonts:{chinese:{enable:!0,family:"Noto Sans SC",url:"https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"},english:{enable:!1,family:"Farsan",url:"https://fonts.googleapis.com/css2?family=Farsan&display=swap"}},content_max_width:"1000px",sidebar_width:"210px",hover:{shadow:!0,scale:!0},scroll_progress:{bar:!0,percentage:!0},website_counter:{url:"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",enable:!0,site_pv:!1,site_uv:!0,post_pv:!1},single_page:!0,open_graph:!0,google_analytics:{enable:!1,id:null}},home_banner:{enable:!0,style:"fixed",image:{light:"/images/qixingyan.jpg",dark:"/images/xiaomen.jpg"},title:"A sutdent's learning story",subtitle:{text:["做难事必有所得"],hitokoto:{enable:!1,api:"https://v1.hitokoto.cn"},typing_speed:100,backing_speed:80,starting_delay:500,backing_delay:1500,loop:!0,smart_backspace:!0},text_color:{light:"#fff",dark:"#d1d1b6"},text_style:{title_size:"3rem",subtitle_size:"1.5rem",line_height:1.2},custom_font:{enable:!0,family:"Noto Sans SC",url:"home_banner.custom_font.url"},social_links:{enable:!0,links:{github:"https://github.com/hiGiraffe",instagram:null,zhihu:null,twitter:null,email:"hiGiraffe@foxmail.com"},qrs:null}},plugins:{feed:{enable:!1},aplayer:{enable:!1,type:"fixed",audios:[{name:null,artist:null,url:null,cover:null}]},mermaid:{enable:!1,version:"9.3.0"}},version:"2.4.4",navbar:{auto_hide:!1,color:{left:"#f78736",right:"#367df7",transparency:35},links:{Home:{path:"/",icon:"fa-regular fa-house"},Resources:{icon:"fa-regular fa-link",path:"/resources/"},About:{icon:"fa-regular fa-user",submenus:{Me:"/about",Github:"https://github.com/hiGiraffe"}}},search:{enable:!0,preload:!0}},page_templates:{friends_column:2,tags_style:"blur"},home:{sidebar:{enable:!0,position:"left",first_item:"menu",announcement:null,links:null},article_date_format:"auto",categories:{enable:!0,limit:3},tags:{enable:!0,limit:3}},footerStart:"2023/10/1 0:0:0"},Global.language_ago={second:"%s seconds ago",minute:"%s minutes ago",hour:"%s hours ago",day:"%s days ago",week:"%s weeks ago",month:"%s months ago",year:"%s years ago"},Global.data_config={masonry:!1}</script><link rel="stylesheet" href="/fontawesome/fontawesome.min.css"><link rel="stylesheet" href="/fontawesome/brands.min.css"><link rel="stylesheet" href="/fontawesome/solid.min.css"><link rel="stylesheet" href="/fontawesome/regular.min.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div class="progress-bar-container"><span class="scroll-progress-bar"></span> <span class="pjax-progress-bar"></span> <span class="swup-progress-icon"><i class="fa-solid fa-circle-notch fa-spin"></i></span></div><main class="page-container" id="swup"><div class="main-content-container"><div class="main-content-header"><header class="navbar-container"><div class="navbar-content"><div class="left"><a class="logo-title" href="https://higiraffe.github.io/">HiGiraffe</a></div><div class="right"><div class="desktop"><ul class="navbar-list"><li class="navbar-item"><a href="/"><i class="fa-regular fa-house"></i> HOME</a></li><li class="navbar-item"><a href="/resources/"><i class="fa-regular fa-link"></i> RESOURCES</a></li><li class="navbar-item"><a class="has-dropdown" href="#" onclick="return!1"><i class="fa-regular fa-user"></i> ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i></a><ul class="sub-menu"><li><a href="/about">ME</a></li><li><a target="_blank" rel="noopener" href="https://github.com/hiGiraffe">GITHUB</a></li></ul></li><li class="navbar-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></li></ul></div><div class="mobile"><div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div><div class="icon-item navbar-bar"><div class="navbar-bar-middle"></div></div></div></div></div><div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color"><ul class="drawer-navbar-list flex flex-col justify-start items-center"><li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center"><a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group" href="/"><i class="fa-regular fa-house"></i> HOME</a></li><li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center"><a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group" href="/resources/"><i class="fa-regular fa-link"></i> RESOURCES</a></li><li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center"><a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" href="#" onclick="return!1"><i class="fa-regular fa-user"></i> ABOUT&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i></a></li><li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl"><a class="py-0.5" href="/about">ME</a></li><li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl"><a class="py-0.5" target="_blank" rel="noopener" href="https://github.com/hiGiraffe">GITHUB</a></li></ul></div><div class="window-mask"></div></header></div><div class="main-content-body"><div class="main-content"><div class="post-page-container"><div class="article-content-container"><div class="article-title"><h1 class="article-title-regular">HW2 Profiling Serial MergeSort</h1></div><div class="article-header"><div class="avatar"><img src="/images/giraffe.png"></div><div class="info"><div class="author"><span class="name">Julian</span> <span class="author-label">Lv1</span></div><div class="meta-info"><div class="article-meta-info"><span class="article-date article-meta-item"><i class="fa-regular fa-pen-fancy"></i>&nbsp; <span class="desktop">2023-02-15 23:42:57</span> <span class="mobile">2023-02-15 23:42:57</span> <span class="hover-info">Created</span> </span><span class="article-date article-meta-item"><i class="fa-regular fa-wrench"></i>&nbsp; <span class="desktop">2023-10-02 22:49:57</span> <span class="mobile">2023-10-02 22:49:57</span> <span class="hover-info">Updated</span> </span><span class="article-tags article-meta-item"><i class="fa-regular fa-tags"></i>&nbsp;<ul><li><a href="/tags/Performance-Engineering-Of-Software-Systems/">Performance Engineering Of Software Systems</a>&nbsp;</li></ul></span></div></div></div></div><div class="article-content markdown-body"><h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><ul><li>作业介绍<ul><li>recitation-测试</li><li>homework-改进代码</li></ul></li><li>提前设置<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &lt;target&gt; DEBUG=1</span><br></pre></td></tr></table></figure></div></li></ul><h1 id="Recitation-Perf-and-Cachegrind"><a href="#Recitation-Perf-and-Cachegrind" class="headerlink" title="Recitation: Perf and Cachegrind"></a>Recitation: Perf and Cachegrind</h1><h2 id="Perf"><a href="#Perf" class="headerlink" title="Perf"></a>Perf</h2><h3 id="安装-Perf"><a href="#安装-Perf" class="headerlink" title="安装 Perf"></a>安装 Perf</h3><p>出现了问题，已解决，但是没有记录</p><h3 id="Perf-个人使用速查"><a href="#Perf-个人使用速查" class="headerlink" title="Perf 个人使用速查"></a>Perf 个人使用速查</h3><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">perf record</span><br><span class="line">用法：</span><br><span class="line">$ perf record &lt;program_name&gt; &lt;program_arguments&gt;</span><br></pre></td></tr></table></figure></div><p>running .&#x2F;isort n k will sort an array of n elements k times.</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo perf record ./isort 10000 10</span><br><span class="line">Sorting 10000 values...</span><br><span class="line">Done!</span><br><span class="line">[ perf record: Woken up 1 times to write data ]</span><br><span class="line">[ perf record: Captured and wrote 0.035 MB perf.data (887 samples) ]</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">perf report</span><br><span class="line">用法：直接perf report</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ sudo perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 887  of event &#x27;cpu-clock:pppH&#x27;</span><br><span class="line"># Event count (approx.): 221750000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object      Symbol</span><br><span class="line"># ........  .......  .................  .................</span><br><span class="line">#</span><br><span class="line">    99.44%  isort    isort              [.] isort</span><br><span class="line">     0.23%  isort    libc-2.27.so       [.] rand_r</span><br><span class="line">     0.11%  isort    [kernel.kallsyms]  [k] queue_work_on</span><br><span class="line">     0.11%  isort    [kernel.kallsyms]  [k] release_pages</span><br><span class="line">     0.11%  isort    isort              [.] main</span><br></pre></td></tr></table></figure></div><p>这里就可以看到 isort 占据了很大一部分时间</p><h2 id="Cachegrind"><a href="#Cachegrind" class="headerlink" title="Cachegrind"></a>Cachegrind</h2><p>Cachegrind (a Valgrind tool) is a cache and branch-prediction profiler<br>On virtual environments like those on AWS, hardware events providing information about branches and cache misses are often unavailable, so perf may not be helpful.</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">valgrind</span><br><span class="line">使用：</span><br><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes &lt;program_name&gt; &lt;program_arguments&gt;</span><br><span class="line">输出解释：</span><br><span class="line">D1 represents the lowest-level cache (L1)</span><br><span class="line">LL represents the last (highest) level data cache (on most machines, L3)</span><br></pre></td></tr></table></figure></div><p>例子代码</p><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright (c) 2012 MIT License by 6.172 Staff</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">uint32_t</span> <span class="type">data_t</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> U = <span class="number">10000000</span>;   <span class="comment">// size of the array. 10 million vals ~= 40MB</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">100000000</span>;  <span class="comment">// number of searches to perform</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">data_t</span>* data = (<span class="type">data_t</span>*) <span class="built_in">malloc</span>(U * <span class="keyword">sizeof</span>(<span class="type">data_t</span>));</span><br><span class="line">  <span class="keyword">if</span> (data == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">free</span>(data);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Error: not enough memory\n&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// fill up the array with sequential (sorted) values.</span></span><br><span class="line">  <span class="type">int</span> i;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; U; i++) &#123;</span><br><span class="line">    data[i] = i;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Allocated array of size %d\n&quot;</span>, U);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Summing %d random values...\n&quot;</span>, N);</span><br><span class="line"></span><br><span class="line">  <span class="type">data_t</span> val = <span class="number">0</span>;</span><br><span class="line">  <span class="type">data_t</span> seed = <span class="number">42</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">    <span class="type">int</span> l = rand_r(&amp;seed) % U;</span><br><span class="line">    val = (val + data[l]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(data);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Done. Value = %d\n&quot;</span>, val);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><p>编译</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make sum</span><br></pre></td></tr></table></figure></div><p>剖析</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes ./sum</span><br></pre></td></tr></table></figure></div><p>输出</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">==125== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==125== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==125== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==125== Command: ./sum</span><br><span class="line">==125==</span><br><span class="line">--125-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line">Allocated array of size 10000000</span><br><span class="line">Summing 100000000 random values...</span><br><span class="line">Done. Value = 938895920</span><br><span class="line">==125==</span><br><span class="line">==125== I   refs:      3,440,227,630</span><br><span class="line">==125== I1  misses:            1,195</span><br><span class="line">==125== LLi misses:            1,180</span><br><span class="line">==125== I1  miss rate:          0.00%</span><br><span class="line">==125== LLi miss rate:          0.00%</span><br><span class="line">==125==</span><br><span class="line">==125== D   refs:        610,074,405  (400,058,343 rd   + 210,016,062 wr)</span><br><span class="line">==125== D1  misses:      100,507,416  ( 99,881,550 rd   +     625,866 wr)</span><br><span class="line">==125== LLd misses:       37,859,997  ( 37,234,195 rd   +     625,802 wr)</span><br><span class="line">==125== D1  miss rate:          16.5% (       25.0%     +         0.3%  )</span><br><span class="line">==125== LLd miss rate:           6.2% (        9.3%     +         0.3%  )</span><br><span class="line">==125==</span><br><span class="line">==125== LL refs:         100,508,611  ( 99,882,745 rd   +     625,866 wr)</span><br><span class="line">==125== LL misses:        37,861,177  ( 37,235,375 rd   +     625,802 wr)</span><br><span class="line">==125== LL miss rate:            0.9% (        1.0%     +         0.3%  )</span><br><span class="line">==125==</span><br><span class="line">==125== Branches:        210,043,840  (110,043,336 cond + 100,000,504 ind)</span><br><span class="line">==125== Mispredicts:           5,456  (      5,248 cond +         208 ind)</span><br><span class="line">==125== Mispred rate:            0.0% (        0.0%     +         0.0%   )</span><br></pre></td></tr></table></figure></div><p>查找 Cache 信息</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lscpu</span><br><span class="line">用法：</span><br><span class="line">$ lscpu</span><br><span class="line">作用：</span><br><span class="line">find information about your CPU and its caches</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ lscpu</span><br><span class="line">Architecture:        x86_64</span><br><span class="line">CPU op-mode(s):      32-bit, 64-bit</span><br><span class="line">Byte Order:          Little Endian</span><br><span class="line">CPU(s):              20</span><br><span class="line">On-line CPU(s) list: 0-19</span><br><span class="line">Thread(s) per core:  2</span><br><span class="line">Core(s) per socket:  10</span><br><span class="line">Socket(s):           1</span><br><span class="line">Vendor ID:           GenuineIntel</span><br><span class="line">CPU family:          6</span><br><span class="line">Model:               154</span><br><span class="line">Model name:          12th Gen Intel(R) Core(TM) i7-12700H</span><br><span class="line">Stepping:            3</span><br><span class="line">CPU MHz:             2687.998</span><br><span class="line">BogoMIPS:            5375.99</span><br><span class="line">Virtualization:      VT-x</span><br><span class="line">Hypervisor vendor:   Microsoft</span><br><span class="line">Virtualization type: full</span><br><span class="line">L1d cache:           48K</span><br><span class="line">L1i cache:           32K</span><br><span class="line">L2 cache:            1280K</span><br><span class="line">L3 cache:            24576K</span><br><span class="line">Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities</span><br></pre></td></tr></table></figure></div><p>在我们这里就可以看到 L1、L2 和 L3 的 Cache 信息了</p><p>再观察输出结果，因为我们写 Cache miss 少（代码顺序写）和读 Cache miss 多（代码随机读）<br>然后我们通过改变 U 和 N，控制 U 小于 L1、L2、L3 Cache 等情况，就能看出 N、U 大小和 D、L、LLD Cache miss 的关系</p><h1 id="Homework-Sorting"><a href="#Homework-Sorting" class="headerlink" title="Homework: Sorting"></a>Homework: Sorting</h1><h3 id="Write-up-1"><a href="#Write-up-1" class="headerlink" title="Write-up 1:"></a>Write-up 1:</h3><blockquote><p>Compare the <strong>Cachegrind</strong> output on the DEBUG&#x3D;1 code versus DEBUG&#x3D;0 compiler optimized code. Explain the advantages and disadvantages of using instruction count as a substitute for time when you compare the performance of different versions of this program</p></blockquote><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br><span class="line">clang main.c tests.c util.c isort.c sort_a.c sort_c.c sort_i.c sort_p.c sort_m.c sort_f.c -O3 -DNDEBUG -g -Wall -std=gnu99 -gdwarf-3 -always-inline -lrt -lm  -o sort</span><br><span class="line">clang: warning: argument unused during compilation: &#x27;-always-inline&#x27; [-Wunused-command-line-argument]</span><br><span class="line"></span><br><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==184== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==184== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==184== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==184== Command: ./sort 10000 10</span><br><span class="line">==184==</span><br><span class="line">--184-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.014364 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.013956 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.027513 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.027134 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==184==</span><br><span class="line">==184== I   refs:      235,925,874</span><br><span class="line">==184== I1  misses:          1,586</span><br><span class="line">==184== LLi misses:          1,467</span><br><span class="line">==184== I1  miss rate:        0.00%</span><br><span class="line">==184== LLi miss rate:        0.00%</span><br><span class="line">==184==</span><br><span class="line">==184== D   refs:       87,546,459  (52,667,725 rd   + 34,878,734 wr)</span><br><span class="line">==184== D1  misses:        228,442  (   127,084 rd   +    101,358 wr)</span><br><span class="line">==184== LLd misses:          5,123  (     2,420 rd   +      2,703 wr)</span><br><span class="line">==184== D1  miss rate:         0.3% (       0.2%     +        0.3%  )</span><br><span class="line">==184== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==184==</span><br><span class="line">==184== LL refs:           230,028  (   128,670 rd   +    101,358 wr)</span><br><span class="line">==184== LL misses:           6,590  (     3,887 rd   +      2,703 wr)</span><br><span class="line">==184== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==184==</span><br><span class="line">==184== Branches:       40,474,926  (38,773,975 cond +  1,700,951 ind)</span><br><span class="line">==184== Mispredicts:     2,484,878  ( 2,484,522 cond +        356 ind)</span><br><span class="line">==184== Mispred rate:          6.1% (       6.4%     +        0.0%   )</span><br><span class="line"></span><br><span class="line">$ make clean</span><br><span class="line">rm -f ./sort *.std* *.gcov *.gcda *.gcno default.profraw</span><br><span class="line"></span><br><span class="line">$ make DEBUG=1</span><br><span class="line">clang main.c tests.c util.c isort.c sort_a.c sort_c.c sort_i.c sort_p.c sort_m.c sort_f.c -DDEBUG -O0 -g -Wall -std=gnu99 -gdwarf-3 -always-inline -lrt -lm  -o sort</span><br><span class="line">clang: warning: argument unused during compilation: &#x27;-always-inline&#x27; [-Wunused-command-line-argument]</span><br><span class="line"></span><br><span class="line">$  valgrind --tool=cachegrind --</span><br><span class="line">ranch-sim=yes ./sort 10000 10valgrind: no program specified</span><br><span class="line">valgrind: Use --help for more information.</span><br><span class="line">cjl@ChenJulian:~/solution/mit6.172/Homework/HW2/homework$  valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==206== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==206== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==206== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==206== Command: ./sort 10000 10</span><br><span class="line">==206==</span><br><span class="line">--206-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.025243 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.025381 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.049681 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.049848 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==206==</span><br><span class="line">==206== I   refs:      408,412,706</span><br><span class="line">==206== I1  misses:          1,553</span><br><span class="line">==206== LLi misses:          1,457</span><br><span class="line">==206== I1  miss rate:        0.00%</span><br><span class="line">==206== LLi miss rate:        0.00%</span><br><span class="line">==206==</span><br><span class="line">==206== D   refs:      260,697,695  (194,384,270 rd   + 66,313,425 wr)</span><br><span class="line">==206== D1  misses:        228,025  (    126,767 rd   +    101,258 wr)</span><br><span class="line">==206== LLd misses:          5,115  (      2,411 rd   +      2,704 wr)</span><br><span class="line">==206== D1  miss rate:         0.1% (        0.1%     +        0.2%  )</span><br><span class="line">==206== LLd miss rate:         0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==206==</span><br><span class="line">==206== LL refs:           229,578  (    128,320 rd   +    101,258 wr)</span><br><span class="line">==206== LL misses:           6,572  (      3,868 rd   +      2,704 wr)</span><br><span class="line">==206== LL miss rate:          0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==206==</span><br><span class="line">==206== Branches:       45,174,708  ( 43,473,813 cond +  1,700,895 ind)</span><br><span class="line">==206== Mispredicts:     3,109,490  (  3,109,160 cond +        330 ind)</span><br><span class="line">==206== Mispred rate:          6.9% (        7.2%     +        0.0%   )</span><br></pre></td></tr></table></figure></div><p>得出结果</p><table><thead><tr><th>DEBUG</th><th>0</th><th>1</th></tr></thead><tbody><tr><td>时间</td><td>快</td><td>慢</td></tr><tr><td>指令数</td><td>少</td><td>多</td></tr><tr><td>Cache Misses 率</td><td>大</td><td>小</td></tr><tr><td>MISpredicts 率</td><td>小</td><td>大</td></tr></tbody></table><p>O0 牺牲了 cache 命中率，但是指令数少，时间快</p><h2 id="inlining"><a href="#inlining" class="headerlink" title="inlining"></a>inlining</h2><blockquote><p>You would like to see how much inline functions can help. Copy over the code from sort_a.c into sort_i.c, and change all the routine names from<function>_a to<function>_i. Using the inline keyword, inline one or more of the functions in sort_i.c and util.c. To add the sort_i routine to the testing suite, uncomment the line in main.c, under testFunc, that specifies sort_i. Profile and annotate the inlined program.</function></function></p></blockquote><h3 id="Write-up-2"><a href="#Write-up-2" class="headerlink" title="Write-up 2:"></a>Write-up 2:</h3><blockquote><p>Explain which functions you chose to inline and report the performance differences you observed between the inlined and uninlined sorting routines.</p></blockquote><p>如题，将 sort_i 中的 merge_i 和 copy_i 设置为 inline。并进行测试</p><p>编译和 perf record 的过程不再给出</p><ul><li>no use inlining &amp; DEBUG&#x3D;1</li></ul><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6<span class="number">.172</span>/Homework/HW2/homework$ perf record ./sort <span class="number">10000</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">Running test #<span class="number">0.</span>..</span><br><span class="line">Generating random <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.000694</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.000679</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.000679</span> sec</span><br><span class="line">Generating inverted <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.000950</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.000989</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.000942</span> sec</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">1.</span>..</span><br><span class="line"> --&gt; test_zero_element at line <span class="number">245</span>: PASS</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">2.</span>..</span><br><span class="line"> --&gt; test_one_element at line <span class="number">266</span>: PASS</span><br><span class="line">Done testing.</span><br><span class="line">[ perf record: Woken up <span class="number">1</span> times to write data ]</span><br><span class="line">[ perf record: Captured and wrote <span class="number">0.006</span> MB perf.data (<span class="number">116</span> samples) ]</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 116  of event &#x27;cpu-clock:uhpppH&#x27;</span><br><span class="line"># Event count (approx.): 29000000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object  Symbol</span><br><span class="line"># ........  .......  .............  ...........................</span><br><span class="line">#</span><br><span class="line">    43.10%  sort     sort           [.] sort_a</span><br><span class="line">    17.24%  sort     libc-2.27.so   [.] cfree@GLIBC_2.2.5</span><br><span class="line">    16.38%  sort     libc-2.27.so   [.] malloc</span><br><span class="line">    15.52%  sort     sort           [.] sort_i</span><br><span class="line">     2.59%  sort     sort           [.] mem_alloc</span><br><span class="line">     1.72%  sort     sort           [.] mem_free</span><br><span class="line">     0.86%  sort     libc-2.27.so   [.] intel_check_word.isra.0</span><br><span class="line">     0.86%  sort     libc-2.27.so   [.] rand_r</span><br><span class="line">     0.86%  sort     sort           [.] free@plt</span><br><span class="line">     0.86%  sort     sort           [.] malloc@plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># (Tip: Show current config key-value pairs: perf config --list)</span><br><span class="line">#</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==698== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==698== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==698== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==698== Command: ./sort 10000 10</span><br><span class="line">==698==</span><br><span class="line">--698-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.014621 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.014605 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.014851 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.028227 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.028304 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.028753 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==698==</span><br><span class="line">==698== I   refs:      351,917,014</span><br><span class="line">==698== I1  misses:          1,624</span><br><span class="line">==698== LLi misses:          1,494</span><br><span class="line">==698== I1  miss rate:        0.00%</span><br><span class="line">==698== LLi miss rate:        0.00%</span><br><span class="line">==698==</span><br><span class="line">==698== D   refs:      130,160,086  (78,415,144 rd   + 51,744,942 wr)</span><br><span class="line">==698== D1  misses:        324,704  (   184,171 rd   +    140,533 wr)</span><br><span class="line">==698== LLd misses:          5,123  (     2,421 rd   +      2,702 wr)</span><br><span class="line">==698== D1  miss rate:         0.2% (       0.2%     +        0.3%  )</span><br><span class="line">==698== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==698==</span><br><span class="line">==698== LL refs:           326,328  (   185,795 rd   +    140,533 wr)</span><br><span class="line">==698== LL misses:           6,617  (     3,915 rd   +      2,702 wr)</span><br><span class="line">==698== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==698==</span><br><span class="line">==698== Branches:       60,182,795  (57,681,766 cond +  2,501,029 ind)</span><br><span class="line">==698== Mispredicts:     3,703,747  ( 3,703,346 cond +        401 ind)</span><br><span class="line">==698== Mispred rate:          6.2% (       6.4%     +        0.0%   )</span><br></pre></td></tr></table></figure></div><ul><li>use inlining &amp; DEBUG&#x3D;1</li></ul><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ cjl@ChenJulian:/mnt/c/Data Files/mit6<span class="number">.172</span>/Homework/HW2/homework$ perf record ./sort <span class="number">10000</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">Running test #<span class="number">0.</span>..</span><br><span class="line">Generating random <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.001043</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.001049</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.001048</span> sec</span><br><span class="line">Generating inverted <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.001652</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.001609</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.001595</span> sec</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">1.</span>..</span><br><span class="line"> --&gt; test_zero_element at line <span class="number">245</span>: PASS</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">2.</span>..</span><br><span class="line"> --&gt; test_one_element at line <span class="number">266</span>: PASS</span><br><span class="line">Done testing.</span><br><span class="line">[ perf record: Woken up <span class="number">1</span> times to write data ]</span><br><span class="line">[ perf record: Captured and wrote <span class="number">0.009</span> MB perf.data (<span class="number">203</span> samples) ]</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 203  of event &#x27;cpu-clock:uhpppH&#x27;</span><br><span class="line"># Event count (approx.): 50750000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object  Symbol</span><br><span class="line"># ........  .......  .............  ................................</span><br><span class="line">#</span><br><span class="line">    34.98%  sort     sort           [.] merge_a</span><br><span class="line">    15.27%  sort     sort           [.] merge_i</span><br><span class="line">    12.32%  sort     sort           [.] copy_a</span><br><span class="line">     9.85%  sort     libc-2.27.so   [.] cfree@GLIBC_2.2.5</span><br><span class="line">     8.87%  sort     sort           [.] copy_i</span><br><span class="line">     5.42%  sort     sort           [.] sort_a</span><br><span class="line">     3.45%  sort     libc-2.27.so   [.] malloc</span><br><span class="line">     1.97%  sort     sort           [.] copy_data</span><br><span class="line">     1.97%  sort     sort           [.] mem_alloc</span><br><span class="line">     1.97%  sort     sort           [.] sort_i</span><br><span class="line">     0.99%  sort     sort           [.] init_data</span><br><span class="line">     0.99%  sort     sort           [.] mem_free</span><br><span class="line">     0.49%  sort     ld-2.27.so     [.] strcmp</span><br><span class="line">     0.49%  sort     libc-2.27.so   [.] __fxstat64</span><br><span class="line">     0.49%  sort     libc-2.27.so   [.] __memmove_avx_unaligned_erms</span><br><span class="line">     0.49%  sort     sort           [.] malloc@plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># (Tip: Customize output of perf script with: perf script -F event,ip,sym)</span><br><span class="line">#</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==758== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==758== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==758== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==758== Command: ./sort 10000 10</span><br><span class="line">==758==</span><br><span class="line">--758-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.025676 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.025433 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.025869 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.050344 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.050162 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.050949 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==758==</span><br><span class="line">==758== I   refs:      608,332,662</span><br><span class="line">==758== I1  misses:          1,574</span><br><span class="line">==758== LLi misses:          1,481</span><br><span class="line">==758== I1  miss rate:        0.00%</span><br><span class="line">==758== LLi miss rate:        0.00%</span><br><span class="line">==758==</span><br><span class="line">==758== D   refs:      388,800,501  (289,890,848 rd   + 98,909,653 wr)</span><br><span class="line">==758== D1  misses:        323,971  (    183,785 rd   +    140,186 wr)</span><br><span class="line">==758== LLd misses:          5,122  (      2,419 rd   +      2,703 wr)</span><br><span class="line">==758== D1  miss rate:         0.1% (        0.1%     +        0.1%  )</span><br><span class="line">==758== LLd miss rate:         0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==758==</span><br><span class="line">==758== LL refs:           325,545  (    185,359 rd   +    140,186 wr)</span><br><span class="line">==758== LL misses:           6,603  (      3,900 rd   +      2,703 wr)</span><br><span class="line">==758== LL miss rate:          0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==758==</span><br><span class="line">==758== Branches:       67,436,323  ( 64,935,328 cond +  2,500,995 ind)</span><br><span class="line">==758== Mispredicts:     4,682,231  (  4,681,844 cond +        387 ind)</span><br><span class="line">==758== Mispred rate:          6.9% (        7.2%     +        0.0%   )</span><br></pre></td></tr></table></figure></div><p>我们可以看到内联函数会导致时间花费更长。</p><p>在这个写作任务中，你需要解释递归函数内联化可能导致的性能下降，并说明使用 Cachegrind 收集的分析数据如何帮助你测量这些负面性能影响。</p><p>递归函数内联化的潜在性能问题包括：</p><ol><li><strong>代码膨胀</strong>：内联递归函数会导致代码膨胀，因为每次递归调用都会展开为相应的代码，这可能会导致生成更多的指令。代码膨胀可能会增加指令缓存的压力，降低缓存命中率。</li><li><strong>栈消耗</strong>：递归函数通常使用函数调用栈来保存每个递归调用的状态。内联递归函数可能会导致栈消耗过大，尤其在递归深度较大时。较大的栈消耗可能会导致栈溢出或者减慢程序的执行速度。</li><li><strong>冗余计算</strong>：内联展开递归函数的过程中，可能会进行一些冗余计算，因为相同的计算可能在不同的展开代码中多次出现。这会增加指令执行的开销，降低程序的效率。</li></ol><h2 id="Pointers-vs-Arrays"><a href="#Pointers-vs-Arrays" class="headerlink" title="Pointers vs Arrays"></a>Pointers vs Arrays</h2><h3 id="Write-up-4"><a href="#Write-up-4" class="headerlink" title="Write-up 4"></a>Write-up 4</h3><blockquote><p>​ Give a reason why using pointers may improve performance. Report on any performance differences you observed in your implementation.</p></blockquote><p>指针</p><h2 id="Coarsening"><a href="#Coarsening" class="headerlink" title="Coarsening"></a>Coarsening</h2><h3 id="Write-up-5"><a href="#Write-up-5" class="headerlink" title="Write-up 5"></a>Write-up 5</h3><blockquote><p>​ Explain what sorting algorithm you used and how you chose the number of elements to be sorted in the base case. Report on the performance differences you observed.</p></blockquote><ul><li>未优化</li></ul><p>代码</p><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">static inline void merge_m(data_t *A, int p, int q, int r)</span><br><span class="line">&#123;</span><br><span class="line">  assert(A);</span><br><span class="line">  assert(p &lt;= q);</span><br><span class="line">  assert((q + 1) &lt;= r);</span><br><span class="line">  int n1 = q - p + 1;</span><br><span class="line">  int n2 = r - q;</span><br><span class="line"></span><br><span class="line">  data_t *left = 0, *right = 0;</span><br><span class="line">  mem_alloc(&amp;left, n1 + 1);</span><br><span class="line">  mem_alloc(&amp;right, n2 + 1);</span><br><span class="line">  if (left == NULL || right == NULL)</span><br><span class="line">  &#123;</span><br><span class="line">    mem_free(&amp;left);</span><br><span class="line">    mem_free(&amp;right);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  copy_m(&amp;(A[p]), left, n1);</span><br><span class="line">  copy_m(&amp;(A[q + 1]), right, n2);</span><br><span class="line">  left[n1] = UINT_MAX;</span><br><span class="line">  right[n2] = UINT_MAX;</span><br><span class="line"></span><br><span class="line">  int i = 0;</span><br><span class="line">  int j = 0;</span><br><span class="line"></span><br><span class="line">  for (int k = p; k &lt;= r; k++)</span><br><span class="line">  &#123;</span><br><span class="line">    if (left[i] &lt;= right[j])</span><br><span class="line">    &#123;</span><br><span class="line">      A[k] = left[i];</span><br><span class="line">      i++;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      A[k] = right[j];</span><br><span class="line">      j++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  mem_free(&amp;left);</span><br><span class="line">  mem_free(&amp;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==41== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==41== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==41== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==41== Command: ./sort 10000 10</span><br><span class="line">==41==</span><br><span class="line">--41-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_m          : Elapsed execution time: 0.031639 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_m          : Elapsed execution time: 0.062058 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==41==</span><br><span class="line">==41== I   refs:      208,493,318</span><br><span class="line">==41== I1  misses:          1,554</span><br><span class="line">==41== LLi misses:          1,458</span><br><span class="line">==41== I1  miss rate:        0.00%</span><br><span class="line">==41== LLi miss rate:        0.00%</span><br><span class="line">==41==</span><br><span class="line">==41== D   refs:      132,595,246  (98,877,918 rd   + 33,717,328 wr)</span><br><span class="line">==41== D1  misses:        131,781  (    69,494 rd   +     62,287 wr)</span><br><span class="line">==41== LLd misses:          5,116  (     2,413 rd   +      2,703 wr)</span><br><span class="line">==41== D1  miss rate:         0.1% (       0.1%     +        0.2%  )</span><br><span class="line">==41== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==41==</span><br><span class="line">==41== LL refs:           133,335  (    71,048 rd   +     62,287 wr)</span><br><span class="line">==41== LL misses:           6,574  (     3,871 rd   +      2,703 wr)</span><br><span class="line">==41== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==41==</span><br><span class="line">==41== Branches:       22,912,991  (22,012,175 cond +    900,816 ind)</span><br><span class="line">==41== Mispredicts:     1,558,061  ( 1,557,736 cond +        325 ind)</span><br><span class="line">==41== Mispred rate:          6.8% (       7.1%     +        0.0%   )</span><br></pre></td></tr></table></figure></div><ul><li>优化后：</li></ul><p>报错,感觉有点花费时间。先不细究了。</p></div><div class="post-copyright-info"><div class="article-copyright-info-container"><ul><li><strong>Title:</strong> HW2 Profiling Serial MergeSort</li><li><strong>Author:</strong> Julian</li><li><strong>Created at :</strong> 2023-02-15 23:42:57</li><li><strong>Updated at :</strong> 2023-10-02 22:49:57</li><li><strong>Link:</strong> https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/</li><li><strong>License: </strong>This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.</li></ul></div></div><ul class="post-tags-box"><li class="tag-item"><a href="/tags/Performance-Engineering-Of-Software-Systems/">#Performance Engineering Of Software Systems</a>&nbsp;</li></ul><div class="article-nav"><div class="article-prev"><a class="prev" rel="prev" href="/2023/06/01/pv/"><span class="left arrow-icon flex justify-center items-center"><i class="fa-solid fa-chevron-left"></i> </span><span class="title flex justify-center items-center"><span class="post-nav-title-item">PV操作笔记</span> <span class="post-nav-item">Prev posts</span></span></a></div><div class="article-next"><a class="next" rel="next" href="/2023/01/08/mit-6-172-3/"><span class="title flex justify-center items-center"><span class="post-nav-title-item">Lecture 3 Bit Hacks</span> <span class="post-nav-item">Next posts</span> </span><span class="right arrow-icon flex justify-center items-center"><i class="fa-solid fa-chevron-right"></i></span></a></div></div><div class="comment-container"><div class="comments-container pjax"><div id="comment-anchor"></div><div class="comment-area-title"><i class="fa-solid fa-comments"></i>&nbsp;Comments</div><div id="waline"></div><script type="module" data-swup-reload-script>import{init}from"https://evan.beee.top/js/waline.mjs";function loadWaline(){init({el:"#waline",serverURL:"https://example.example.com",lang:"zh-CN",dark:'body[class~="dark-mode"]',requiredMeta:["nick","mail"]})}{const e=setTimeout(()=>{loadWaline(),clearTimeout(e)},1e3)}</script></div></div></div><div class="toc-content-container"><div class="post-toc-wrap"><div class="post-toc"><div class="toc-title">On this page</div><div class="page-title">HW2 Profiling Serial MergeSort</div><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Getting-Started"><span class="nav-text">Getting Started</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recitation-Perf-and-Cachegrind"><span class="nav-text">Recitation: Perf and Cachegrind</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Perf"><span class="nav-text">Perf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Perf"><span class="nav-text">安装 Perf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perf-%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E9%80%9F%E6%9F%A5"><span class="nav-text">Perf 个人使用速查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cachegrind"><span class="nav-text">Cachegrind</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Homework-Sorting"><span class="nav-text">Homework: Sorting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-1"><span class="nav-text">Write-up 1:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inlining"><span class="nav-text">inlining</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-2"><span class="nav-text">Write-up 2:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pointers-vs-Arrays"><span class="nav-text">Pointers vs Arrays</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-4"><span class="nav-text">Write-up 4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coarsening"><span class="nav-text">Coarsening</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-5"><span class="nav-text">Write-up 5</span></a></li></ol></li></ol></div></div></div></div></div></div><div class="main-content-footer"><footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color"><div class="info-container py-3 text-center"><div class="text-center">&copy; <span>2023</span> - 2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration:0.5s;color:#f54545"></i>&nbsp;&nbsp;<a href="/">Julian</a></div><script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right"><span id="busuanzi_container_site_uv" class="lg:!block"><span class="text-sm">VISITOR COUNT</span> <span id="busuanzi_value_site_uv"></span></span></div><div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left"><span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span> <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span></div><div>Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec</div><script data-swup-reload-script>try{function odometer_init(){document.querySelectorAll(".odometer").forEach(e=>{new Odometer({el:e,format:"( ddd).dd",duration:200})})}odometer_init()}catch(e){}</script></div></footer></div></div><div class="post-tools"><div class="post-tools-container"><ul class="article-tools-list"><li class="right-bottom-tools page-aside-toggle"><i class="fa-regular fa-outdent"></i></li><li class="go-comment"><i class="fa-regular fa-comments"></i></li></ul></div></div><div class="right-side-tools-container"><div class="side-tools-container"><ul class="hidden-tools-list"><li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center"><i class="fa-regular fa-magnifying-glass-plus"></i></li><li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center"><i class="fa-regular fa-magnifying-glass-minus"></i></li><li class="right-bottom-tools tool-expand-width flex justify-center items-center"><i class="fa-regular fa-expand"></i></li><li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center"><i class="fa-regular fa-moon"></i></li><li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center"><i class="fa-regular fa-arrow-down"></i></li></ul><ul class="visible-tools-list"><li class="right-bottom-tools toggle-tools-list flex justify-center items-center"><i class="fa-regular fa-cog fa-spin"></i></li><li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center"><i class="arrow-up fas fa-arrow-up"></i> <span class="percent"></span></li></ul></div></div><div class="image-viewer-container"><img src=""></div><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-input-field-pre"><i class="fa-solid fa-keyboard"></i></span><div class="search-input-container"><input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close"><i class="fa-solid fa-times"></i></span></div><div id="search-result"><div id="no-result"><i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i></div></div></div></div></main><script src="/js/libs/Swup.min.js"></script><script src="/js/libs/SwupSlideTheme.min.js"></script><script src="/js/libs/SwupScriptsPlugin.min.js"></script><script src="/js/libs/SwupProgressPlugin.min.js"></script><script src="/js/libs/SwupScrollPlugin.min.js"></script><script>const swup=new Swup({plugins:[new SwupScriptsPlugin({optin:!0}),new SwupProgressPlugin,new SwupScrollPlugin({offset:80}),new SwupSlideTheme({mainElement:".main-content-body"})],containers:["#swup"]});swup.hooks.on("page:view",()=>{Global.refresh()})</script><script src="/js/utils.js" type="module"></script><script src="/js/main.js" type="module"></script><script src="/js/layouts/navbarShrink.js" type="module"></script><script src="/js/tools/scrollTopBottom.js" type="module"></script><script src="/js/tools/lightDarkSwitch.js" type="module"></script><script src="/js/layouts/categoryList.js" type="module"></script><script src="/js/tools/localSearch.js"></script><script src="/js/tools/codeBlock.js"></script><script src="/js/layouts/lazyload.js"></script><script src="/js/tools/runtime.js"></script><script src="/js/libs/odometer.min.js"></script><link rel="stylesheet" href="/assets/odometer-theme-minimal.css"><script src="/js/libs/Typed.min.js"></script><script src="/js/plugins/typed.js"></script><div class="post-scripts" data-swup-reload-script><script src="/js/libs/anime.min.js"></script><script src="/js/tools/tocToggle.js" type="module"></script><script src="/js/layouts/toc.js" type="module"></script><script src="/js/plugins/tabs.js" type="module"></script></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Julian">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="Homework 2 in mit 6.172,Performance Engineering Of Software Systems.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HW2 Profiling Serial MergeSort">
+<meta property="og:url" content="https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/index.html">
+<meta property="og:site_name" content="HiGiraffe">
+<meta property="og:description" content="Homework 2 in mit 6.172,Performance Engineering Of Software Systems.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-15T15:42:57.000Z">
+<meta property="article:modified_time" content="2023-10-02T14:49:57.169Z">
+<meta property="article:author" content="Julian">
+<meta property="article:tag" content="Performance Engineering Of Software Systems">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/giraffe.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/giraffe.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/giraffe.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            HW2 Profiling Serial MergeSort -
+        
+        HiGiraffe
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/styles.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+        <link href="home_banner.custom_font.url" rel="stylesheet">
+    
+    
+    
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"higiraffe.github.io","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":true,"family":"Noto Sans SC","url":"https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"},"english":{"enable":false,"family":"Farsan","url":"https://fonts.googleapis.com/css2?family=Farsan&display=swap"}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":false,"site_uv":true,"post_pv":false},"single_page":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/qixingyan.jpg","dark":"/images/xiaomen.jpg"},"title":"A sutdent's learning story","subtitle":{"text":["做难事必有所得"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"3rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":true,"family":"Noto Sans SC","url":"home_banner.custom_font.url"},"social_links":{"enable":true,"links":{"github":"https://github.com/hiGiraffe","instagram":null,"zhihu":null,"twitter":null,"email":"hiGiraffe@foxmail.com"},"qrs":null}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.4.4","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Resources":{"icon":"fa-regular fa-link","path":"/resources/"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/hiGiraffe"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/10/1 0:0:0"};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    Global.data_config = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="swup-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="https://higiraffe.github.io/">
+                
+                HiGiraffe
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/resources/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-link"></i>
+                                        
+                                        RESOURCES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/hiGiraffe">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer w-full absolute top-0 left-0 bg-background-color">
+        <ul class="drawer-navbar-list flex flex-col justify-start items-center">
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
+                        href="/resources/"  >
+                             
+                                
+                                    <i class="fa-regular fa-link"></i>
+                                
+                                RESOURCES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                ABOUT&nbsp;<i class="group-hover:rotate-180 transition-transform fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="text-base flex justify-center items-center hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                <a class="py-0.5" target="_blank" rel="noopener" href="https://github.com/hiGiraffe">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">HW2 Profiling Serial MergeSort</h1>
+            
+            </div>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/giraffe.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Julian</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-02-15 23:42:57</span>
+        <span class="mobile">2023-02-15 23:42:57</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-10-02 22:49:57</span>
+            <span class="mobile">2023-10-02 22:49:57</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Performance-Engineering-Of-Software-Systems/">Performance Engineering Of Software Systems</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><ul>
+<li>作业介绍<ul>
+<li>recitation-测试</li>
+<li>homework-改进代码</li>
+</ul>
+</li>
+<li>提前设置<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &lt;target&gt; DEBUG=1</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h1 id="Recitation-Perf-and-Cachegrind"><a href="#Recitation-Perf-and-Cachegrind" class="headerlink" title="Recitation: Perf and Cachegrind"></a>Recitation: Perf and Cachegrind</h1><h2 id="Perf"><a href="#Perf" class="headerlink" title="Perf"></a>Perf</h2><h3 id="安装-Perf"><a href="#安装-Perf" class="headerlink" title="安装 Perf"></a>安装 Perf</h3><p>出现了问题，已解决，但是没有记录</p>
+<h3 id="Perf-个人使用速查"><a href="#Perf-个人使用速查" class="headerlink" title="Perf 个人使用速查"></a>Perf 个人使用速查</h3><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">perf record</span><br><span class="line">用法：</span><br><span class="line">$ perf record &lt;program_name&gt; &lt;program_arguments&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>running .&#x2F;isort n k will sort an array of n elements k times.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo perf record ./isort 10000 10</span><br><span class="line">Sorting 10000 values...</span><br><span class="line">Done!</span><br><span class="line">[ perf record: Woken up 1 times to write data ]</span><br><span class="line">[ perf record: Captured and wrote 0.035 MB perf.data (887 samples) ]</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">perf report</span><br><span class="line">用法：直接perf report</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ sudo perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 887  of event &#x27;cpu-clock:pppH&#x27;</span><br><span class="line"># Event count (approx.): 221750000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object      Symbol</span><br><span class="line"># ........  .......  .................  .................</span><br><span class="line">#</span><br><span class="line">    99.44%  isort    isort              [.] isort</span><br><span class="line">     0.23%  isort    libc-2.27.so       [.] rand_r</span><br><span class="line">     0.11%  isort    [kernel.kallsyms]  [k] queue_work_on</span><br><span class="line">     0.11%  isort    [kernel.kallsyms]  [k] release_pages</span><br><span class="line">     0.11%  isort    isort              [.] main</span><br></pre></td></tr></table></figure></div>
+
+<p>这里就可以看到 isort 占据了很大一部分时间</p>
+<h2 id="Cachegrind"><a href="#Cachegrind" class="headerlink" title="Cachegrind"></a>Cachegrind</h2><p>Cachegrind (a Valgrind tool) is a cache and branch-prediction profiler<br>On virtual environments like those on AWS, hardware events providing information about branches and cache misses are often unavailable, so perf may not be helpful.</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">valgrind</span><br><span class="line">使用：</span><br><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes &lt;program_name&gt; &lt;program_arguments&gt;</span><br><span class="line">输出解释：</span><br><span class="line">D1 represents the lowest-level cache (L1)</span><br><span class="line">LL represents the last (highest) level data cache (on most machines, L3)</span><br></pre></td></tr></table></figure></div>
+
+<p>例子代码</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright (c) 2012 MIT License by 6.172 Staff</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">uint32_t</span> <span class="type">data_t</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> U = <span class="number">10000000</span>;   <span class="comment">// size of the array. 10 million vals ~= 40MB</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">100000000</span>;  <span class="comment">// number of searches to perform</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">data_t</span>* data = (<span class="type">data_t</span>*) <span class="built_in">malloc</span>(U * <span class="keyword">sizeof</span>(<span class="type">data_t</span>));</span><br><span class="line">  <span class="keyword">if</span> (data == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="built_in">free</span>(data);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Error: not enough memory\n&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// fill up the array with sequential (sorted) values.</span></span><br><span class="line">  <span class="type">int</span> i;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; U; i++) &#123;</span><br><span class="line">    data[i] = i;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Allocated array of size %d\n&quot;</span>, U);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Summing %d random values...\n&quot;</span>, N);</span><br><span class="line"></span><br><span class="line">  <span class="type">data_t</span> val = <span class="number">0</span>;</span><br><span class="line">  <span class="type">data_t</span> seed = <span class="number">42</span>;</span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">    <span class="type">int</span> l = rand_r(&amp;seed) % U;</span><br><span class="line">    val = (val + data[l]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">free</span>(data);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Done. Value = %d\n&quot;</span>, val);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>编译</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make sum</span><br></pre></td></tr></table></figure></div>
+
+<p>剖析</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes ./sum</span><br></pre></td></tr></table></figure></div>
+
+<p>输出</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">==125== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==125== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==125== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==125== Command: ./sum</span><br><span class="line">==125==</span><br><span class="line">--125-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line">Allocated array of size 10000000</span><br><span class="line">Summing 100000000 random values...</span><br><span class="line">Done. Value = 938895920</span><br><span class="line">==125==</span><br><span class="line">==125== I   refs:      3,440,227,630</span><br><span class="line">==125== I1  misses:            1,195</span><br><span class="line">==125== LLi misses:            1,180</span><br><span class="line">==125== I1  miss rate:          0.00%</span><br><span class="line">==125== LLi miss rate:          0.00%</span><br><span class="line">==125==</span><br><span class="line">==125== D   refs:        610,074,405  (400,058,343 rd   + 210,016,062 wr)</span><br><span class="line">==125== D1  misses:      100,507,416  ( 99,881,550 rd   +     625,866 wr)</span><br><span class="line">==125== LLd misses:       37,859,997  ( 37,234,195 rd   +     625,802 wr)</span><br><span class="line">==125== D1  miss rate:          16.5% (       25.0%     +         0.3%  )</span><br><span class="line">==125== LLd miss rate:           6.2% (        9.3%     +         0.3%  )</span><br><span class="line">==125==</span><br><span class="line">==125== LL refs:         100,508,611  ( 99,882,745 rd   +     625,866 wr)</span><br><span class="line">==125== LL misses:        37,861,177  ( 37,235,375 rd   +     625,802 wr)</span><br><span class="line">==125== LL miss rate:            0.9% (        1.0%     +         0.3%  )</span><br><span class="line">==125==</span><br><span class="line">==125== Branches:        210,043,840  (110,043,336 cond + 100,000,504 ind)</span><br><span class="line">==125== Mispredicts:           5,456  (      5,248 cond +         208 ind)</span><br><span class="line">==125== Mispred rate:            0.0% (        0.0%     +         0.0%   )</span><br></pre></td></tr></table></figure></div>
+
+<p>查找 Cache 信息</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lscpu</span><br><span class="line">用法：</span><br><span class="line">$ lscpu</span><br><span class="line">作用：</span><br><span class="line">find information about your CPU and its caches</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ lscpu</span><br><span class="line">Architecture:        x86_64</span><br><span class="line">CPU op-mode(s):      32-bit, 64-bit</span><br><span class="line">Byte Order:          Little Endian</span><br><span class="line">CPU(s):              20</span><br><span class="line">On-line CPU(s) list: 0-19</span><br><span class="line">Thread(s) per core:  2</span><br><span class="line">Core(s) per socket:  10</span><br><span class="line">Socket(s):           1</span><br><span class="line">Vendor ID:           GenuineIntel</span><br><span class="line">CPU family:          6</span><br><span class="line">Model:               154</span><br><span class="line">Model name:          12th Gen Intel(R) Core(TM) i7-12700H</span><br><span class="line">Stepping:            3</span><br><span class="line">CPU MHz:             2687.998</span><br><span class="line">BogoMIPS:            5375.99</span><br><span class="line">Virtualization:      VT-x</span><br><span class="line">Hypervisor vendor:   Microsoft</span><br><span class="line">Virtualization type: full</span><br><span class="line">L1d cache:           48K</span><br><span class="line">L1i cache:           32K</span><br><span class="line">L2 cache:            1280K</span><br><span class="line">L3 cache:            24576K</span><br><span class="line">Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm serialize flush_l1d arch_capabilities</span><br></pre></td></tr></table></figure></div>
+
+<p>在我们这里就可以看到 L1、L2 和 L3 的 Cache 信息了</p>
+<p>再观察输出结果，因为我们写 Cache miss 少（代码顺序写）和读 Cache miss 多（代码随机读）<br>然后我们通过改变 U 和 N，控制 U 小于 L1、L2、L3 Cache 等情况，就能看出 N、U 大小和 D、L、LLD Cache miss 的关系</p>
+<h1 id="Homework-Sorting"><a href="#Homework-Sorting" class="headerlink" title="Homework: Sorting"></a>Homework: Sorting</h1><h3 id="Write-up-1"><a href="#Write-up-1" class="headerlink" title="Write-up 1:"></a>Write-up 1:</h3><blockquote>
+<p>Compare the <strong>Cachegrind</strong> output on the DEBUG&#x3D;1 code versus DEBUG&#x3D;0 compiler optimized code. Explain the advantages and disadvantages of using instruction count as a substitute for time when you compare the performance of different versions of this program</p>
+</blockquote>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br><span class="line">clang main.c tests.c util.c isort.c sort_a.c sort_c.c sort_i.c sort_p.c sort_m.c sort_f.c -O3 -DNDEBUG -g -Wall -std=gnu99 -gdwarf-3 -always-inline -lrt -lm  -o sort</span><br><span class="line">clang: warning: argument unused during compilation: &#x27;-always-inline&#x27; [-Wunused-command-line-argument]</span><br><span class="line"></span><br><span class="line">$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==184== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==184== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==184== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==184== Command: ./sort 10000 10</span><br><span class="line">==184==</span><br><span class="line">--184-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.014364 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.013956 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.027513 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.027134 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==184==</span><br><span class="line">==184== I   refs:      235,925,874</span><br><span class="line">==184== I1  misses:          1,586</span><br><span class="line">==184== LLi misses:          1,467</span><br><span class="line">==184== I1  miss rate:        0.00%</span><br><span class="line">==184== LLi miss rate:        0.00%</span><br><span class="line">==184==</span><br><span class="line">==184== D   refs:       87,546,459  (52,667,725 rd   + 34,878,734 wr)</span><br><span class="line">==184== D1  misses:        228,442  (   127,084 rd   +    101,358 wr)</span><br><span class="line">==184== LLd misses:          5,123  (     2,420 rd   +      2,703 wr)</span><br><span class="line">==184== D1  miss rate:         0.3% (       0.2%     +        0.3%  )</span><br><span class="line">==184== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==184==</span><br><span class="line">==184== LL refs:           230,028  (   128,670 rd   +    101,358 wr)</span><br><span class="line">==184== LL misses:           6,590  (     3,887 rd   +      2,703 wr)</span><br><span class="line">==184== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==184==</span><br><span class="line">==184== Branches:       40,474,926  (38,773,975 cond +  1,700,951 ind)</span><br><span class="line">==184== Mispredicts:     2,484,878  ( 2,484,522 cond +        356 ind)</span><br><span class="line">==184== Mispred rate:          6.1% (       6.4%     +        0.0%   )</span><br><span class="line"></span><br><span class="line">$ make clean</span><br><span class="line">rm -f ./sort *.std* *.gcov *.gcda *.gcno default.profraw</span><br><span class="line"></span><br><span class="line">$ make DEBUG=1</span><br><span class="line">clang main.c tests.c util.c isort.c sort_a.c sort_c.c sort_i.c sort_p.c sort_m.c sort_f.c -DDEBUG -O0 -g -Wall -std=gnu99 -gdwarf-3 -always-inline -lrt -lm  -o sort</span><br><span class="line">clang: warning: argument unused during compilation: &#x27;-always-inline&#x27; [-Wunused-command-line-argument]</span><br><span class="line"></span><br><span class="line">$  valgrind --tool=cachegrind --</span><br><span class="line">ranch-sim=yes ./sort 10000 10valgrind: no program specified</span><br><span class="line">valgrind: Use --help for more information.</span><br><span class="line">cjl@ChenJulian:~/solution/mit6.172/Homework/HW2/homework$  valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==206== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==206== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==206== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==206== Command: ./sort 10000 10</span><br><span class="line">==206==</span><br><span class="line">--206-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.025243 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.025381 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.049681 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.049848 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==206==</span><br><span class="line">==206== I   refs:      408,412,706</span><br><span class="line">==206== I1  misses:          1,553</span><br><span class="line">==206== LLi misses:          1,457</span><br><span class="line">==206== I1  miss rate:        0.00%</span><br><span class="line">==206== LLi miss rate:        0.00%</span><br><span class="line">==206==</span><br><span class="line">==206== D   refs:      260,697,695  (194,384,270 rd   + 66,313,425 wr)</span><br><span class="line">==206== D1  misses:        228,025  (    126,767 rd   +    101,258 wr)</span><br><span class="line">==206== LLd misses:          5,115  (      2,411 rd   +      2,704 wr)</span><br><span class="line">==206== D1  miss rate:         0.1% (        0.1%     +        0.2%  )</span><br><span class="line">==206== LLd miss rate:         0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==206==</span><br><span class="line">==206== LL refs:           229,578  (    128,320 rd   +    101,258 wr)</span><br><span class="line">==206== LL misses:           6,572  (      3,868 rd   +      2,704 wr)</span><br><span class="line">==206== LL miss rate:          0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==206==</span><br><span class="line">==206== Branches:       45,174,708  ( 43,473,813 cond +  1,700,895 ind)</span><br><span class="line">==206== Mispredicts:     3,109,490  (  3,109,160 cond +        330 ind)</span><br><span class="line">==206== Mispred rate:          6.9% (        7.2%     +        0.0%   )</span><br></pre></td></tr></table></figure></div>
+
+<p>得出结果</p>
+<table>
+<thead>
+<tr>
+<th>DEBUG</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>指令数</td>
+<td>少</td>
+<td>多</td>
+</tr>
+<tr>
+<td>Cache Misses 率</td>
+<td>大</td>
+<td>小</td>
+</tr>
+<tr>
+<td>MISpredicts 率</td>
+<td>小</td>
+<td>大</td>
+</tr>
+</tbody></table>
+<p>O0 牺牲了 cache 命中率，但是指令数少，时间快</p>
+<h2 id="inlining"><a href="#inlining" class="headerlink" title="inlining"></a>inlining</h2><blockquote>
+<p>You would like to see how much inline functions can help. Copy over the code from sort_a.c into sort_i.c, and change all the routine names from <function>_a to <function>_i. Using the inline keyword, inline one or more of the functions in sort_i.c and util.c. To add the sort_i routine to the testing suite, uncomment the line in main.c, under testFunc, that specifies sort_i. Profile and annotate the inlined program.</p>
+</blockquote>
+<h3 id="Write-up-2"><a href="#Write-up-2" class="headerlink" title="Write-up 2:"></a>Write-up 2:</h3><blockquote>
+<p>Explain which functions you chose to inline and report the performance differences you observed between the inlined and uninlined sorting routines.</p>
+</blockquote>
+<p>如题，将 sort_i 中的 merge_i 和 copy_i 设置为 inline。并进行测试</p>
+<p>编译和 perf record 的过程不再给出</p>
+<ul>
+<li>no use inlining &amp; DEBUG&#x3D;1</li>
+</ul>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6<span class="number">.172</span>/Homework/HW2/homework$ perf record ./sort <span class="number">10000</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">Running test #<span class="number">0.</span>..</span><br><span class="line">Generating random <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.000694</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.000679</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.000679</span> sec</span><br><span class="line">Generating inverted <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.000950</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.000989</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.000942</span> sec</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">1.</span>..</span><br><span class="line"> --&gt; test_zero_element at line <span class="number">245</span>: PASS</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">2.</span>..</span><br><span class="line"> --&gt; test_one_element at line <span class="number">266</span>: PASS</span><br><span class="line">Done testing.</span><br><span class="line">[ perf record: Woken up <span class="number">1</span> times to write data ]</span><br><span class="line">[ perf record: Captured and wrote <span class="number">0.006</span> MB perf.data (<span class="number">116</span> samples) ]</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 116  of event &#x27;cpu-clock:uhpppH&#x27;</span><br><span class="line"># Event count (approx.): 29000000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object  Symbol</span><br><span class="line"># ........  .......  .............  ...........................</span><br><span class="line">#</span><br><span class="line">    43.10%  sort     sort           [.] sort_a</span><br><span class="line">    17.24%  sort     libc-2.27.so   [.] cfree@GLIBC_2.2.5</span><br><span class="line">    16.38%  sort     libc-2.27.so   [.] malloc</span><br><span class="line">    15.52%  sort     sort           [.] sort_i</span><br><span class="line">     2.59%  sort     sort           [.] mem_alloc</span><br><span class="line">     1.72%  sort     sort           [.] mem_free</span><br><span class="line">     0.86%  sort     libc-2.27.so   [.] intel_check_word.isra.0</span><br><span class="line">     0.86%  sort     libc-2.27.so   [.] rand_r</span><br><span class="line">     0.86%  sort     sort           [.] free@plt</span><br><span class="line">     0.86%  sort     sort           [.] malloc@plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># (Tip: Show current config key-value pairs: perf config --list)</span><br><span class="line">#</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==698== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==698== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==698== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==698== Command: ./sort 10000 10</span><br><span class="line">==698==</span><br><span class="line">--698-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.014621 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.014605 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.014851 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.028227 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.028304 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.028753 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==698==</span><br><span class="line">==698== I   refs:      351,917,014</span><br><span class="line">==698== I1  misses:          1,624</span><br><span class="line">==698== LLi misses:          1,494</span><br><span class="line">==698== I1  miss rate:        0.00%</span><br><span class="line">==698== LLi miss rate:        0.00%</span><br><span class="line">==698==</span><br><span class="line">==698== D   refs:      130,160,086  (78,415,144 rd   + 51,744,942 wr)</span><br><span class="line">==698== D1  misses:        324,704  (   184,171 rd   +    140,533 wr)</span><br><span class="line">==698== LLd misses:          5,123  (     2,421 rd   +      2,702 wr)</span><br><span class="line">==698== D1  miss rate:         0.2% (       0.2%     +        0.3%  )</span><br><span class="line">==698== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==698==</span><br><span class="line">==698== LL refs:           326,328  (   185,795 rd   +    140,533 wr)</span><br><span class="line">==698== LL misses:           6,617  (     3,915 rd   +      2,702 wr)</span><br><span class="line">==698== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==698==</span><br><span class="line">==698== Branches:       60,182,795  (57,681,766 cond +  2,501,029 ind)</span><br><span class="line">==698== Mispredicts:     3,703,747  ( 3,703,346 cond +        401 ind)</span><br><span class="line">==698== Mispred rate:          6.2% (       6.4%     +        0.0%   )</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>use inlining &amp; DEBUG&#x3D;1</li>
+</ul>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ cjl@ChenJulian:/mnt/c/Data Files/mit6<span class="number">.172</span>/Homework/HW2/homework$ perf record ./sort <span class="number">10000</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">Running test #<span class="number">0.</span>..</span><br><span class="line">Generating random <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.001043</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.001049</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.001048</span> sec</span><br><span class="line">Generating inverted <span class="built_in">array</span> of <span class="number">10000</span> elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line <span class="number">217</span>: PASS</span><br><span class="line">sort_a          : Elapsed execution time: <span class="number">0.001652</span> sec</span><br><span class="line">sort_a repeated : Elapsed execution time: <span class="number">0.001609</span> sec</span><br><span class="line">sort_i          : Elapsed execution time: <span class="number">0.001595</span> sec</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">1.</span>..</span><br><span class="line"> --&gt; test_zero_element at line <span class="number">245</span>: PASS</span><br><span class="line"></span><br><span class="line">Running test #<span class="number">2.</span>..</span><br><span class="line"> --&gt; test_one_element at line <span class="number">266</span>: PASS</span><br><span class="line">Done testing.</span><br><span class="line">[ perf record: Woken up <span class="number">1</span> times to write data ]</span><br><span class="line">[ perf record: Captured and wrote <span class="number">0.009</span> MB perf.data (<span class="number">203</span> samples) ]</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ perf report</span><br><span class="line"># To display the perf.data header info, please use --header/--header-only options.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line"># Total Lost Samples: 0</span><br><span class="line">#</span><br><span class="line"># Samples: 203  of event &#x27;cpu-clock:uhpppH&#x27;</span><br><span class="line"># Event count (approx.): 50750000</span><br><span class="line">#</span><br><span class="line"># Overhead  Command  Shared Object  Symbol</span><br><span class="line"># ........  .......  .............  ................................</span><br><span class="line">#</span><br><span class="line">    34.98%  sort     sort           [.] merge_a</span><br><span class="line">    15.27%  sort     sort           [.] merge_i</span><br><span class="line">    12.32%  sort     sort           [.] copy_a</span><br><span class="line">     9.85%  sort     libc-2.27.so   [.] cfree@GLIBC_2.2.5</span><br><span class="line">     8.87%  sort     sort           [.] copy_i</span><br><span class="line">     5.42%  sort     sort           [.] sort_a</span><br><span class="line">     3.45%  sort     libc-2.27.so   [.] malloc</span><br><span class="line">     1.97%  sort     sort           [.] copy_data</span><br><span class="line">     1.97%  sort     sort           [.] mem_alloc</span><br><span class="line">     1.97%  sort     sort           [.] sort_i</span><br><span class="line">     0.99%  sort     sort           [.] init_data</span><br><span class="line">     0.99%  sort     sort           [.] mem_free</span><br><span class="line">     0.49%  sort     ld-2.27.so     [.] strcmp</span><br><span class="line">     0.49%  sort     libc-2.27.so   [.] __fxstat64</span><br><span class="line">     0.49%  sort     libc-2.27.so   [.] __memmove_avx_unaligned_erms</span><br><span class="line">     0.49%  sort     sort           [.] malloc@plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># (Tip: Customize output of perf script with: perf script -F event,ip,sym)</span><br><span class="line">#</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==758== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==758== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==758== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==758== Command: ./sort 10000 10</span><br><span class="line">==758==</span><br><span class="line">--758-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.025676 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.025433 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.025869 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_a          : Elapsed execution time: 0.050344 sec</span><br><span class="line">sort_a repeated : Elapsed execution time: 0.050162 sec</span><br><span class="line">sort_i          : Elapsed execution time: 0.050949 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==758==</span><br><span class="line">==758== I   refs:      608,332,662</span><br><span class="line">==758== I1  misses:          1,574</span><br><span class="line">==758== LLi misses:          1,481</span><br><span class="line">==758== I1  miss rate:        0.00%</span><br><span class="line">==758== LLi miss rate:        0.00%</span><br><span class="line">==758==</span><br><span class="line">==758== D   refs:      388,800,501  (289,890,848 rd   + 98,909,653 wr)</span><br><span class="line">==758== D1  misses:        323,971  (    183,785 rd   +    140,186 wr)</span><br><span class="line">==758== LLd misses:          5,122  (      2,419 rd   +      2,703 wr)</span><br><span class="line">==758== D1  miss rate:         0.1% (        0.1%     +        0.1%  )</span><br><span class="line">==758== LLd miss rate:         0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==758==</span><br><span class="line">==758== LL refs:           325,545  (    185,359 rd   +    140,186 wr)</span><br><span class="line">==758== LL misses:           6,603  (      3,900 rd   +      2,703 wr)</span><br><span class="line">==758== LL miss rate:          0.0% (        0.0%     +        0.0%  )</span><br><span class="line">==758==</span><br><span class="line">==758== Branches:       67,436,323  ( 64,935,328 cond +  2,500,995 ind)</span><br><span class="line">==758== Mispredicts:     4,682,231  (  4,681,844 cond +        387 ind)</span><br><span class="line">==758== Mispred rate:          6.9% (        7.2%     +        0.0%   )</span><br></pre></td></tr></table></figure></div>
+
+<p>我们可以看到内联函数会导致时间花费更长。</p>
+<p>在这个写作任务中，你需要解释递归函数内联化可能导致的性能下降，并说明使用 Cachegrind 收集的分析数据如何帮助你测量这些负面性能影响。</p>
+<p>递归函数内联化的潜在性能问题包括：</p>
+<ol>
+<li><strong>代码膨胀</strong>：内联递归函数会导致代码膨胀，因为每次递归调用都会展开为相应的代码，这可能会导致生成更多的指令。代码膨胀可能会增加指令缓存的压力，降低缓存命中率。</li>
+<li><strong>栈消耗</strong>：递归函数通常使用函数调用栈来保存每个递归调用的状态。内联递归函数可能会导致栈消耗过大，尤其在递归深度较大时。较大的栈消耗可能会导致栈溢出或者减慢程序的执行速度。</li>
+<li><strong>冗余计算</strong>：内联展开递归函数的过程中，可能会进行一些冗余计算，因为相同的计算可能在不同的展开代码中多次出现。这会增加指令执行的开销，降低程序的效率。</li>
+</ol>
+<h2 id="Pointers-vs-Arrays"><a href="#Pointers-vs-Arrays" class="headerlink" title="Pointers vs Arrays"></a>Pointers vs Arrays</h2><h3 id="Write-up-4"><a href="#Write-up-4" class="headerlink" title="Write-up 4"></a>Write-up 4</h3><blockquote>
+<p>​ Give a reason why using pointers may improve performance. Report on any performance differences you observed in your implementation.</p>
+</blockquote>
+<p>指针</p>
+<h2 id="Coarsening"><a href="#Coarsening" class="headerlink" title="Coarsening"></a>Coarsening</h2><h3 id="Write-up-5"><a href="#Write-up-5" class="headerlink" title="Write-up 5"></a>Write-up 5</h3><blockquote>
+<p>​ Explain what sorting algorithm you used and how you chose the number of elements to be sorted in the base case. Report on the performance differences you observed.</p>
+</blockquote>
+<ul>
+<li>未优化</li>
+</ul>
+<p>代码</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">static inline void merge_m(data_t *A, int p, int q, int r)</span><br><span class="line">&#123;</span><br><span class="line">  assert(A);</span><br><span class="line">  assert(p &lt;= q);</span><br><span class="line">  assert((q + 1) &lt;= r);</span><br><span class="line">  int n1 = q - p + 1;</span><br><span class="line">  int n2 = r - q;</span><br><span class="line"></span><br><span class="line">  data_t *left = 0, *right = 0;</span><br><span class="line">  mem_alloc(&amp;left, n1 + 1);</span><br><span class="line">  mem_alloc(&amp;right, n2 + 1);</span><br><span class="line">  if (left == NULL || right == NULL)</span><br><span class="line">  &#123;</span><br><span class="line">    mem_free(&amp;left);</span><br><span class="line">    mem_free(&amp;right);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  copy_m(&amp;(A[p]), left, n1);</span><br><span class="line">  copy_m(&amp;(A[q + 1]), right, n2);</span><br><span class="line">  left[n1] = UINT_MAX;</span><br><span class="line">  right[n2] = UINT_MAX;</span><br><span class="line"></span><br><span class="line">  int i = 0;</span><br><span class="line">  int j = 0;</span><br><span class="line"></span><br><span class="line">  for (int k = p; k &lt;= r; k++)</span><br><span class="line">  &#123;</span><br><span class="line">    if (left[i] &lt;= right[j])</span><br><span class="line">    &#123;</span><br><span class="line">      A[k] = left[i];</span><br><span class="line">      i++;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      A[k] = right[j];</span><br><span class="line">      j++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  mem_free(&amp;left);</span><br><span class="line">  mem_free(&amp;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">cjl@ChenJulian:/mnt/c/Data Files/mit6.172/Homework/HW2/homework$ valgrind --tool=cachegrind --branch-sim=yes ./sort 10000 10</span><br><span class="line">==41== Cachegrind, a cache and branch-prediction profiler</span><br><span class="line">==41== Copyright (C) 2002-2017, and GNU GPL&#x27;d, by Nicholas Nethercote et al.</span><br><span class="line">==41== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info</span><br><span class="line">==41== Command: ./sort 10000 10</span><br><span class="line">==41==</span><br><span class="line">--41-- warning: L3 cache found, using its data for the LL simulation.</span><br><span class="line"></span><br><span class="line">Running test #0...</span><br><span class="line">Generating random array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_m          : Elapsed execution time: 0.031639 sec</span><br><span class="line">Generating inverted array of 10000 elements</span><br><span class="line">Arrays are sorted: yes</span><br><span class="line"> --&gt; test_correctness at line 217: PASS</span><br><span class="line">sort_m          : Elapsed execution time: 0.062058 sec</span><br><span class="line"></span><br><span class="line">Running test #1...</span><br><span class="line"> --&gt; test_zero_element at line 245: PASS</span><br><span class="line"></span><br><span class="line">Running test #2...</span><br><span class="line"> --&gt; test_one_element at line 266: PASS</span><br><span class="line">Done testing.</span><br><span class="line">==41==</span><br><span class="line">==41== I   refs:      208,493,318</span><br><span class="line">==41== I1  misses:          1,554</span><br><span class="line">==41== LLi misses:          1,458</span><br><span class="line">==41== I1  miss rate:        0.00%</span><br><span class="line">==41== LLi miss rate:        0.00%</span><br><span class="line">==41==</span><br><span class="line">==41== D   refs:      132,595,246  (98,877,918 rd   + 33,717,328 wr)</span><br><span class="line">==41== D1  misses:        131,781  (    69,494 rd   +     62,287 wr)</span><br><span class="line">==41== LLd misses:          5,116  (     2,413 rd   +      2,703 wr)</span><br><span class="line">==41== D1  miss rate:         0.1% (       0.1%     +        0.2%  )</span><br><span class="line">==41== LLd miss rate:         0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==41==</span><br><span class="line">==41== LL refs:           133,335  (    71,048 rd   +     62,287 wr)</span><br><span class="line">==41== LL misses:           6,574  (     3,871 rd   +      2,703 wr)</span><br><span class="line">==41== LL miss rate:          0.0% (       0.0%     +        0.0%  )</span><br><span class="line">==41==</span><br><span class="line">==41== Branches:       22,912,991  (22,012,175 cond +    900,816 ind)</span><br><span class="line">==41== Mispredicts:     1,558,061  ( 1,557,736 cond +        325 ind)</span><br><span class="line">==41== Mispred rate:          6.8% (       7.1%     +        0.0%   )</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>优化后：</li>
+</ul>
+<p>报错,感觉有点花费时间。先不细究了。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> HW2 Profiling Serial MergeSort</li>
+        <li><strong>Author:</strong> Julian</li>
+        <li><strong>Created at
+                :</strong> 2023-02-15 23:42:57</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2023-10-02 22:49:57
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://higiraffe.github.io/2023/02/15/mit-6-172-hw2/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            
+
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/Performance-Engineering-Of-Software-Systems/">#Performance Engineering Of Software Systems</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/06/01/pv/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">PV操作笔记</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/01/08/mit-6-172-3/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Lecture 3 Bit Hacks</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">HW2 Profiling Serial MergeSort</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Getting-Started"><span class="nav-text">Getting Started</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Recitation-Perf-and-Cachegrind"><span class="nav-text">Recitation: Perf and Cachegrind</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Perf"><span class="nav-text">Perf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Perf"><span class="nav-text">安装 Perf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Perf-%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E9%80%9F%E6%9F%A5"><span class="nav-text">Perf 个人使用速查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cachegrind"><span class="nav-text">Cachegrind</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Homework-Sorting"><span class="nav-text">Homework: Sorting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-1"><span class="nav-text">Write-up 1:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inlining"><span class="nav-text">inlining</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-2"><span class="nav-text">Write-up 2:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pointers-vs-Arrays"><span class="nav-text">Pointers vs Arrays</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-4"><span class="nav-text">Write-up 4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coarsening"><span class="nav-text">Coarsening</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-up-5"><span class="nav-text">Write-up 5</span></a></li></ol></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Julian</a>
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.4.4</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex justify-center items-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+        ],
+        containers: ["#swup"],
+    });
+
+    swup.hooks.on("page:view", () => {
+        Global.refresh();
+    });
+
+    // if (document.readyState === "complete") {
+    //
+    // } else {
+    //     document.addEventListener("DOMContentLoaded", () => init());
+    // }
+</script>
+
+
+
+
+
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts" data-swup-reload-script>
+    
+        
+<script src="/js/libs/anime.min.js"></script>
+
+        
+<script src="/js/tools/tocToggle.js" type="module"></script>
+
+<script src="/js/layouts/toc.js" type="module"></script>
+
+<script src="/js/plugins/tabs.js" type="module"></script>
+
+    
+</div>
+
+
+</body>
+</html>
