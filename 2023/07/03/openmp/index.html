@@ -23,13 +23,13 @@
 <meta property="og:url" content="https://higiraffe.github.io/2023/07/03/openmp/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://higiraffe.github.io/1.png">
+<meta property="og:image" content="https://higiraffe.github.io/images/openmp/1.png">
 <meta property="article:published_time" content="2023-07-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-10-03T06:47:39.988Z">
+<meta property="article:modified_time" content="2023-10-12T01:23:02.340Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Parallel Computing">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://higiraffe.github.io/1.png">
+<meta name="twitter:image" content="https://higiraffe.github.io/images/openmp/1.png">
     
     
     <!--- Icon Part-->
@@ -338,8 +338,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-03 14:47:39</span>
-            <span class="mobile">2023-10-03 14:47:39</span>
+            <span class="desktop">2023-10-12 09:23:02</span>
+            <span class="mobile">2023-10-12 09:23:02</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -412,6 +412,8 @@
 </li>
 <li><p>对共享变量执行归约操作，例如求和、求积等</p>
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp reduction(operator: variable)</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在并行指令后添加 reduction(operator: variable)，主要用来保护线程共享的变量。</p>
 </li>
 <li><p>使用指定数量的线程并行</p>
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(nthreads)</span></span><br></pre></td></tr></table></figure></div></li>
@@ -449,8 +451,8 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/1.png"
-                      alt="2023-07-03-openmp"
+                     data-src="/images/openmp/1.png"
+                     
                 ></p>
 <ul>
 <li><p>并行循环结束后避免隐式的同步等待</p>
@@ -518,7 +520,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-03 14:47:39
+                    :</strong> 2023-10-12 09:23:02
             </li>
         
         <li>

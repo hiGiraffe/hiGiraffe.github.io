@@ -777,6 +777,8 @@ Control may not pass this point until all spawned children have returned.
 </li>
 <li><p>对共享变量执行归约操作，例如求和、求积等</p>
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp reduction(operator: variable)</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在并行指令后添加 reduction(operator: variable)，主要用来保护线程共享的变量。</p>
 </li>
 <li><p>使用指定数量的线程并行</p>
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(nthreads)</span></span><br></pre></td></tr></table></figure></div></li>
@@ -814,8 +816,8 @@ Control may not pass this point until all spawned children have returned.
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/1.png"
-                      alt="2023-07-03-openmp"
+                     data-src="/images/openmp/1.png"
+                     
                 ></p>
 <ul>
 <li><p>并行循环结束后避免隐式的同步等待</p>
