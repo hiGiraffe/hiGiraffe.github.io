@@ -26,7 +26,7 @@
 <meta property="og:description" content="Learning records about subgraph matching">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-10-11T15:30:16.000Z">
-<meta property="article:modified_time" content="2023-10-12T01:26:19.429Z">
+<meta property="article:modified_time" content="2023-10-13T12:22:49.995Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Lab">
 <meta name="twitter:card" content="summary">
@@ -338,8 +338,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-12 09:26:19</span>
-            <span class="mobile">2023-10-12 09:26:19</span>
+            <span class="desktop">2023-10-13 20:22:49</span>
+            <span class="mobile">2023-10-13 20:22:49</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -373,7 +373,92 @@
 
 
         <div class="article-content markdown-body">
-            
+            <h1 id="Subgraph-Matching-on-Large-Graphs"><a href="#Subgraph-Matching-on-Large-Graphs" class="headerlink" title="Subgraph Matching on Large Graphs"></a>Subgraph Matching on Large Graphs</h1><h2 id="View-based-SubGraph-Matching-VSGM-framework"><a href="#View-based-SubGraph-Matching-VSGM-framework" class="headerlink" title="View-based SubGraph Matching (VSGM) framework"></a>View-based SubGraph Matching (VSGM) framework</h2><p>A view-based method to hide communication overhead and improve GPU utilization.</p>
+<h3 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges:"></a><strong>Challenges</strong>:</h3><ul>
+<li>Now the works of subgraph matching <strong>cannot handle many large graphs</strong> (especially those in industry) that easily exceed the memory capacity of a GPU.</li>
+<li>Inter-partition search requires to repeatedly load the cross-partition neighbors of the candidate vertices on demand for matching. <strong>GPU threads are idle when waiting for required data.</strong></li>
+</ul>
+<div class="note-large default"><div class="notel-title"><p>PBE</p>
+</div><div class="notel-content"><p>A work supports subgraph matching on large graphs by partitioning a data graph, so that each partition fits in GPU memory.</p>
+</div></div>
+
+<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a><strong>Methods</strong></h3><ul>
+<li><strong>A set of view bins</strong>: Each bin consists of the views that contain all the necessary data for subgraph matching starting from a set of source vertices, where the sets of source vertices in all bins are disjoint, and their union forms the vertex set of the data graph.</li>
+</ul>
+<div class="note-large default"><div class="notel-title"><p>problem</p>
+</div><div class="notel-content"><p>The <strong>bin packing problem</strong> is an optimization problem, in which items of different sizes must be packed into a finite number of bins or containers, each of a fixed given capacity, in a way that minimizes the number of bins used. </p>
+<p>NP-hard implies that finding an optimal solution (i.e., using the minimum number of bins) is believed to be computationally difficult and may require an exponential amount of time in the worst case.</p>
+</div></div>
+
+<ul>
+<li><strong>Adopt the Multi-Producer-Multi-Consumer (MPMC) design</strong>: </li>
+<li>Support a multi-GPU architecture to process large graphs or complex patterns.</li>
+</ul>
+<h3 id="Background-of-Subgraph-Matching"><a href="#Background-of-Subgraph-Matching" class="headerlink" title="Background of Subgraph Matching"></a>Background of Subgraph Matching</h3><ul>
+<li><p><strong>Data graph</strong>:  G &#x3D; (V<sub>G</sub>, E<sub>G</sub>)</p>
+<ul>
+<li>Data graph is undirected, unlabeled and simple (i.e., no self-loops and multiple edges) in this work</li>
+</ul>
+</li>
+<li><p><strong>Query graph(also called a pattern)</strong>:  P &#x3D; (V<del>P</del> , E<del>P</del> )</p>
+<ul>
+<li>Query graph is undirected, unlabeled and simple (i.e., no self-loops and multiple edges) in this work</li>
+</ul>
+</li>
+<li><p><strong>Neighbor set of a vertex v</strong>: N(v)</p>
+</li>
+<li><p><strong>Match(also called isomorphic)</strong>: subgraph H match subgraph P means that there exists a mapping f : V<del>P</del> → V<del>H</del> , such that (u<del>1</del>, u<del>2</del>) ∈ E<del>P</del> if and only if (f (u<del>1</del>), f (u<del>2</del>)) ∈ E<del>H</del> .</p>
+</li>
+<li><p><strong>Subgraph matching</strong>: Given a data graph G and a pattern P, find all matches (or instances) of P in G.</p>
+<ul>
+<li>The matching of P follows a match order. A match order is essentially a permutation of the vertices in P .</li>
+</ul>
+</li>
+<li><p><strong>The set of all match orders of P</strong>: $Π$<del>p</del> </p>
+<ul>
+<li>For efficient subgraph matching, it is generally required that for each π ∈ $Π$<del>P</del> , the subgraph of P induced by a prefix of π is a connected subgraph.</li>
+</ul>
+</li>
+<li><p><strong>The set of match orders starting from a vertex u in P</strong>: $Π$<del>P</del> ($u$)</p>
+<ul>
+<li>$Π$<del>P</del> ($u$) ⊆ $Π$<del>P</del></li>
+</ul>
+</li>
+<li><p><strong>The matching process</strong>:</p>
+<ul>
+<li><strong>intra-partition search</strong>: searches all matches within the partition.</li>
+<li><strong>inter-partition search</strong>: enumerates all cross-partition edges to find all the remaining matches<ul>
+<li>brings redundant computation as a cross-partition edge can be mapped into two vertices of the pattern with multiple match orders simultaneously.</li>
+<li>causes higher PCI-e communication overhead as it needs to fetch the data graph from the host memory.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Background-of-GPU-based-solutions"><a href="#Background-of-GPU-based-solutions" class="headerlink" title="Background of GPU-based solutions"></a>Background of GPU-based solutions</h3><div class="note-large default"><div class="notel-title"><p>the-work-assuming-the-entire-data-graph-can-fit-in-the-memory-of-a-GPU</p>
+</div><div class="notel-content"><ul>
+<li><p><strong>GPSM</strong> adopts <strong>a filtering-and-joining approach</strong> to leverage the power of massive parallelism</p>
+</li>
+<li><p><strong>GSI</strong> prevents conducting the same join operation twice in GPSM’s the edge-based join operation, which requires a two-step output scheme. <strong>GSI</strong> also proposes a data structure, called <strong>Partitioned Compressed Sparse Row</strong>, to reduce the access latency of GPU memory.</p>
+</li>
+<li><p><strong>GunrockSM</strong> uses <strong>a filtering-and-verification strategy</strong> built on a graph analytic framework called <strong>Gunrock</strong>.</p>
+</li>
+<li><p><strong>cuTS</strong> proposes <strong>a hybrid BFS-DFS strategy</strong> to limit memory usage when enabling high parallelism.</p>
+</li>
+</ul>
+</div></div>
+
+<div class="note-large default"><div class="notel-title"><p>the-work-not-assuming-the-entire-data-graph-can-fit-in-the-memory-of-a-GPU</p>
+</div><div class="notel-content"><ul>
+<li><strong>PBE</strong> <ul>
+<li>proposes partition-based enumeration to divide a data graph into multiple partitions and ensure that each partition (only with intra-partition edges) fits in GPU memory.</li>
+<li>uses shared-execution to group different match orders together so that fewer match plans are generated by combining strict-equivalent groups of match orders.</li>
+<li>conducts the matching by extending each inter-partition edge in one group of match orders at a time.</li>
+</ul>
+</li>
+</ul>
+</div></div>
+
         </div>
 
         
@@ -387,7 +472,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-12 09:26:19
+                    :</strong> 2023-10-13 20:22:49
             </li>
         
         <li>
@@ -496,7 +581,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Subgraph Matching on Large Graphs</div>
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Subgraph-Matching-on-Large-Graphs"><span class="nav-text">Subgraph Matching on Large Graphs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View-based-SubGraph-Matching-VSGM-framework"><span class="nav-text">View-based SubGraph Matching (VSGM) framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenges"><span class="nav-text">Challenges:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods"><span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-Subgraph-Matching"><span class="nav-text">Background of Subgraph Matching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-GPU-based-solutions"><span class="nav-text">Background of GPU-based solutions</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
