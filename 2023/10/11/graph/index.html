@@ -25,11 +25,13 @@
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:description" content="Learning records about subgraph matching">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://higiraffe.github.io/images/graph/fig1.png">
 <meta property="article:published_time" content="2023-10-11T15:30:16.000Z">
-<meta property="article:modified_time" content="2023-10-13T12:22:49.995Z">
+<meta property="article:modified_time" content="2023-10-15T16:03:08.575Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Lab">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://higiraffe.github.io/images/graph/fig1.png">
     
     
     <!--- Icon Part-->
@@ -103,7 +105,119 @@
     
     
     
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -338,8 +452,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-13 20:22:49</span>
-            <span class="mobile">2023-10-13 20:22:49</span>
+            <span class="desktop">2023-10-16 00:03:08</span>
+            <span class="mobile">2023-10-16 00:03:08</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -373,34 +487,13 @@
 
 
         <div class="article-content markdown-body">
-            <h1 id="Subgraph-Matching-on-Large-Graphs"><a href="#Subgraph-Matching-on-Large-Graphs" class="headerlink" title="Subgraph Matching on Large Graphs"></a>Subgraph Matching on Large Graphs</h1><h2 id="View-based-SubGraph-Matching-VSGM-framework"><a href="#View-based-SubGraph-Matching-VSGM-framework" class="headerlink" title="View-based SubGraph Matching (VSGM) framework"></a>View-based SubGraph Matching (VSGM) framework</h2><p>A view-based method to hide communication overhead and improve GPU utilization.</p>
-<h3 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges:"></a><strong>Challenges</strong>:</h3><ul>
-<li>Now the works of subgraph matching <strong>cannot handle many large graphs</strong> (especially those in industry) that easily exceed the memory capacity of a GPU.</li>
-<li>Inter-partition search requires to repeatedly load the cross-partition neighbors of the candidate vertices on demand for matching. <strong>GPU threads are idle when waiting for required data.</strong></li>
-</ul>
-<div class="note-large default"><div class="notel-title"><p>PBE</p>
-</div><div class="notel-content"><p>A work supports subgraph matching on large graphs by partitioning a data graph, so that each partition fits in GPU memory.</p>
-</div></div>
-
-<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a><strong>Methods</strong></h3><ul>
-<li><strong>A set of view bins</strong>: Each bin consists of the views that contain all the necessary data for subgraph matching starting from a set of source vertices, where the sets of source vertices in all bins are disjoint, and their union forms the vertex set of the data graph.</li>
-</ul>
-<div class="note-large default"><div class="notel-title"><p>problem</p>
-</div><div class="notel-content"><p>The <strong>bin packing problem</strong> is an optimization problem, in which items of different sizes must be packed into a finite number of bins or containers, each of a fixed given capacity, in a way that minimizes the number of bins used. </p>
-<p>NP-hard implies that finding an optimal solution (i.e., using the minimum number of bins) is believed to be computationally difficult and may require an exponential amount of time in the worst case.</p>
-</div></div>
-
-<ul>
-<li><strong>Adopt the Multi-Producer-Multi-Consumer (MPMC) design</strong>: </li>
-<li>Support a multi-GPU architecture to process large graphs or complex patterns.</li>
-</ul>
-<h3 id="Background-of-Subgraph-Matching"><a href="#Background-of-Subgraph-Matching" class="headerlink" title="Background of Subgraph Matching"></a>Background of Subgraph Matching</h3><ul>
-<li><p><strong>Data graph</strong>:  G &#x3D; (V<sub>G</sub>, E<sub>G</sub>)</p>
+            <h1 id="Subgraph-Matching-on-Large-Graphs"><a href="#Subgraph-Matching-on-Large-Graphs" class="headerlink" title="Subgraph Matching on Large Graphs"></a>Subgraph Matching on Large Graphs</h1><h2 id="Some-Background"><a href="#Some-Background" class="headerlink" title="Some Background"></a>Some Background</h2><h3 id="Background-of-Subgraph-Matching"><a href="#Background-of-Subgraph-Matching" class="headerlink" title="Background of Subgraph Matching"></a>Background of Subgraph Matching</h3><ul>
+<li><p><strong>Data graph</strong>:  G = (V<sub>G</sub>, E<sub>G</sub>)</p>
 <ul>
 <li>Data graph is undirected, unlabeled and simple (i.e., no self-loops and multiple edges) in this work</li>
 </ul>
 </li>
-<li><p><strong>Query graph(also called a pattern)</strong>:  P &#x3D; (V<del>P</del> , E<del>P</del> )</p>
+<li><p><strong>Query graph(also called a pattern)</strong>:  P = (V<del>P</del> , E<del>P</del> )</p>
 <ul>
 <li>Query graph is undirected, unlabeled and simple (i.e., no self-loops and multiple edges) in this work</li>
 </ul>
@@ -414,14 +507,14 @@
 <li>The matching of P follows a match order. A match order is essentially a permutation of the vertices in P .</li>
 </ul>
 </li>
-<li><p><strong>The set of all match orders of P</strong>: $Π$<del>p</del> </p>
+<li><p><strong>The set of all match orders of P</strong>: <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container><del>p</del> </p>
 <ul>
-<li>For efficient subgraph matching, it is generally required that for each π ∈ $Π$<del>P</del> , the subgraph of P induced by a prefix of π is a connected subgraph.</li>
+<li>For efficient subgraph matching, it is generally required that for each π ∈ <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container><del>P</del> , the subgraph of P induced by a prefix of π is a connected subgraph.</li>
 </ul>
 </li>
-<li><p><strong>The set of match orders starting from a vertex u in P</strong>: $Π$<del>P</del> ($u$)</p>
+<li><p><strong>The set of match orders starting from a vertex u in P</strong>: <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container><del>P</del> (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.294ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 572 453"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g></g></g></svg></mjx-container>)</p>
 <ul>
-<li>$Π$<del>P</del> ($u$) ⊆ $Π$<del>P</del></li>
+<li><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container><del>P</del> (<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.294ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 572 453"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g></g></g></svg></mjx-container>) ⊆ <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container><del>P</del></li>
 </ul>
 </li>
 <li><p><strong>The matching process</strong>:</p>
@@ -459,6 +552,44 @@
 </ul>
 </div></div>
 
+
+
+<h2 id="View-based-SubGraph-Matching-VSGM-framework"><a href="#View-based-SubGraph-Matching-VSGM-framework" class="headerlink" title="View-based SubGraph Matching (VSGM) framework"></a>View-based SubGraph Matching (VSGM) framework</h2><p>A view-based method to hide communication overhead and improve GPU utilization.</p>
+<h3 id="Challenges"><a href="#Challenges" class="headerlink" title="Challenges:"></a><strong>Challenges</strong>:</h3><ul>
+<li>Now the works of subgraph matching <strong>cannot handle many large graphs</strong> (especially those in industry) that easily exceed the memory capacity of a GPU.</li>
+<li>Inter-partition search requires to repeatedly load the cross-partition neighbors of the candidate vertices on demand for matching. <strong>GPU threads are idle when waiting for required data.</strong></li>
+</ul>
+<div class="note-large default"><div class="notel-title"><p>PBE</p>
+</div><div class="notel-content"><p>A work supports subgraph matching on large graphs by partitioning a data graph, so that each partition fits in GPU memory.</p>
+</div></div>
+
+<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a><strong>Methods</strong></h3><ul>
+<li><strong>A set of view bins</strong>: Each bin consists of the views that contain all the necessary data for subgraph matching starting from a set of source vertices, where the sets of source vertices in all bins are disjoint, and their union forms the vertex set of the data graph.</li>
+</ul>
+<div class="note-large default"><div class="notel-title"><p>problem</p>
+</div><div class="notel-content"><p>The <strong>bin packing problem</strong> is an optimization problem, in which items of different sizes must be packed into a finite number of bins or containers, each of a fixed given capacity, in a way that minimizes the number of bins used. </p>
+<p>NP-hard implies that finding an optimal solution (i.e., using the minimum number of bins) is believed to be computationally difficult and may require an exponential amount of time in the worst case.</p>
+</div></div>
+
+<ul>
+<li><strong>Adopt the Multi-Producer-Multi-Consumer (MPMC) design</strong>: </li>
+<li>Support a multi-GPU architecture to process large graphs or complex patterns.</li>
+</ul>
+<h3 id="VIEW-BASED-GRAPH-PREPARATION"><a href="#VIEW-BASED-GRAPH-PREPARATION" class="headerlink" title="VIEW-BASED GRAPH PREPARATION"></a>VIEW-BASED GRAPH PREPARATION</h3><p>avoid on-demand data loading by <strong>preparing the multi-hop neighbors</strong> for each source vertex.</p>
+<div class="note-large default"><div class="notel-title"><p>hop</p>
+</div><div class="notel-content"><p>In a graph, a “hop” represents moving from one vertex to another through an edge.</p>
+</div></div>
+
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph/fig1.png"></p>
+<ul>
+<li><p><strong>vertex level</strong>: <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.833ex;" xmlns="http://www.w3.org/2000/svg" width="2.3ex" height="2.403ex" role="img" focusable="false" viewBox="0 -694 1016.7 1062.2"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D459" d="M117 59Q117 26 142 26Q179 26 205 131Q211 151 215 152Q217 153 225 153H229Q238 153 241 153T246 151T248 144Q247 138 245 128T234 90T214 43T183 6T137 -11Q101 -11 70 11T38 85Q38 97 39 102L104 360Q167 615 167 623Q167 626 166 628T162 632T157 634T149 635T141 636T132 637T122 637Q112 637 109 637T101 638T95 641T94 647Q94 649 96 661Q101 680 107 682T179 688Q194 689 213 690T243 693T254 694Q266 694 266 686Q266 675 193 386T118 83Q118 81 118 75T117 65V59Z"></path></g><g data-mml-node="TeXAtom" transform="translate(331,-154.9) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="msubsup"><g data-mml-node="mi"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(605,323.2) scale(0.707)"><path data-c="2032" d="M79 43Q73 43 52 49T30 61Q30 68 85 293T146 528Q161 560 198 560Q218 560 240 545T262 501Q262 496 260 486Q259 479 173 263T84 45T79 43Z"></path></g><g data-mml-node="TeXAtom" transform="translate(605,-293.8) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></g></g></g></svg></mjx-container> </p>
+<p>the shortest-path distance between $u’<em>{0}<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="3.731ex" height="1.595ex" role="img" focusable="false" viewBox="0 -694 1649 705"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D44E" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path></g><g data-mml-node="mi" transform="translate(529,0)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(1129,0)"><path data-c="1D451" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path></g></g></g></svg></mjx-container>u’</em>{i}$ in the subgraph of P induced by {$u’<em>{0}<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="0.629ex" height="0.713ex" role="img" focusable="false" viewBox="0 -121 278 315"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g></g></g></svg></mjx-container>u’</em>{1}<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex;" xmlns="http://www.w3.org/2000/svg" width="4.527ex" height="1.14ex" role="img" focusable="false" viewBox="0 -310 2001.1 504"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="mo" transform="translate(444.7,0)"><path data-c="B7" d="M78 250Q78 274 95 292T138 310Q162 310 180 294T199 251Q199 226 182 208T139 190T96 207T78 250Z"></path></g><g data-mml-node="mo" transform="translate(944.9,0)"><path data-c="B7" d="M78 250Q78 274 95 292T138 310Q162 310 180 294T199 251Q199 226 182 208T139 190T96 207T78 250Z"></path></g><g data-mml-node="mo" transform="translate(1445.1,0)"><path data-c="B7" d="M78 250Q78 274 95 292T138 310Q162 310 180 294T199 251Q199 226 182 208T139 190T96 207T78 250Z"></path></g><g data-mml-node="mo" transform="translate(1723.1,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g></g></g></svg></mjx-container>u’_{i}$}</p>
+</li>
+<li><p><strong>edge level</strong>:  $l_{(u’<em>{i},u’</em>{j})}$</p>
+<p>the number of hops that is needed to match P by following <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container>.<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="2.007ex" height="1.538ex" role="img" focusable="false" viewBox="0 -680 887 680"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D6F1" d="M48 1Q31 1 31 10Q31 12 34 24Q39 43 44 45Q48 46 59 46H65Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 661Q197 674 203 680H541Q621 680 709 680T812 681Q841 681 855 681T877 679T886 676T887 670Q887 663 885 656Q880 637 875 635Q871 634 860 634H854Q827 634 794 631Q780 628 775 619Q773 614 704 338T634 58Q634 51 638 51Q646 48 692 46H723Q729 38 729 37T726 19Q722 6 716 0H701Q664 2 567 2Q533 2 504 2T458 2T437 1Q420 1 420 10Q420 15 423 24Q428 43 433 45Q437 46 448 46H454Q481 46 514 49Q528 52 533 61Q536 67 572 209T642 491T678 632Q678 634 533 634H388Q387 631 316 347T245 59Q245 55 246 54T253 50T270 48T303 46H334Q340 38 340 37T337 19Q333 6 327 0H312Q275 2 178 2Q144 2 115 2T69 2T48 1Z"></path></g></g></g></svg></mjx-container> typically signifies the order of vertex traversal or vertex visiting sequence.</p>
+</li>
+</ul>
+
         </div>
 
         
@@ -472,7 +603,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-13 20:22:49
+                    :</strong> 2023-10-16 00:03:08
             </li>
         
         <li>
@@ -581,7 +712,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Subgraph Matching on Large Graphs</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Subgraph-Matching-on-Large-Graphs"><span class="nav-text">Subgraph Matching on Large Graphs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#View-based-SubGraph-Matching-VSGM-framework"><span class="nav-text">View-based SubGraph Matching (VSGM) framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenges"><span class="nav-text">Challenges:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods"><span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-Subgraph-Matching"><span class="nav-text">Background of Subgraph Matching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-GPU-based-solutions"><span class="nav-text">Background of GPU-based solutions</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Subgraph-Matching-on-Large-Graphs"><span class="nav-text">Subgraph Matching on Large Graphs</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Some-Background"><span class="nav-text">Some Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-Subgraph-Matching"><span class="nav-text">Background of Subgraph Matching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Background-of-GPU-based-solutions"><span class="nav-text">Background of GPU-based solutions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-based-SubGraph-Matching-VSGM-framework"><span class="nav-text">View-based SubGraph Matching (VSGM) framework</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Challenges"><span class="nav-text">Challenges:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods"><span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIEW-BASED-GRAPH-PREPARATION"><span class="nav-text">VIEW-BASED GRAPH PREPARATION</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
