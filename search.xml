@@ -1264,6 +1264,14 @@ return result
 <li><p>Load balancing among GPUs:</p>
 </li>
 </ul>
+<!-- 
+
+	<div class="row">
+    <embed src="/pdf/MPI.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+ -->
 ]]></content>
       <categories>
         <category>Research</category>
@@ -1272,5 +1280,40 @@ return result
       <tags>
         <tag>Performance Optimization</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Three Paper Guidances</title>
+    <url>/2023/10/17/thesis-1/</url>
+    <content><![CDATA[<h1 id="CHECKLIST-MANUSCRIPT-CONSISTENCY"><a href="#CHECKLIST-MANUSCRIPT-CONSISTENCY" class="headerlink" title="CHECKLIST: MANUSCRIPT CONSISTENCY"></a>CHECKLIST: MANUSCRIPT CONSISTENCY</h1>
+
+	<div class="row">
+    <embed src="/pdf/paper_beautification/AJE-Manuscript-Consistency-Checklist-2015.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+
+<h1 id="AJE-Tips-for-Publication-Success"><a href="#AJE-Tips-for-Publication-Success" class="headerlink" title="AJE Tips for Publication Success"></a>AJE Tips for Publication Success</h1>
+
+	<div class="row">
+    <embed src="/pdf/paper_beautification/AJE-publication-tips-handout11.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+
+<h1 id="Peer-Review-Survival-Skills"><a href="#Peer-Review-Survival-Skills" class="headerlink" title="Peer Review Survival Skills"></a>Peer Review Survival Skills</h1>
+
+	<div class="row">
+    <embed src="/pdf/paper_beautification/PeerReviewSurvivalSkills_E-handbook1.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+]]></content>
+      <categories>
+        <category>Research</category>
+        <category>Paper Guidance</category>
+      </categories>
   </entry>
 </search>
