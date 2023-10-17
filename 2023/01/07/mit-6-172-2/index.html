@@ -20,7 +20,7 @@
     
         <meta name="description" content="Lecture 2 in mit 6.172,Performance Engineering Of Software Systems.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lecture 2 Bentley Rules for Optimizing Work">
+<meta property="og:title" content="Bentley Rules for Optimizing Work">
 <meta property="og:url" content="https://higiraffe.github.io/2023/01/07/mit-6-172-2/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:description" content="Lecture 2 in mit 6.172,Performance Engineering Of Software Systems.">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://higiraffe.github.io/images/mit-6-172-2/CFaP1.png">
 <meta property="og:image" content="https://higiraffe.github.io/images/mit-6-172-2/CSE.png">
 <meta property="article:published_time" content="2023-01-07T04:57:22.000Z">
-<meta property="article:modified_time" content="2023-10-16T16:53:05.589Z">
+<meta property="article:modified_time" content="2023-10-17T14:44:26.624Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
@@ -53,7 +53,7 @@
     
     <title>
         
-            Lecture 2 Bentley Rules for Optimizing Work -
+            Bentley Rules for Optimizing Work -
         
         HiGiraffe
     </title>
@@ -352,7 +352,7 @@
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">Lecture 2 Bentley Rules for Optimizing Work</h1>
+                <h1 class="article-title-regular">Bentley Rules for Optimizing Work</h1>
             
             </div>
             
@@ -381,8 +381,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-17 00:53:05</span>
-            <span class="mobile">2023-10-17 00:53:05</span>
+            <span class="desktop">2023-10-17 22:44:26</span>
+            <span class="mobile">2023-10-17 22:44:26</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -728,7 +728,7 @@ return result
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Lecture 3 Bit Hacks</span>
+                                <span class="post-nav-title-item">Bit Hacks</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -741,7 +741,7 @@ return result
                         href="/2023/01/05/mit-6-172-1/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Lecture 1 Introduction and Matrix Multiplication</span>
+                                <span class="post-nav-title-item">Introduction and Matrix Multiplication</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -762,7 +762,7 @@ return result
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">Lecture 2 Bentley Rules for Optimizing Work</div>
+        <div class="page-title">Bentley Rules for Optimizing Work</div>
         <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DATA-STRUCTURES"><span class="nav-text">DATA STRUCTURES</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Packing-and-Encoding"><span class="nav-text">Packing and Encoding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Augmentation"><span class="nav-text">Augmentation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Precomputation"><span class="nav-text">Precomputation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compile-Time-Initialization"><span class="nav-text">Compile-Time Initialization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caching"><span class="nav-text">Caching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sparsity"><span class="nav-text">Sparsity</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LOGIC"><span class="nav-text">LOGIC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Constant-Folding-and-Propagation"><span class="nav-text">Constant Folding and Propagation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Common-Subexpression-Elimination"><span class="nav-text">Common-Subexpression Elimination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Algebraic-Identities"><span class="nav-text">Algebraic Identities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Short-Circuiting"><span class="nav-text">Short-Circuiting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ordering-Tests"><span class="nav-text">Ordering Tests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-a-Fast-Path"><span class="nav-text">Creating a Fast Path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combining-Tests"><span class="nav-text">Combining Tests</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LOOPS"><span class="nav-text">LOOPS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hoisting-%E5%BE%AA%E7%8E%AF%E4%B8%8D%E5%8F%98%E4%BB%A3%E7%A0%81%E5%A4%96%E7%A7%BB"><span class="nav-text">Hoisting 循环不变代码外移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinels-%E7%AE%80%E5%8C%96%E5%BE%AA%E7%8E%AF%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6"><span class="nav-text">Sentinels 简化循环边界条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loop-Unrolling-%E5%BE%AA%E7%8E%AF%E5%B1%95%E5%BC%80"><span class="nav-text">Loop Unrolling 循环展开</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loop-Fusion-%E5%BE%AA%E7%8E%AF%E5%90%88%E5%B9%B6"><span class="nav-text">Loop Fusion 循环合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eliminating-Wasted-Iterations-%E6%B6%88%E9%99%A4%E6%B5%AA%E8%B4%B9%E7%9A%84%E8%BF%AD%E4%BB%A3"><span class="nav-text">Eliminating Wasted Iterations 消除浪费的迭代</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FUNCTIONS"><span class="nav-text">FUNCTIONS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Inlining"><span class="nav-text">Inlining</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tail-Recursion-Elimination-%E5%B0%BE%E8%B0%83%E7%94%A8%E4%BC%98%E5%8C%96"><span class="nav-text">Tail-Recursion Elimination 尾调用优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Coarsening-Recursion-%E7%B2%97%E5%8C%96%E9%80%92%E5%BD%92"><span class="nav-text">Coarsening Recursion 粗化递归</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Closing-Advice"><span class="nav-text">Closing Advice</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8B%B1%E8%AF%AD%E8%AF%8D%E6%B1%87%E7%AC%94%E8%AE%B0"><span class="nav-text">英语词汇笔记</span></a></li></ol>
 
     </div>

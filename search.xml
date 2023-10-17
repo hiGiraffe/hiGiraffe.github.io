@@ -99,7 +99,7 @@
       </tags>
   </entry>
   <entry>
-    <title>Lecture 1 Introduction and Matrix Multiplication</title>
+    <title>Introduction and Matrix Multiplication</title>
     <url>/2023/01/05/mit-6-172-1/</url>
     <content><![CDATA[<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>略</p>
 <h1 id="Matrix-Multiplication"><a href="#Matrix-Multiplication" class="headerlink" title="Matrix Multiplication"></a>Matrix Multiplication</h1><p>利用矩阵乘法介绍优化方案</p>
@@ -189,7 +189,7 @@ Control may not pass this point until all spawned children have returned.
       </tags>
   </entry>
   <entry>
-    <title>Lecture 3 Bit Hacks</title>
+    <title>Bit Hacks</title>
     <url>/2023/01/08/mit-6-172-3/</url>
     <content><![CDATA[<h1 id="Bit-Hacks"><a href="#Bit-Hacks" class="headerlink" title="Bit Hacks"></a>Bit Hacks</h1><h3 id="二进制表示"><a href="#二进制表示" class="headerlink" title="二进制表示"></a>二进制表示</h3><p>略</p>
 <h3 id="反补码性质"><a href="#反补码性质" class="headerlink" title="反补码性质"></a>反补码性质</h3><p>略</p>
@@ -439,7 +439,7 @@ Control may not pass this point until all spawned children have returned.
       </tags>
   </entry>
   <entry>
-    <title>Lecture 2 Bentley Rules for Optimizing Work</title>
+    <title>Bentley Rules for Optimizing Work</title>
     <url>/2023/01/07/mit-6-172-2/</url>
     <content><![CDATA[<h1 id="DATA-STRUCTURES"><a href="#DATA-STRUCTURES" class="headerlink" title="DATA STRUCTURES"></a>DATA STRUCTURES</h1><h3 id="Packing-and-Encoding"><a href="#Packing-and-Encoding" class="headerlink" title="Packing and Encoding"></a>Packing and Encoding</h3><p><strong>The idea of packing is to store more than one data value in a machine word. The related idea of encoding is to convert data values into a representation requiring fewer bits.</strong></p>
 <h4 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h4><p>Encoding dates</p>
@@ -708,7 +708,7 @@ return result
       </tags>
   </entry>
   <entry>
-    <title>HW2 Profiling Serial MergeSort</title>
+    <title>HW:Profiling Serial MergeSort</title>
     <url>/2023/02/15/mit-6-172-hw2/</url>
     <content><![CDATA[<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><ul>
 <li>作业介绍<ul>
@@ -1315,5 +1315,25 @@ return result
         <category>Research</category>
         <category>Paper Guidance</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Parallel Storage Allocation</title>
+    <url>/2023/10/17/mit-6-172-12/</url>
+    <content><![CDATA[
+
+	<div class="row">
+    <embed src="/pdf/mit-6-172-12/lec12.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+]]></content>
+      <categories>
+        <category>Courses</category>
+        <category>Performance Engineering of Software Systems</category>
+      </categories>
+      <tags>
+        <tag>Performance Optimization</tag>
+      </tags>
   </entry>
 </search>

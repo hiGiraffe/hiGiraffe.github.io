@@ -20,7 +20,7 @@
     
         <meta name="description" content="Lecture 3 in mit 6.172,Performance Engineering Of Software Systems.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lecture 3 Bit Hacks">
+<meta property="og:title" content="Bit Hacks">
 <meta property="og:url" content="https://higiraffe.github.io/2023/01/08/mit-6-172-3/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:description" content="Lecture 3 in mit 6.172,Performance Engineering Of Software Systems.">
@@ -48,7 +48,7 @@
 <meta property="og:image" content="https://higiraffe.github.io/images/mit-6-172-3/Lecture-3-Bit-Hacks_66.png">
 <meta property="og:image" content="https://higiraffe.github.io/images/mit-6-172-3/Lecture-3-Bit-Hacks_67.png">
 <meta property="article:published_time" content="2023-01-08T09:33:59.000Z">
-<meta property="article:modified_time" content="2023-10-16T16:53:11.315Z">
+<meta property="article:modified_time" content="2023-10-17T14:44:31.293Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
@@ -64,7 +64,7 @@
     
     <title>
         
-            Lecture 3 Bit Hacks -
+            Bit Hacks -
         
         HiGiraffe
     </title>
@@ -363,7 +363,7 @@
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">Lecture 3 Bit Hacks</h1>
+                <h1 class="article-title-regular">Bit Hacks</h1>
             
             </div>
             
@@ -392,8 +392,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-17 00:53:11</span>
-            <span class="mobile">2023-10-17 00:53:11</span>
+            <span class="desktop">2023-10-17 22:44:31</span>
+            <span class="mobile">2023-10-17 22:44:31</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -720,7 +720,7 @@
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">HW2 Profiling Serial MergeSort</span>
+                                <span class="post-nav-title-item">HW:Profiling Serial MergeSort</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -733,7 +733,7 @@
                         href="/2023/01/07/mit-6-172-2/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Lecture 2 Bentley Rules for Optimizing Work</span>
+                                <span class="post-nav-title-item">Bentley Rules for Optimizing Work</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -754,7 +754,7 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">Lecture 3 Bit Hacks</div>
+        <div class="page-title">Bit Hacks</div>
         <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Bit-Hacks"><span class="nav-text">Bit Hacks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A8%E7%A4%BA"><span class="nav-text">二进制表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E8%A1%A5%E7%A0%81%E6%80%A7%E8%B4%A8"><span class="nav-text">反补码性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E8%BF%9B%E5%88%B6%E3%80%81%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="nav-text">八进制、十六进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-text">位运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-the-kth-Bit"><span class="nav-text">Set the kth Bit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clear-the-kth-Bit"><span class="nav-text">Clear the kth Bit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Toggle-the-kth-Bit"><span class="nav-text">Toggle the kth Bit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Extract-a-Bit-Field"><span class="nav-text">Extract a Bit Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set-a-Bit-Field"><span class="nav-text">Set a Bit Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swap"><span class="nav-text">Swap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Minimum-of-Two-Integers"><span class="nav-text">Minimum of Two Integers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Merging-Two-Sorted-Arrays"><span class="nav-text">Merging Two Sorted Arrays</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8B%B1%E8%AF%AD%E8%AF%8D%E6%B1%87%E7%AC%94%E8%AE%B0"><span class="nav-text">英语词汇笔记</span></a></li></ol>
 
     </div>
