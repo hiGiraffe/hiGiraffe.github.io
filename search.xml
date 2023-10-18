@@ -1327,10 +1327,72 @@ return result
 
 
 
-]]></content>
+
+<p><strong>The usage of memalign():</strong></p>
+<ul>
+<li>fit within cache lines to reduce the number of cache misses.</li>
+<li>vectorization operators require a block of memory aligned to a multiple of 2.</li>
+</ul>
+<p>We call failing to free <strong>memory leak</strong>.</p>
+<p><strong>mmap():</strong></p>
+<ul>
+<li>lazy. It does not immediately allocate physical memory for the requested allocation but populates the page table with entries pointing to a special zero page and marks the page as read only.</li>
+<li>you can mmap() a terabyte of virtual memory on a machine with only a gigabyte of DRAM.</li>
+</ul>
+<h1 id="The-difference-of-mmap-and-malloc"><a href="#The-difference-of-mmap-and-malloc" class="headerlink" title="The difference of mmap() and malloc();"></a>The difference of mmap() and malloc();</h1><ul>
+<li>mmap() is to obtain memory (virtual address space) from the kernel.</li>
+<li>malloc() is to satisfy user requests for heap storage by reusing freed memory whenever possible.</li>
+</ul>
+<h1 id="Cauctus-stacks"><a href="#Cauctus-stacks" class="headerlink" title="Cauctus stacks"></a>Cauctus stacks</h1><h1 id="Clik-space-bound"><a href="#Clik-space-bound" class="headerlink" title="Clik space bound"></a>Clik space bound</h1><h1 id="Parallel-allocation-strategies"><a href="#Parallel-allocation-strategies" class="headerlink" title="Parallel allocation strategies"></a>Parallel allocation strategies</h1><h1 id="Incremental-garbage-collection"><a href="#Incremental-garbage-collection" class="headerlink" title="Incremental garbage collection"></a>Incremental garbage collection</h1><h1 id="Parallel-and-concurrent-garbage-collection"><a href="#Parallel-and-concurrent-garbage-collection" class="headerlink" title="Parallel and concurrent garbage collection"></a>Parallel and concurrent garbage collection</h1>]]></content>
       <categories>
         <category>Courses</category>
         <category>Performance Engineering of Software Systems</category>
+      </categories>
+      <tags>
+        <tag>Performance Optimization</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</title>
+    <url>/2023/10/17/graph-2/</url>
+    <content><![CDATA[<h2 id="CPU-based-Subgraph-Enumerations"><a href="#CPU-based-Subgraph-Enumerations" class="headerlink" title="CPU-based Subgraph Enumerations"></a>CPU-based Subgraph Enumerations</h2><ul>
+<li><p>Single-machine subgraph enumeration</p>
+<ul>
+<li><p>Built upon the Ullman‘s work</p>
+<ul>
+<li><p>A selective search sequence</p>
+</li>
+<li><p>Various pruning techniques</p>
+<ul>
+<li><p>Non-indexed approaches</p>
+<p>To apply a series of feasibility rules. For example, we can invalidate unpromising partial instances beforehand.</p>
+</li>
+<li><p>Indexed approaches</p>
+</li>
+</ul>
+<p>  To build the indexes that can prune partial instances as early as possible.</p>
+<p>  But it seems that the indexed approaches may not help.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Distributed subgraph enumeration</p>
+<ul>
+<li>Rely on distributed frameworks</li>
+</ul>
+</li>
+</ul>
+<h3 id="GPU-based-Subgraph-Enumeration"><a href="#GPU-based-Subgraph-Enumeration" class="headerlink" title="GPU-based Subgraph Enumeration"></a>GPU-based Subgraph Enumeration</h3><p><strong>Two major previous studies</strong></p>
+<ul>
+<li>NEMO</li>
+<li>GPSM</li>
+</ul>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-2/algorithm1.png"></p>
+]]></content>
+      <categories>
+        <category>Research</category>
+        <category>Subgraph Matching</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>

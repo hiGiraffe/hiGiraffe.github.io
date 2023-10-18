@@ -26,7 +26,7 @@
 <meta property="og:description" content="Lecture 12 in mit 6.172,Performance Engineering Of Software Systems.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-10-17T14:42:28.000Z">
-<meta property="article:modified_time" content="2023-10-17T14:50:23.489Z">
+<meta property="article:modified_time" content="2023-10-18T03:26:29.849Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
@@ -481,8 +481,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-17 22:50:23</span>
-            <span class="mobile">2023-10-17 22:50:23</span>
+            <span class="desktop">2023-10-18 11:26:29</span>
+            <span class="mobile">2023-10-18 11:26:29</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -551,6 +551,22 @@ mjx-container[display="true"] + br {
 
 
 
+<p><strong>The usage of memalign():</strong></p>
+<ul>
+<li>fit within cache lines to reduce the number of cache misses.</li>
+<li>vectorization operators require a block of memory aligned to a multiple of 2.</li>
+</ul>
+<p>We call failing to free <strong>memory leak</strong>.</p>
+<p><strong>mmap():</strong></p>
+<ul>
+<li>lazy. It does not immediately allocate physical memory for the requested allocation but populates the page table with entries pointing to a special zero page and marks the page as read only.</li>
+<li>you can mmap() a terabyte of virtual memory on a machine with only a gigabyte of DRAM.</li>
+</ul>
+<h1 id="The-difference-of-mmap-and-malloc"><a href="#The-difference-of-mmap-and-malloc" class="headerlink" title="The difference of mmap() and malloc();"></a>The difference of mmap() and malloc();</h1><ul>
+<li>mmap() is to obtain memory (virtual address space) from the kernel.</li>
+<li>malloc() is to satisfy user requests for heap storage by reusing freed memory whenever possible.</li>
+</ul>
+<h1 id="Cauctus-stacks"><a href="#Cauctus-stacks" class="headerlink" title="Cauctus stacks"></a>Cauctus stacks</h1><h1 id="Clik-space-bound"><a href="#Clik-space-bound" class="headerlink" title="Clik space bound"></a>Clik space bound</h1><h1 id="Parallel-allocation-strategies"><a href="#Parallel-allocation-strategies" class="headerlink" title="Parallel allocation strategies"></a>Parallel allocation strategies</h1><h1 id="Incremental-garbage-collection"><a href="#Incremental-garbage-collection" class="headerlink" title="Incremental garbage collection"></a>Incremental garbage collection</h1><h1 id="Parallel-and-concurrent-garbage-collection"><a href="#Parallel-and-concurrent-garbage-collection" class="headerlink" title="Parallel and concurrent garbage collection"></a>Parallel and concurrent garbage collection</h1>
         </div>
 
         
@@ -569,6 +585,21 @@ mjx-container[display="true"] + br {
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/10/17/graph-2/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -599,7 +630,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Parallel Storage Allocation</div>
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-difference-of-mmap-and-malloc"><span class="nav-text">The difference of mmap() and malloc();</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cauctus-stacks"><span class="nav-text">Cauctus stacks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Clik-space-bound"><span class="nav-text">Clik space bound</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Parallel-allocation-strategies"><span class="nav-text">Parallel allocation strategies</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Incremental-garbage-collection"><span class="nav-text">Incremental garbage collection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Parallel-and-concurrent-garbage-collection"><span class="nav-text">Parallel and concurrent garbage collection</span></a></li></ol>
 
     </div>
 </div>
