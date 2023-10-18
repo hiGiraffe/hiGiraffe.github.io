@@ -1388,7 +1388,11 @@ return result
 <li>NEMO</li>
 <li>GPSM</li>
 </ul>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-2/table1.png"></p>
 <p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-2/algorithm1.png"></p>
+<ol>
+<li>At each level l &gt; 0, it executes two procedures, namely Compute and Materi- alize.</li>
+</ol>
 <h1 id="PARTITION-BASED-ENUMERATION"><a href="#PARTITION-BASED-ENUMERATION" class="headerlink" title="PARTITION BASED ENUMERATION"></a>PARTITION BASED ENUMERATION</h1>]]></content>
       <categories>
         <category>Research</category>
