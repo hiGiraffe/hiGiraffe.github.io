@@ -13,26 +13,20 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://higiraffe.github.io/2023/10/17/graph-2/"/>
+    <link rel="canonical" href="https://higiraffe.github.io/2023/10/26/cuda-1/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="A paper at the SIGMOD 2020 conference.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="GPU-Accelerated Subgraph Enumeration on Partitioned Graphs">
-<meta property="og:url" content="https://higiraffe.github.io/2023/10/17/graph-2/index.html">
+        <meta property="og:type" content="article">
+<meta property="og:title" content="Cuda Programming Model Notes">
+<meta property="og:url" content="https://higiraffe.github.io/2023/10/26/cuda-1/index.html">
 <meta property="og:site_name" content="HiGiraffe">
-<meta property="og:description" content="A paper at the SIGMOD 2020 conference.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://higiraffe.github.io/images/graph-2/table1.png">
-<meta property="og:image" content="https://higiraffe.github.io/images/graph-2/algorithm1.png">
-<meta property="article:published_time" content="2023-10-17T15:12:22.000Z">
-<meta property="article:modified_time" content="2023-10-26T15:04:37.605Z">
+<meta property="article:published_time" content="2023-10-26T00:54:09.000Z">
+<meta property="article:modified_time" content="2023-10-26T02:32:38.163Z">
 <meta property="article:author" content="Julian">
-<meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://higiraffe.github.io/images/graph-2/table1.png">
     
     
     <!--- Icon Part-->
@@ -44,7 +38,7 @@
     
     <title>
         
-            GPU-Accelerated Subgraph Enumeration on Partitioned Graphs -
+            Cuda Programming Model Notes -
         
         HiGiraffe
     </title>
@@ -455,7 +449,7 @@ mjx-container[display="true"] + br {
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</h1>
+                <h1 class="article-title-regular">Cuda Programming Model Notes</h1>
             
             </div>
             
@@ -477,57 +471,20 @@ mjx-container[display="true"] + br {
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2023-10-17 23:12:22</span>
-        <span class="mobile">2023-10-17 23:12:22</span>
+        <span class="desktop">2023-10-26 08:54:09</span>
+        <span class="mobile">2023-10-26 08:54:09</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-26 23:04:37</span>
-            <span class="mobile">2023-10-26 23:04:37</span>
+            <span class="desktop">2023-10-26 10:32:38</span>
+            <span class="mobile">2023-10-26 10:32:38</span>
             <span class="hover-info">Updated</span>
         </span>
     
 
     
-        <span class="article-categories article-meta-item">
-            <i class="fa-regular fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Research/">Research</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Research/Subgraph-Matching/">Subgraph Matching</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fa-regular fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -545,76 +502,51 @@ mjx-container[display="true"] + br {
 
 
         <div class="article-content markdown-body">
-            <p>其他是建立在GPU能放下数据图，或者数据图在主存中，通过采取合适的数据来传入GPU进行处理。</p>
-<p>这个方法是直接分区，块中的内容不需要再调用主存。但是分区间仍然存在传输问题。</p>
-<h2 id="CPU-based-Subgraph-Enumerations"><a href="#CPU-based-Subgraph-Enumerations" class="headerlink" title="CPU-based Subgraph Enumerations"></a>CPU-based Subgraph Enumerations</h2><ul>
-<li><p>Single-machine subgraph enumeration</p>
-<ul>
-<li><p>Built upon the Ullman‘s work</p>
-<ul>
-<li><p>A selective search sequence</p>
+            <h1 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h1><ul>
+<li><p><code>__global__</code>  execute the kernel</p>
 </li>
-<li><p>Various pruning techniques</p>
-<ul>
-<li><p>Non-indexed approaches</p>
-<p>To apply a series of feasibility rules. For example, we can invalidate unpromising partial instances beforehand.</p>
+<li><p><code>&lt;&lt;...&gt;&gt;</code>  execute configuration syntax</p>
 </li>
-<li><p>Indexed approaches</p>
+<li><p><code>threadIdx</code> built-in variable</p>
 </li>
 </ul>
-<p>  To build the indexes that can prune partial instances as early as possible.</p>
-<p>  But it seems that the indexed approaches may not help.</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Distributed subgraph enumeration</p>
-<ul>
-<li>Rely on distributed frameworks</li>
-</ul>
-</li>
-</ul>
-<h2 id="GPU-based-Subgraph-Enumeration"><a href="#GPU-based-Subgraph-Enumeration" class="headerlink" title="GPU-based Subgraph Enumeration"></a>GPU-based Subgraph Enumeration</h2><p><strong>Two major previous studies</strong></p>
-<ul>
-<li>NEMO</li>
-<li>GPSM</li>
-</ul>
-<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-2/table1.png"></p>
-<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-2/algorithm1.png"></p>
-<div class="note-large yellow"><div class="notel-title"><p>yellow</p>
-</div><div class="notel-content"><ul>
-<li><p>COMPUTE：计算出来所有可能性。</p>
-<ul>
-<li><p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.679ex;" xmlns="http://www.w3.org/2000/svg" width="2.924ex" height="2.224ex" role="img" focusable="false" viewBox="0 -683 1292.5 983"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msubsup"><g data-mml-node="mi"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path></g><g data-mml-node="TeXAtom" transform="translate(839.5,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g><g data-mml-node="TeXAtom" transform="translate(675,-292.2) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></g></svg></mjx-container>: induced subgraph of P on the vertex set π [1 : i]</p>
-</li>
-<li><p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.294ex" height="1.025ex" role="img" focusable="false" viewBox="0 -442 572 453"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g></g></g></svg></mjx-container>: the l<sup>th</sup> vertex in <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.29ex" height="1ex" role="img" focusable="false" viewBox="0 -431 570 442"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></svg></mjx-container></p>
-</li>
-<li><p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="6.303ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2786.1 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D441" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></g><g data-mml-node="TeXAtom" transform="translate(836,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g></g></g><g data-mml-node="mo" transform="translate(1436.1,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1825.1,0)"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(2397.1,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>: In search sequence, the adjacent list of u and the vertex that before u in <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex;" xmlns="http://www.w3.org/2000/svg" width="1.29ex" height="1ex" role="img" focusable="false" viewBox="0 -431 570 442"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></svg></mjx-container></p>
-</li>
-<li><p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="6.647ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 2938 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D436" d="M50 252Q50 367 117 473T286 641T490 704Q580 704 633 653Q642 643 648 636T656 626L657 623Q660 623 684 649Q691 655 699 663T715 679T725 690L740 705H746Q760 705 760 698Q760 694 728 561Q692 422 692 421Q690 416 687 415T669 413H653Q647 419 647 422Q647 423 648 429T650 449T651 481Q651 552 619 605T510 659Q484 659 454 652T382 628T299 572T226 479Q194 422 175 346T156 222Q156 108 232 58Q280 24 350 24Q441 24 512 92T606 240Q610 253 612 255T628 257Q648 257 648 248Q648 243 647 239Q618 132 523 55T319 -22Q206 -22 128 53T50 252Z"></path></g><g data-mml-node="mo" transform="translate(760,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1149,0)"><path data-c="1D462" d="M21 287Q21 295 30 318T55 370T99 420T158 442Q204 442 227 417T250 358Q250 340 216 246T182 105Q182 62 196 45T238 27T291 44T328 78L339 95Q341 99 377 247Q407 367 413 387T427 416Q444 431 463 431Q480 431 488 421T496 402L420 84Q419 79 419 68Q419 43 426 35T447 26Q469 29 482 57T512 145Q514 153 532 153Q551 153 551 144Q550 139 549 130T540 98T523 55T498 17T462 -8Q454 -10 438 -10Q372 -10 347 46Q345 45 336 36T318 21T296 6T267 -6T233 -11Q189 -11 155 7Q103 38 103 113Q103 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(1721,0) translate(0 -0.5)"><path data-c="7C" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(1999,0)"><path data-c="1D453" d="M118 -162Q120 -162 124 -164T135 -167T147 -168Q160 -168 171 -155T187 -126Q197 -99 221 27T267 267T289 382V385H242Q195 385 192 387Q188 390 188 397L195 425Q197 430 203 430T250 431Q298 431 298 432Q298 434 307 482T319 540Q356 705 465 705Q502 703 526 683T550 630Q550 594 529 578T487 561Q443 561 443 603Q443 622 454 636T478 657L487 662Q471 668 457 668Q445 668 434 658T419 630Q412 601 403 552T387 469T380 433Q380 431 435 431Q480 431 487 430T498 424Q499 420 496 407T491 391Q489 386 482 386T428 385H372L349 263Q301 15 282 -47Q255 -132 212 -173Q175 -205 139 -205Q107 -205 81 -186T55 -132Q55 -95 76 -78T118 -61Q162 -61 162 -103Q162 -122 151 -136T127 -157L118 -162Z"></path></g><g data-mml-node="mo" transform="translate(2549,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>: 在图G中u通过映射到的v的相邻节点，且节点未被映射在Π中的。</p>
-</li>
-</ul>
-</li>
-<li><p>MATERILALIZE：循环，将新的实例都输出在记录在新的R (P)中，有点像DP的思想。</p>
-</li>
-</ul>
-</div></div>
+<p>example:</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">∕∕ <span class="function">Kernel definition</span></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">VecAdd</span><span class="params">(<span class="type">float</span>* A, <span class="type">float</span>* B, <span class="type">float</span>* C)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">int</span> i = threadIdx.x;</span><br><span class="line">    C[i] = A[i] + B[i];</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    ...</span><br><span class="line">    ∕∕ Kernel invocation with N threads</span><br><span class="line">    VecAdd&lt;&lt;&lt;<span class="number">1</span>, N&gt;&gt;&gt;(A, B, C);</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
-<h1 id="PARTITION-BASED-ENUMERATION"><a href="#PARTITION-BASED-ENUMERATION" class="headerlink" title="PARTITION BASED ENUMERATION"></a>PARTITION BASED ENUMERATION</h1><h2 id="Inter-partition-Search"><a href="#Inter-partition-Search" class="headerlink" title="Inter-partition Search"></a>Inter-partition Search</h2><p>We use the standard graph partition approach, i.e., METIS</p>
+<h1 id="Thread-Hierarchy"><a href="#Thread-Hierarchy" class="headerlink" title="Thread Hierarchy"></a>Thread Hierarchy</h1><ul>
+<li><p><code>threadIdx</code>  one-dimensional, two-dimensional, or three-<br>dimensional unique index accessible within the kernel </p>
+</li>
+<li><p><code>dim3</code></p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">dim3 <span class="title">threadsPerBlock</span><span class="params">(<span class="number">16</span>, <span class="number">16</span>)</span></span>; <span class="comment">// 定义一个二维线程块，包含16行和16列的线程</span></span><br><span class="line"><span class="function">dim3 <span class="title">gridDim</span><span class="params">(<span class="number">32</span>, <span class="number">32</span>)</span></span>; <span class="comment">// 定义一个二维线程网格，包含32行和32列的线程块</span></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p><code>blockDim</code> the dimension of the thread block</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">∕∕ <span class="function">Kernel definition</span></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">MatAdd</span><span class="params">(<span class="type">float</span> A[N][N], <span class="type">float</span> B[N][N],</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="type">float</span> C[N][N])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">int</span> i = threadIdx.x;</span><br><span class="line">    <span class="type">int</span> j = threadIdx.y;</span><br><span class="line">    C[i][j] = A[i][j] + B[i][j];</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    ...</span><br><span class="line">    ∕∕ Kernel invocation with one block of N * N * <span class="number">1</span> threads</span><br><span class="line">    <span class="type">int</span> numBlocks = <span class="number">1</span>;</span><br><span class="line">    <span class="function">dim3 <span class="title">threadsPerBlock</span><span class="params">(N, N)</span></span>;</span><br><span class="line">    MatAdd&lt;&lt;&lt;numBlocks, threadsPerBlock&gt;&gt;&gt;(A, B, C);</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">∕∕ <span class="function">Kernel definition</span></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">MatAdd</span><span class="params">(<span class="type">float</span> A[N][N], <span class="type">float</span> B[N][N],</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="type">float</span> C[N][N])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">int</span> i = blockIdx.x * blockDim.x + threadIdx.x;</span><br><span class="line">    <span class="type">int</span> j = blockIdx.y * blockDim.y + threadIdx.y;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; N &amp;&amp; j &lt; N)</span><br><span class="line">    C[i][j] = A[i][j] + B[i][j];</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    ...</span><br><span class="line">    ∕∕ <span class="function">Kernel invocation</span></span><br><span class="line"><span class="function">    dim3 <span class="title">threadsPerBlock</span><span class="params">(<span class="number">16</span>, <span class="number">16</span>)</span></span>;</span><br><span class="line">    <span class="function">dim3 <span class="title">numBlocks</span><span class="params">(N ∕ threadsPerBlock.x, N ∕ threadsPerBlock.y)</span></span>;</span><br><span class="line">    MatAdd&lt;&lt;&lt;numBlocks, threadsPerBlock&gt;&gt;&gt;(A, B, C);</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>The second one can be used for larger matrices and utilize more GPU resources.</p>
+<p>A thread block may contain up to <strong>1024</strong> threads.</p>
+<ul>
+<li><code>__syncthreads()</code>  acts as a barrier at which all threads in the block must wait before any is allowed to proceed.</li>
+</ul>
+<h1 id="Thread-Block-Clusters"><a href="#Thread-Block-Clusters" class="headerlink" title="Thread Block Clusters"></a>Thread Block Clusters</h1><p>Cluster Launch allows you to specify the grouping size of thread blocks at compile time rather than dynamically at runtime. This allows for more efficient thread organization and management.</p>
+<p>A maximum of <strong>8</strong> thread blocks in a cluster is supported as a portable cluster size in CUDA.</p>
+<ul>
+<li><p><code>__cluster_dims__(X,Y,Z)</code></p>
+</li>
+<li><p><code>&lt;&lt;&lt;...&gt;&gt;&gt;</code></p>
+</li>
+</ul>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">∕∕ Kernel definition</span><br><span class="line">∕∕ Compile time cluster size <span class="number">2</span> in X-dimension <span class="keyword">and</span> <span class="number">1</span> in Y <span class="keyword">and</span> Z dimension</span><br><span class="line">__global__ <span class="type">void</span> __cluster_dims__(<span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>) <span class="built_in">cluster_kernel</span>(<span class="type">float</span> *input, <span class="type">float</span>* output)</span><br><span class="line">{</span><br><span class="line">    </span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">float</span> *input, *output;</span><br><span class="line">    ∕∕ <span class="function">Kernel invocation with compile time cluster size</span></span><br><span class="line"><span class="function">    dim3 <span class="title">threadsPerBlock</span><span class="params">(<span class="number">16</span>, <span class="number">16</span>)</span></span>;</span><br><span class="line">    <span class="function">dim3 <span class="title">numBlocks</span><span class="params">(N ∕ threadsPerBlock.x, N ∕ threadsPerBlock.y)</span></span>;</span><br><span class="line">    </span><br><span class="line">    ∕∕ The grid dimension is <span class="keyword">not</span> affected by cluster launch, <span class="keyword">and</span> is still enumerated</span><br><span class="line">    ∕∕ <span class="keyword">using</span> number of blocks.</span><br><span class="line">    ∕∕ The grid dimension must be a multiple of cluster size.</span><br><span class="line">    cluster_kernel&lt;&lt;&lt;numBlocks, threadsPerBlock&gt;&gt;&gt;(input, output);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
+<p> The kernel can also be launched using the CUDA kernel launch API cudaLaunchKernelEx.</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">∕∕ Kernel definition</span><br><span class="line">∕∕ <span class="function">No compile time attribute attached to the kernel</span></span><br><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">cluster_kernel</span><span class="params">(<span class="type">float</span> *input, <span class="type">float</span>* output)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="type">float</span> *input, *output;</span><br><span class="line">    <span class="function">dim3 <span class="title">threadsPerBlock</span><span class="params">(<span class="number">16</span>, <span class="number">16</span>)</span></span>;</span><br><span class="line">    <span class="function">dim3 <span class="title">numBlocks</span><span class="params">(N ∕ threadsPerBlock.x, N ∕ threadsPerBlock.y)</span></span>;</span><br><span class="line">    ∕∕ Kernel invocation with runtime cluster size</span><br><span class="line">    {</span><br><span class="line">        cudaLaunchConfig_t config = {<span class="number">0</span>};</span><br><span class="line">        ∕∕ The grid dimension is <span class="keyword">not</span> affected by cluster launch, <span class="keyword">and</span> is still enumerated</span><br><span class="line">        ∕∕ <span class="keyword">using</span> number of blocks.</span><br><span class="line">        ∕∕ The grid dimension should be a multiple of cluster size.</span><br><span class="line">        config.gridDim = numBlocks;</span><br><span class="line">        config.blockDim = threadsPerBlock;</span><br><span class="line">        cudaLaunchAttribute attribute[<span class="number">1</span>];</span><br><span class="line">        attribute[<span class="number">0</span>].id = cudaLaunchAttributeClusterDimension;</span><br><span class="line">        attribute[<span class="number">0</span>].val.clusterDim.x = <span class="number">2</span>; ∕∕ Cluster size in X-dimension</span><br><span class="line">        attribute[<span class="number">0</span>].val.clusterDim.y = <span class="number">1</span>;</span><br><span class="line">        attribute[<span class="number">0</span>].val.clusterDim.z = <span class="number">1</span>;</span><br><span class="line">        config.attrs = attribute;</span><br><span class="line">        config.numAttrs = <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">cudaLaunchKernelEx</span>(&amp;config, cluster_kernel, input, output);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
+
+<p>It should be noted that gridDim needs to be an integer multiple of blockDim.</p>
+<h1 id="Memory-Hierarchy"><a href="#Memory-Hierarchy" class="headerlink" title="Memory Hierarchy"></a>Memory Hierarchy</h1>
         </div>
 
         
 
-        
-            <ul class="post-tags-box">
-                
-                    <li class="tag-item">
-                        <a href="/tags/Performance-Optimization/">#Performance Optimization</a>&nbsp;
-                    </li>
-                
-            </ul>
         
 
         
@@ -622,29 +554,14 @@ mjx-container[display="true"] + br {
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                        rel="prev"
-                        href="/2023/10/26/cuda-1/"
-                        >
-                            <span class="left arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Cuda Programming Model Notes</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                         rel="next"
-                        href="/2023/10/17/mit-6-172-12/"
+                        href="/2023/10/17/graph-2/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Parallel Storage Allocation</span>
+                                <span class="post-nav-title-item">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -665,8 +582,8 @@ mjx-container[display="true"] + br {
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU-based-Subgraph-Enumerations"><span class="nav-text">CPU-based Subgraph Enumerations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-based-Subgraph-Enumeration"><span class="nav-text">GPU-based Subgraph Enumeration</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PARTITION-BASED-ENUMERATION"><span class="nav-text">PARTITION BASED ENUMERATION</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Inter-partition-Search"><span class="nav-text">Inter-partition Search</span></a></li></ol>
+        <div class="page-title">Cuda Programming Model Notes</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kernels"><span class="nav-text">Kernels</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Thread-Hierarchy"><span class="nav-text">Thread Hierarchy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Thread-Block-Clusters"><span class="nav-text">Thread Block Clusters</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Memory-Hierarchy"><span class="nav-text">Memory Hierarchy</span></a></li></ol>
 
     </div>
 </div>
