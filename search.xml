@@ -1466,4 +1466,25 @@ return result
 <p>It should be noted that gridDim needs to be an integer multiple of blockDim.</p>
 <h1 id="Memory-Hierarchy"><a href="#Memory-Hierarchy" class="headerlink" title="Memory Hierarchy"></a>Memory Hierarchy</h1>]]></content>
   </entry>
+  <entry>
+    <title>Efficient Multi-GPU Graph Processing with Remote Work Stealing</title>
+    <url>/2023/10/27/graph-3/</url>
+    <content><![CDATA[<p>This paper analyzes the <strong>dynamic loadimbalance</strong> (DLB) problem and the <strong>long tail</strong> (LT) problem in multi-GPUs and solves them by adaptive remote work stealing onthe-ﬂy.</p>
+<div class="note-large red"><div class="notel-title"><p>Spark</p>
+</div><div class="notel-content"><p>“A recent work [5] shows that systems lose nearly a third of device utilization, as they move from a single node to distributed implementations.”</p>
+<p>Maybe when we can achieve a better one on th!!!!</p>
+</div></div>
+
+
+
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/graph-3/fig1.png"></p>
+]]></content>
+      <categories>
+        <category>Research</category>
+        <category>Subgraph Matching</category>
+      </categories>
+      <tags>
+        <tag>Performance Optimization</tag>
+      </tags>
+  </entry>
 </search>
