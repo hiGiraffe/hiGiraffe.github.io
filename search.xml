@@ -182,8 +182,6 @@
 
 
 
-
-
 <h1 id="Node-level-Tasks-and-Features"><a href="#Node-level-Tasks-and-Features" class="headerlink" title="Node-level Tasks and Features"></a>Node-level Tasks and Features</h1><ul>
 <li><strong>Structure-based features</strong>: Capture topological properties of local neighborhood around a node<ul>
 <li><strong>Node degree</strong>: <ul>
