@@ -26,7 +26,7 @@
 <meta property="og:description" content="Lecture 2 in CS224W:Machine Learning with Graphs">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-12-13T08:47:22.000Z">
-<meta property="article:modified_time" content="2024-01-14T07:49:32.518Z">
+<meta property="article:modified_time" content="2024-01-14T08:01:39.477Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
@@ -481,8 +481,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-01-14 15:49:32</span>
-            <span class="mobile">2024-01-14 15:49:32</span>
+            <span class="desktop">2024-01-14 16:01:39</span>
+            <span class="mobile">2024-01-14 16:01:39</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -552,6 +552,54 @@ mjx-container[display="true"] + br {
 
 
 
+
+<h1 id="Node-level-Tasks-and-Features"><a href="#Node-level-Tasks-and-Features" class="headerlink" title="Node-level Tasks and Features"></a>Node-level Tasks and Features</h1><ul>
+<li><strong>Structure-based features</strong>: Capture topological properties of local neighborhood around a node<ul>
+<li><strong>Node degree</strong>: <ul>
+<li>Counts the number of neighboring nodes</li>
+</ul>
+</li>
+<li><strong>Clustering coefficient</strong>: <ul>
+<li>Measures how connected neighboring nodes are</li>
+</ul>
+</li>
+<li><strong>Graphlet degree vector</strong>: <ul>
+<li>Counts the occurrences of different graphlets</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Link-level-Tasks-and-Features"><a href="#Link-level-Tasks-and-Features" class="headerlink" title="Link-level Tasks and Features"></a>Link-level Tasks and Features</h1><ul>
+<li><strong>Distance-based features</strong>: Uses the shortest path length between two nodes but does not capture how neighborhood overlaps<ul>
+<li><strong>Local neighborhood overlap</strong>:<ul>
+<li>Captures how many neighboring nodes are shared by two nodes</li>
+<li>Becomes zero when no neighbor nodes are shared</li>
+</ul>
+</li>
+<li><strong>Global neighborhood overlap</strong>:<ul>
+<li>Uses global graph structure to score two nodes</li>
+<li>Katz index counts #paths of all lengths between two nodes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Graph-level-Features-and-Graph-Kernels"><a href="#Graph-level-Features-and-Graph-Kernels" class="headerlink" title="Graph-level Features and Graph Kernels"></a>Graph-level Features and Graph Kernels</h1><ul>
+<li><strong>Graphlet Kernel</strong>:<ul>
+<li>Graph is represented as <strong>Bag-of-graphlets</strong></li>
+<li><strong>Computationally expensive</strong></li>
+</ul>
+</li>
+<li><strong>Weisfeiler-Lehman Kernel</strong><ul>
+<li>Apply K-step color refinement algorithm to enrich node colors</li>
+<li>Graph is represented as <strong>Bag-of-colors</strong></li>
+<li><strong>Computationally efficient</strong></li>
+<li>Closely related to Graph Neural Networks</li>
+</ul>
+</li>
+</ul>
+
         </div>
 
         
@@ -615,7 +663,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">Traditional Methods for ML on Graphs</div>
-        
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-level-Tasks-and-Features"><span class="nav-text">Node-level Tasks and Features</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Link-level-Tasks-and-Features"><span class="nav-text">Link-level Tasks and Features</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Graph-level-Features-and-Graph-Kernels"><span class="nav-text">Graph-level Features and Graph Kernels</span></a></li></ol>
 
     </div>
 </div>
