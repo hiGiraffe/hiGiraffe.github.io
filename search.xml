@@ -238,7 +238,7 @@
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Machine Learning with Graphs</category>
+        <category>CS224W:Machine Learning with Graphs</category>
       </categories>
       <tags>
         <tag>Artificial Intelligence</tag>
@@ -331,12 +331,12 @@
 <p>So, putting it all together.</p>
 <div class="note-large red"><div class="notel-title"><p>The-entirety-of-the-softmax-regression-algorithm</p>
 </div><div class="notel-content"><p>Repeat until parameters / loss converges:</p>
-<p>​ <img lazyload="" src="/images/loading.svg" data-src="/images/dl-systems-1/gradient-descent-6.png"></p>
+<p> <img lazyload="" src="/images/loading.svg" data-src="/images/dl-systems-1/gradient-descent-6.png"></p>
 </div></div>
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Deep Learning Systems</category>
+        <category>CME 10-414:Deep Learning Systems</category>
       </categories>
       <tags>
         <tag>Artificial Intelligence</tag>
@@ -629,7 +629,7 @@ Control may not pass this point until all spawned children have returned.
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Performance Engineering of Software Systems</category>
+        <category>MIT 6.172:Performance Engineering of Software Systems</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
@@ -665,7 +665,7 @@ Control may not pass this point until all spawned children have returned.
 <h1 id="Cauctus-stacks"><a href="#Cauctus-stacks" class="headerlink" title="Cauctus stacks"></a>Cauctus stacks</h1><h1 id="Clik-space-bound"><a href="#Clik-space-bound" class="headerlink" title="Clik space bound"></a>Clik space bound</h1><h1 id="Parallel-allocation-strategies"><a href="#Parallel-allocation-strategies" class="headerlink" title="Parallel allocation strategies"></a>Parallel allocation strategies</h1><h1 id="Incremental-garbage-collection"><a href="#Incremental-garbage-collection" class="headerlink" title="Incremental garbage collection"></a>Incremental garbage collection</h1><h1 id="Parallel-and-concurrent-garbage-collection"><a href="#Parallel-and-concurrent-garbage-collection" class="headerlink" title="Parallel and concurrent garbage collection"></a>Parallel and concurrent garbage collection</h1>]]></content>
       <categories>
         <category>Courses</category>
-        <category>Performance Engineering of Software Systems</category>
+        <category>MIT 6.172:Performance Engineering of Software Systems</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
@@ -934,7 +934,7 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Performance Engineering of Software Systems</category>
+        <category>MIT 6.172:Performance Engineering of Software Systems</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
@@ -1205,7 +1205,7 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Performance Engineering of Software Systems</category>
+        <category>MIT 6.172:Performance Engineering of Software Systems</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
@@ -1471,11 +1471,11 @@ return result
 <li><strong>冗余计算</strong>：内联展开递归函数的过程中，可能会进行一些冗余计算，因为相同的计算可能在不同的展开代码中多次出现。这会增加指令执行的开销，降低程序的效率。</li>
 </ol>
 <h2 id="Pointers-vs-Arrays"><a href="#Pointers-vs-Arrays" class="headerlink" title="Pointers vs Arrays"></a>Pointers vs Arrays</h2><h3 id="Write-up-4"><a href="#Write-up-4" class="headerlink" title="Write-up 4"></a>Write-up 4</h3><blockquote>
-<p>​ Give a reason why using pointers may improve performance. Report on any performance differences you observed in your implementation.</p>
+<p> Give a reason why using pointers may improve performance. Report on any performance differences you observed in your implementation.</p>
 </blockquote>
 <p>指针</p>
 <h2 id="Coarsening"><a href="#Coarsening" class="headerlink" title="Coarsening"></a>Coarsening</h2><h3 id="Write-up-5"><a href="#Write-up-5" class="headerlink" title="Write-up 5"></a>Write-up 5</h3><blockquote>
-<p>​ Explain what sorting algorithm you used and how you chose the number of elements to be sorted in the base case. Report on the performance differences you observed.</p>
+<p> Explain what sorting algorithm you used and how you chose the number of elements to be sorted in the base case. Report on the performance differences you observed.</p>
 </blockquote>
 <ul>
 <li>未优化</li>
@@ -1492,7 +1492,7 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Performance Engineering of Software Systems</category>
+        <category>MIT 6.172:Performance Engineering of Software Systems</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
@@ -1673,14 +1673,14 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Machine Learning with Graphs</category>
+        <category>CS224W:Machine Learning with Graphs</category>
       </categories>
       <tags>
         <tag>Artificial Intelligence</tag>
       </tags>
   </entry>
   <entry>
-    <title>Link Analysis PageRank</title>
+    <title>Link Analysis: PageRank</title>
     <url>/2024/01/11/gnn-3/</url>
     <content><![CDATA[
 
@@ -1693,7 +1693,7 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>Machine Learning with Graphs</category>
+        <category>CS224W:Machine Learning with Graphs</category>
       </categories>
       <tags>
         <tag>Artificial Intelligence</tag>
