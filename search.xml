@@ -44,6 +44,13 @@
 
 <p>It should be noted that gridDim needs to be an integer multiple of blockDim.</p>
 <h1 id="Memory-Hierarchy"><a href="#Memory-Hierarchy" class="headerlink" title="Memory Hierarchy"></a>Memory Hierarchy</h1>]]></content>
+      <categories>
+        <category>Performance Optimization Methods</category>
+        <category>CUDA</category>
+      </categories>
+      <tags>
+        <tag>Performance Optimization</tag>
+      </tags>
   </entry>
   <entry>
     <title>GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</title>
@@ -1650,6 +1657,26 @@ return result
       </categories>
       <tags>
         <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Node Embeddings</title>
+    <url>/2024/01/11/gnn-2/</url>
+    <content><![CDATA[
+
+	<div class="row">
+    <embed src="/pdf/gnn-2/03-nodeemb.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+]]></content>
+      <categories>
+        <category>Courses</category>
+        <category>Machine Learning with Graphs</category>
+      </categories>
+      <tags>
+        <tag>Artificial Intelligence</tag>
       </tags>
   </entry>
 </search>
