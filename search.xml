@@ -1701,7 +1701,7 @@ return result
   </entry>
   <entry>
     <title>Code Notes of Homework 1 in CME 213</title>
-    <url>/2024/01/16/cme213-1/</url>
+    <url>/2023/10/16/cme213-1/</url>
     <content><![CDATA[<h1 id="学习笔记"><a href="#学习笔记" class="headerlink" title="学习笔记"></a>学习笔记</h1><h2 id="头文件宏定义"><a href="#头文件宏定义" class="headerlink" title="头文件宏定义"></a>头文件宏定义</h2><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _MATRIX_HPP</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _MATRIX_HPP</span></span><br><span class="line">……</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></div>
 
 <p>在大的软件工程里面，可能存在多个文件同时包含一个头文件。<br>这种写法可以在生成可执行文件时避免头文件的重定义。</p>
@@ -1760,9 +1760,7 @@ return result
 ]]></content>
       <categories>
         <category>Courses</category>
-        <category>CME213:Introduction to parallel computing using MPI</category>
-        <category>openMP</category>
-        <category>and CUDA</category>
+        <category>CME213:Introduction to parallel computing using MPI openMP and CUDA</category>
       </categories>
       <tags>
         <tag>Performance Optimization</tag>
