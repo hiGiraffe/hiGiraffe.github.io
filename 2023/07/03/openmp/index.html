@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://higiraffe.github.io/images/openmp/1.png">
 <meta property="article:published_time" content="2023-07-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-10-16T16:53:22.262Z">
+<meta property="article:modified_time" content="2024-01-16T14:36:17.572Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
@@ -369,8 +369,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-17 00:53:22</span>
-            <span class="mobile">2023-10-17 00:53:22</span>
+            <span class="desktop">2024-01-16 22:36:17</span>
+            <span class="mobile">2024-01-16 22:36:17</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -471,6 +471,10 @@
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp reduction(operator: variable)</span></span><br></pre></td></tr></table></figure></div>
 
 <p>在并行指令后添加 reduction(operator: variable)，主要用来保护线程共享的变量。</p>
+<p>例子:</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for reduction(+:sum)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        sum += array[i];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+
 </li>
 <li><p>使用指定数量的线程并行</p>
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel num_threads(nthreads)</span></span><br></pre></td></tr></table></figure></div></li>

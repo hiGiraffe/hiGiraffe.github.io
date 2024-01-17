@@ -13,19 +13,20 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://higiraffe.github.io/2023/10/17/thesis-1/"/>
+    <link rel="canonical" href="https://higiraffe.github.io/2024/01/17/cuda-2/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
         <meta property="og:type" content="article">
-<meta property="og:title" content="Three Paper Guidances">
-<meta property="og:url" content="https://higiraffe.github.io/2023/10/17/thesis-1/index.html">
+<meta property="og:title" content="Cuda Note in CME213 HW3">
+<meta property="og:url" content="https://higiraffe.github.io/2024/01/17/cuda-2/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-10-16T17:12:23.000Z">
-<meta property="article:modified_time" content="2023-10-16T17:25:09.846Z">
+<meta property="article:published_time" content="2024-01-17T13:41:49.000Z">
+<meta property="article:modified_time" content="2024-01-17T13:42:31.905Z">
 <meta property="article:author" content="Julian">
+<meta property="article:tag" content="Performance Optimization">
 <meta name="twitter:card" content="summary">
     
     
@@ -38,7 +39,7 @@
     
     <title>
         
-            Three Paper Guidances -
+            Cuda Note in CME213 HW3 -
         
         HiGiraffe
     </title>
@@ -449,7 +450,7 @@ mjx-container[display="true"] + br {
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">Three Paper Guidances</h1>
+                <h1 class="article-title-regular">Cuda Note in CME213 HW3</h1>
             
             </div>
             
@@ -471,15 +472,15 @@ mjx-container[display="true"] + br {
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2023-10-17 01:12:23</span>
-        <span class="mobile">2023-10-17 01:12:23</span>
+        <span class="desktop">2024-01-17 21:41:49</span>
+        <span class="mobile">2024-01-17 21:41:49</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-17 01:25:09</span>
-            <span class="mobile">2023-10-17 01:25:09</span>
+            <span class="desktop">2024-01-17 21:42:31</span>
+            <span class="mobile">2024-01-17 21:42:31</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -493,7 +494,7 @@ mjx-container[display="true"] + br {
                     
                         
                         <li>
-                            <a href="/categories/Research/">Research</a>&nbsp;
+                            <a href="/categories/Performance-Optimization-Methods/">Performance Optimization Methods</a>&nbsp;
                         </li>
                     
                     
@@ -503,7 +504,7 @@ mjx-container[display="true"] + br {
                             <li>></li>
                         
                         <li>
-                            <a href="/categories/Research/Paper-Guidance/">Paper Guidance</a>&nbsp;
+                            <a href="/categories/Performance-Optimization-Methods/CUDA/">CUDA</a>&nbsp;
                         </li>
                     
                     
@@ -511,6 +512,17 @@ mjx-container[display="true"] + br {
             </ul>
         </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -528,31 +540,65 @@ mjx-container[display="true"] + br {
 
 
         <div class="article-content markdown-body">
-            <h1 id="CHECKLIST-MANUSCRIPT-CONSISTENCY"><a href="#CHECKLIST-MANUSCRIPT-CONSISTENCY" class="headerlink" title="CHECKLIST: MANUSCRIPT CONSISTENCY"></a>CHECKLIST: MANUSCRIPT CONSISTENCY</h1>
+            <h1 id="Brief-Summary"><a href="#Brief-Summary" class="headerlink" title="Brief Summary"></a>Brief Summary</h1><ul>
+<li><p>Functions which run on the host are prefaced with <code>__host__</code> in the function declaration. Kernels run on the device are prefaced with <code>__global__</code>. Kernels that are run on the device and that are only called from the device are prefaced with <code>__device__</code></p>
+</li>
+<li><p>The first step you should take in any CUDA program is to move the data from the host memory to device memory. The function calls <code>cudaMalloc</code> and <code>cudaMemcpy</code> allocate and copy data, respectively. <code>cudaMalloc</code> will allocate a specified number of bytes in the device main memory and return a pointer to the memory block, similar to malloc in C.</p>
+</li>
+<li><p>The second step is to use <code>cudaMemcpy</code> from the CUDA API to transfer a block of memory from the host to the device. You can also use this function to copy memory from the device to the host. It takes four parameters, a pointer to the device memory, a pointer to the host memory, a size, and the direction to move data (<code>cudaMemcpyHostToDevice</code> or <code>cudaMemcpyDeviceToHost</code>). </p>
+</li>
+<li><p>Kernels are launched in CUDA using the syntax <code>kernelName&lt;&lt;&lt;...&gt;&gt;&gt;(...)</code>. The arguments inside of the chevrons (<code>&lt;&lt;&lt;blocks, threads&gt;&gt;&gt;</code>) specify the number of thread blocks and thread per block to be launched for the kernel. The arguments to the kernel are passed by value like in normal C/C++ functions.</p>
+</li>
+<li><p>There are some read-only variables that all threads running on the device possess. The three most valuable to you for this assignment are <code>blockIdx</code>, <code>blockDim</code>, and <code>threadIdx</code>. Each of these variables contains fields x, y, and z. </p>
+<ul>
+<li><code>blockIdx</code> contains the <strong>x, y, and z coordinates</strong> of the thread block where this thread is located. </li>
+<li><code>blockDim</code> contains the <strong>dimensions of thread block</strong> where the thread resides. </li>
+<li><code>threadIdx</code> contains the <strong>indices</strong> of this thread within the thread block.</li>
+</ul>
+</li>
+</ul>
+<h1 id="Code-Details"><a href="#Code-Details" class="headerlink" title="Code Details"></a>Code Details</h1><h2 id="Initialize-Context"><a href="#Initialize-Context" class="headerlink" title="Initialize Context"></a>Initialize Context</h2><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cudaFree</span>(<span class="number">0</span>);</span><br><span class="line">recurrence&lt;&lt;&lt;<span class="number">1</span>,<span class="number">1</span>&gt;&gt;&gt;(<span class="literal">nullptr</span>,<span class="literal">nullptr</span>,<span class="number">0</span>,<span class="number">0</span>); <span class="comment">//recurrence here is a function name</span></span><br></pre></td></tr></table></figure></div>
 
-	<div class="row">
-    <embed src="/pdf/paper_beautification/AJE-Manuscript-Consistency-Checklist-2015.pdf" width="100%" height="550" type="application/pdf">
-	</div>
+<ol>
+<li>Initialize cuda context to avoid including cost in timings later</li>
+<li>Warm-up each of the kernels to avoid including overhead in timing.</li>
+</ol>
+<h2 id="Allocate-memory-to-the-device-arrays"><a href="#Allocate-memory-to-the-device-arrays" class="headerlink" title="Allocate memory to the device arrays"></a>Allocate memory to the device arrays</h2><div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaError_t cudaMalloc(void** devPtr, size_t size);</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>devPtr</code>: A pointer to a pointer that will store the allocated device memory’s address.</li>
+<li><code>size</code>: The size of the memory to be allocated, specified in bytes.</li>
+<li>If the return value is <code>cudaSuccess</code>, the memory allocation was successful; otherwise, you may need to examine the specific error code to understand the reason for the allocation failure.</li>
+</ul>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaError_t cudaFree(void* devPtr);</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>devPtr</code>: A pointer to the memory on the device that you want to free.</li>
+<li>If the return value is <code>cudaSuccess</code>, the memory deallocation was successful. Otherwise, you may need to examine the specific error code to understand the reason for the deallocation failure.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> *device_input_array = <span class="literal">nullptr</span>;</span><br><span class="line"><span class="type">float</span> *device_output_array = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaMalloc</span>(&amp;device_input_array, num_bytes);</span><br><span class="line"><span class="built_in">cudaMalloc</span>(&amp;device_output_array, num_bytes);</span><br><span class="line"></span><br><span class="line"><span class="comment">//....</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cudaFree</span>(device_input_array);</span><br><span class="line"><span class="built_in">cudaFree</span>(device_output_array);</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Implement-the-Kernel-Function"><a href="#Implement-the-Kernel-Function" class="headerlink" title="Implement the Kernel Function"></a>Implement the Kernel Function</h2><p>Example:</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">host_recurrence</span><span class="params">(vec &amp;input_array, vec &amp;output_array, <span class="type">size_t</span> num_iter,</span></span></span><br><span class="line"><span class="params"><span class="function">                     <span class="type">size_t</span> array_size)</span> </span>{</span><br><span class="line">  std::<span class="built_in">transform</span>(input_array.<span class="built_in">begin</span>(), input_array.<span class="built_in">begin</span>() + array_size,</span><br><span class="line">                 output_array.<span class="built_in">begin</span>(), [&amp;num_iter](elem_type &amp;constant) {</span><br><span class="line">                   elem_type z = <span class="number">0</span>;</span><br><span class="line">                   <span class="keyword">for</span> (<span class="type">size_t</span> it = <span class="number">0</span>; it &lt; num_iter; it++) {</span><br><span class="line">                     z = z * z + constant;</span><br><span class="line">                   }</span><br><span class="line">                   <span class="keyword">return</span> z;</span><br><span class="line">                 });</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
+
+<p>to</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__global__ <span class="type">void</span> <span class="title">recurrence</span><span class="params">(<span class="type">const</span> elem_type *input_array,</span></span></span><br><span class="line"><span class="params"><span class="function">                           elem_type *output_array, <span class="type">size_t</span> num_iter,</span></span></span><br><span class="line"><span class="params"><span class="function">                           <span class="type">size_t</span> array_length)</span> </span>{</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> xid = blockIdx.x * blockDim.x + threadIdx.x; xid &lt; array_length;</span><br><span class="line">       xid += blockDim.x * gridDim.x) {</span><br><span class="line">    elem_type z = <span class="number">0</span>;</span><br><span class="line">    elem_type constant = input_array[xid];</span><br><span class="line">    <span class="type">int</span> it = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (it &lt; num_iter) {</span><br><span class="line">      z = z * z + constant;</span><br><span class="line">      it++;</span><br><span class="line">    }</span><br><span class="line">    output_array[xid] = z;</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Launch-the-Kernel"><a href="#Launch-the-Kernel" class="headerlink" title="Launch the Kernel"></a>Launch the Kernel</h2><p>Example:</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">recurrence&lt;&lt;&lt;grid_size, block_size&gt;&gt;&gt;(d_input, d_output, num_iter,</span><br><span class="line">                                        array_length);</span><br></pre></td></tr></table></figure></div>
 
 
 
+<h2 id="Calculate-Time"><a href="#Calculate-Time" class="headerlink" title="Calculate Time"></a>Calculate Time</h2><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cuda_runtime.h&gt;</span></span></span><br></pre></td></tr></table></figure></div>
 
-<h1 id="AJE-Tips-for-Publication-Success"><a href="#AJE-Tips-for-Publication-Success" class="headerlink" title="AJE Tips for Publication Success"></a>AJE Tips for Publication Success</h1>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">event_pair</span> </span><br><span class="line">{</span><br><span class="line">    cudaEvent_t start;</span><br><span class="line">    cudaEvent_t end;</span><br><span class="line">} event_pair;</span><br></pre></td></tr></table></figure></div>
 
-	<div class="row">
-    <embed src="/pdf/paper_beautification/AJE-publication-tips-handout11.pdf" width="100%" height="550" type="application/pdf">
-	</div>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">start_timer</span><span class="params">(event_pair *p)</span> </span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="built_in">cudaEventCreate</span>(&amp;p-&gt;start);</span><br><span class="line">    <span class="built_in">cudaEventCreate</span>(&amp;p-&gt;end);</span><br><span class="line">    <span class="built_in">cudaEventRecord</span>(p-&gt;start, <span class="number">0</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">double</span> <span class="title">stop_timer</span><span class="params">(event_pair* p)</span> </span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="built_in">cudaEventRecord</span>(p-&gt;end, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cudaEventSynchronize</span>(p-&gt;end);</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> elapsed_time;</span><br><span class="line">    <span class="built_in">cudaEventElapsedTime</span>(&amp;elapsed_time, p-&gt;start, p-&gt;end);</span><br><span class="line">    <span class="built_in">cudaEventDestroy</span>(p-&gt;start);</span><br><span class="line">    <span class="built_in">cudaEventDestroy</span>(p-&gt;end);</span><br><span class="line">    <span class="keyword">return</span> elapsed_time;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
-
-
-<h1 id="Peer-Review-Survival-Skills"><a href="#Peer-Review-Survival-Skills" class="headerlink" title="Peer Review Survival Skills"></a>Peer Review Survival Skills</h1>
-
-	<div class="row">
-    <embed src="/pdf/paper_beautification/PeerReviewSurvivalSkills_E-handbook1.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
+<h2 id="GPU-Error-Checking"><a href="#GPU-Error-Checking" class="headerlink" title="GPU Error Checking"></a>GPU Error Checking</h2><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">check_launch</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* kernel_name)</span> </span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="built_in">cudaDeviceSynchronize</span>();</span><br><span class="line">    cudaError_t err = <span class="built_in">cudaGetLastError</span>();</span><br><span class="line">    <span class="keyword">if</span> (err == cudaSuccess)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    std::cerr &lt;&lt; <span class="string">"Error in "</span> &lt;&lt; kernel_name &lt;&lt; <span class="string">" kernel"</span> &lt;&lt; std::endl;</span><br><span class="line">    std::cerr &lt;&lt; <span class="string">"Error was: "</span> &lt;&lt; <span class="built_in">cudaGetErrorString</span>(err) &lt;&lt; std::endl;</span><br><span class="line">    std::<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
 
         </div>
@@ -560,35 +606,28 @@ mjx-container[display="true"] + br {
         
 
         
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/Performance-Optimization/">#Performance Optimization</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
 
         
 
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                        rel="prev"
-                        href="/2023/10/17/mit-6-172-12/"
-                        >
-                            <span class="left arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Parallel Storage Allocation</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                         rel="next"
-                        href="/2023/10/16/cme213-1/"
+                        href="/2024/01/11/gnn-3/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">C++ Code Notes of Homework in CME 213</span>
+                                <span class="post-nav-title-item">Link Analysis: PageRank</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -609,8 +648,8 @@ mjx-container[display="true"] + br {
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">Three Paper Guidances</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CHECKLIST-MANUSCRIPT-CONSISTENCY"><span class="nav-text">CHECKLIST: MANUSCRIPT CONSISTENCY</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AJE-Tips-for-Publication-Success"><span class="nav-text">AJE Tips for Publication Success</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Peer-Review-Survival-Skills"><span class="nav-text">Peer Review Survival Skills</span></a></li></ol>
+        <div class="page-title">Cuda Note in CME213 HW3</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Brief-Summary"><span class="nav-text">Brief Summary</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-Details"><span class="nav-text">Code Details</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Initialize-Context"><span class="nav-text">Initialize Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Allocate-memory-to-the-device-arrays"><span class="nav-text">Allocate memory to the device arrays</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implement-the-Kernel-Function"><span class="nav-text">Implement the Kernel Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Launch-the-Kernel"><span class="nav-text">Launch the Kernel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calculate-Time"><span class="nav-text">Calculate Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-Error-Checking"><span class="nav-text">GPU Error Checking</span></a></li></ol></li></ol>
 
     </div>
 </div>
