@@ -1924,4 +1924,44 @@ return result
         <tag>Performance Optimization</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Machine Learning System学习路线汇总</title>
+    <url>/2024/03/20/mlsys-1/</url>
+    <content><![CDATA[<div class="note-large yellow"><div class="notel-title"><p>ML-system入坑指南</p>
+</div><div class="notel-content"><p><a href="https://fazzie-key.cool/2023/02/21/MLsys/"><strong>Prof Yang You 的 HPC-AI lab中的学生给出的ML System入坑指南</strong></a></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>图解大模型训练系列</p>
+</div><div class="notel-content"><p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/613196255">图解大模型训练之：流水线并行（Pipeline Parallelism），以Gpipe为例 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/617133971">猛猿：图解大模型训练之：数据并行上篇(DP, DDP与ZeRO) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/618865052">猛猿：图解大模型训练之：数据并行下篇(ZeRO，零冗余优化) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/622212228">猛猿：图解大模型系列之：张量模型并行，Megatron-LM <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/629121480">猛猿：图解大模型系列之：Megatron源码解读1，分布式环境初始化 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/634377071">猛猿：图解大模型训练之：Megatron源码解读2，模型并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>分布式训练技术分享系列</p>
+</div><div class="notel-content"><p><a href="https://zhuanlan.zhihu.com/p/596296179"><strong>聊聊PyTorch的ZeroRedundancyOptimizer优化器</strong></a></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/615754302">聊聊 PyTorch2.0 中新的Distributed API <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/628232317"><strong>聊聊 Hugging face 模型 + LoRA 低秩矩阵分解的使用</strong></a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/653067104"><strong>聊聊序列并行Sequence parallelism</strong></a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/670301574"><strong>聊聊 Zero Bubble Pipeline Parallelism</strong></a></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/681775092">聊聊 PyTorch 中新的Distributed API （二） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/684619370">聊聊字节 AML 万卡工作 MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>大模型分布式训练并行技术</p>
+</div><div class="notel-content"><p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/598714869">大模型分布式训练并行技术（一）-概述 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/650002268">大模型分布式训练并行技术（二）-数据并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/653860567">大模型分布式训练并行技术（三）-流水线并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/657921100">大模型分布式训练并行技术（四）-张量并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/659792351">大模型分布式训练并行技术（五）-序列并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/661279318">大模型分布式训练并行技术（六）-多维混合并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/662517647">大模型分布式训练并行技术（七）-自动并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/662518387">大模型分布式训练并行技术（八）-MOE并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<p><strong><a class="link" href="https://link.zhihu.com/?target=https://juejin.cn/post/7290740395913969705">大模型分布式训练并行技术（九）-总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div></div>
+
+]]></content>
+  </entry>
 </search>

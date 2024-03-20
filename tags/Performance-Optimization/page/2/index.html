@@ -330,53 +330,36 @@
             <div class="main-content">
 
                 
-                    <div class="tag-container">
-	<div class="tag-name">
-		<i class="fa-solid fa-tag"></i>&nbsp;Performance Optimization
-	</div>
-	<div class="tag-post-list">
-		
-<div class="archive-list-container">
-    
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2023</span>
-                <span class="archive-year-post-count">[3]</span>
-            </div>
-            <ul class="article-list">
-              
-              <li class="article-item" date-is='01-08'>
-                <a href="/2023/01/08/mit-6-172-3/">
-                  <span class="article-title">Bit Hacks</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-07'>
-                <a href="/2023/01/07/mit-6-172-2/">
-                  <span class="article-title">Bentley Rules for Optimizing Work</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-05'>
-                <a href="/2023/01/05/mit-6-172-1/">
-                  <span class="article-title">Introduction and Matrix Multiplication</span>
-                </a>
-              </li>
-              
-            </ul>
-        </section>
-    
-</div>
+                    @import '../common/variables'
 
-	</div>
-</div>
+$tag-name-font-size = 3rem
 
-<div class="tag-paginator">
-	<div class="paginator">
-    <a class="extend prev" rel="prev" href="/tags/Performance-Optimization/"><i class="fa-regular fa-angle-left"></i></a><a class="page-number" href="/tags/Performance-Optimization/">1</a><span class="page-number current">2</span>
-</div>
+.tag-container
+  redefine-container(
+    false,
+    0,
+    0,
+    30px,
+    30px
+  )
 
-</div>
+  .tag-name
+    color var(--second-text-color)
+    font-size $tag-name-font-size
+
+    i
+      color var(--second-text-color)
+
+    +redefine-tablet()
+      font-size: $tag-name-font-size * 0.9
+
+    +redefine-mobile()
+      font-size: $tag-name-font-size * 0.8
+
+    font-weight 600
+    padding-bottom 20px
+    margin-bottom $spacing-unit
+    border-bottom 1px solid var(--shadow-color-1)
 
 
                 
