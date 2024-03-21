@@ -1927,7 +1927,17 @@ return result
   <entry>
     <title>Machine Learning System学习路线汇总</title>
     <url>/2024/03/20/mlsys-1/</url>
-    <content><![CDATA[<div class="note-large yellow"><div class="notel-title"><p>ML-system入坑指南</p>
+    <content><![CDATA[<div class="note-large yellow"><div class="notel-title"><p>pytroch</p>
+</div><div class="notel-content"><p><a class="link" href="https://link.zhihu.com/?target=https://zh-v2.d2l.ai/">动手学深度学习 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>transformer</p>
+</div><div class="notel-content"><p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">李沐Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://www.youtube.com/watch?v=U0s0f995w14&t=824s">Pytorch Transformers from Scratch (Attention is all you need) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/more_advanced/transformer_from_scratch/transformer_from_scratch.py">对应源码 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>ML-system入坑指南</p>
 </div><div class="notel-content"><p><a href="https://fazzie-key.cool/2023/02/21/MLsys/"><strong>Prof Yang You 的 HPC-AI lab中的学生给出的ML System入坑指南</strong></a></p>
 </div></div>
 
@@ -1961,6 +1971,8 @@ return result
 <p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/662518387">大模型分布式训练并行技术（八）-MOE并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 <p><strong><a class="link" href="https://link.zhihu.com/?target=https://juejin.cn/post/7290740395913969705">大模型分布式训练并行技术（九）-总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 </div></div>
+
+
 
 ]]></content>
   </entry>
