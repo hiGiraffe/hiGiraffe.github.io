@@ -1928,7 +1928,20 @@ return result
     <title>Machine Learning System学习路线汇总</title>
     <url>/2024/03/20/mlsys-1/</url>
     <content><![CDATA[<div class="note-large yellow"><div class="notel-title"><p>pytroch</p>
-</div><div class="notel-content"><p><a class="link" href="https://link.zhihu.com/?target=https://zh-v2.d2l.ai/">动手学深度学习 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><p><a class="link" href="https://zh-v2.d2l.ai/">动手学深度学习 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div></div>
+
+<div class="note-large yellow"><div class="notel-title"><p>童哥指定NLP学习路线</p>
+</div><div class="notel-content"><p><a class="link" href="https://www.zhihu.com/question/314879954/answer/2789242624">如何自己从零实现一个神经网络? <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/123211148">史上最详细循环神经网络讲解（RNN/LSTM/GRU） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/28054589">完全图解RNN、RNN变体、Seq2Seq、Attention机制 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/226048698">从零开始实现循环神经网络（无框架） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/261059231">损失函数（Loss Function） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/422542949">从0开始词嵌入（Word embedding） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/32829048">自然语言处理中N-Gram模型介绍 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/26306795"> 秒懂词向量Word2vec的本质 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1P3411y7nn/">ResNet论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>transformer</p>
