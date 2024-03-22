@@ -13,18 +13,27 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://higiraffe.github.io/archives/2023/02/"/>
+    <link rel="canonical" href="https://higiraffe.github.io/2024/03/22/nlp-3/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta property="og:type" content="website">
-<meta property="og:title" content="HiGiraffe">
-<meta property="og:url" content="https://higiraffe.github.io/archives/2023/02/index.html">
+        <meta property="og:type" content="article">
+<meta property="og:title" content="【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制">
+<meta property="og:url" content="https://higiraffe.github.io/2024/03/22/nlp-3/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/1">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/2">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/3">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/4">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/5">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-3/6">
+<meta property="article:published_time" content="2024-03-22T02:13:36.000Z">
+<meta property="article:modified_time" content="2024-03-22T02:24:06.823Z">
 <meta property="article:author" content="Julian">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://higiraffe.github.io/images/nlp-3/1">
     
     
     <!--- Icon Part-->
@@ -36,7 +45,7 @@
     
     <title>
         
-            Archive: 2023/2 -
+            【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制 -
         
         HiGiraffe
     </title>
@@ -98,7 +107,119 @@
     
     
     
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -330,189 +451,147 @@
             <div class="main-content">
 
                 
-                    <div class="archive-container ">
-    
-<div class="archive-list-container">
-    
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2024</span>
-                <span class="archive-year-post-count">[11]</span>
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制</h1>
+            
             </div>
-            <ul class="article-list">
-              
-              <li class="article-item" date-is='03-22'>
-                <a href="/2024/03/22/nlp-3/">
-                  <span class="article-title">【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-21'>
-                <a href="/2024/03/21/nlp-2/">
-                  <span class="article-title">【学习笔记】史上最详细循环神经网络讲解（RNN/LSTM/GRU）</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-21'>
-                <a href="/2024/03/21/nlp-1/">
-                  <span class="article-title">【学习笔记】如何从头实现一个神经网络</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-20'>
-                <a href="/2024/03/20/mlsys-1/">
-                  <span class="article-title">Machine Learning System学习路线汇总</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-03'>
-                <a href="/2024/03/03/drawing-1/">
-                  <span class="article-title">Scientific Research Drawing Tools</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-03'>
-                <a href="/2024/03/03/graph-4/">
-                  <span class="article-title">Fast Subgraph Matching on Large Graphs using Graphics Processors</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-17'>
-                <a href="/2024/01/17/cuda-2/">
-                  <span class="article-title">Cuda Note in CME213 HW3</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-11'>
-                <a href="/2024/01/11/gnn-3/">
-                  <span class="article-title">Link Analysis: PageRank</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-11'>
-                <a href="/2024/01/11/gnn-2/">
-                  <span class="article-title">Node Embeddings</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-05'>
-                <a href="/2024/01/05/lmm-2/">
-                  <span class="article-title">Neural_Network_Basis</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-03'>
-                <a href="/2024/01/03/lmm-1/">
-                  <span class="article-title">NLP_BM_Basic</span>
-                </a>
-              </li>
-              
-            </ul>
-        </section>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/146565245?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Julian</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-03-22 10:13:36</span>
+        <span class="mobile">2024-03-22 10:13:36</span>
+        <span class="hover-info">Created</span>
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2023</span>
-                <span class="archive-year-post-count">[15]</span>
-            </div>
-            <ul class="article-list">
-              
-              <li class="article-item" date-is='12-13'>
-                <a href="/2023/12/13/gnn-1/">
-                  <span class="article-title">Traditional Methods for ML on Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-27'>
-                <a href="/2023/10/27/graph-3/">
-                  <span class="article-title">Efficient Multi-GPU Graph Processing with Remote Work Stealing</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-26'>
-                <a href="/2023/10/26/cuda-1/">
-                  <span class="article-title">Cuda Programming Model Notes</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/graph-2/">
-                  <span class="article-title">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/mit-6-172-12/">
-                  <span class="article-title">Parallel Storage Allocation</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/thesis-1/">
-                  <span class="article-title">Three Paper Guidances</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-16'>
-                <a href="/2023/10/16/cme213-1/">
-                  <span class="article-title">C++ Code Notes of Homework in CME 213</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-11'>
-                <a href="/2023/10/11/graph/">
-                  <span class="article-title">VSGM:View-Based GPU-Accelerated Subgraph Matching on Large Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-03'>
-                <a href="/2023/10/03/dl-systems-1/">
-                  <span class="article-title">ML Refresher / Softmax Regression</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='07-03'>
-                <a href="/2023/07/03/openmp/">
-                  <span class="article-title">OpenMp优化方法</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='06-01'>
-                <a href="/2023/06/01/pv/">
-                  <span class="article-title">PV操作笔记</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='02-15'>
-                <a href="/2023/02/15/mit-6-172-hw2/">
-                  <span class="article-title">HW:Profiling Serial MergeSort</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-08'>
-                <a href="/2023/01/08/mit-6-172-3/">
-                  <span class="article-title">Bit Hacks</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-07'>
-                <a href="/2023/01/07/mit-6-172-2/">
-                  <span class="article-title">Bentley Rules for Optimizing Work</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-05'>
-                <a href="/2023/01/05/mit-6-172-1/">
-                  <span class="article-title">Introduction and Matrix Multiplication</span>
-                </a>
-              </li>
-              
-            </ul>
-        </section>
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-03-22 10:24:06</span>
+            <span class="mobile">2024-03-22 10:24:06</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
     
 </div>
 
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <p><a class="link" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28054589">原文链接 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<ul>
+<li><h1 id="单层网络"><a href="#单层网络" class="headerlink" title="单层网络"></a>单层网络</h1><blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/1" alt="img"></p>
+</blockquote>
+</li>
+<li><h1 id="经典的RNN结构（N-vs-N）"><a href="#经典的RNN结构（N-vs-N）" class="headerlink" title="经典的RNN结构（N vs N）"></a>经典的RNN结构（N vs N）</h1><blockquote>
+<p>用于处理序列</p>
+<p>图示中记号的含义是：</p>
+<ul>
+<li><strong>圆圈或方块表示的是向量。</strong></li>
+<li><strong>一个箭头就表示对该向量做一次变换。如下图中<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="2.291ex" height="1.945ex" role="img" focusable="false" viewBox="0 -694 1012.6 859.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="210E" d="M137 683Q138 683 209 688T282 694Q294 694 294 685Q294 674 258 534Q220 386 220 383Q220 381 227 388Q288 442 357 442Q411 442 444 415T478 336Q478 285 440 178T402 50Q403 36 407 31T422 26Q450 26 474 56T513 138Q516 149 519 151T535 153Q555 153 555 145Q555 144 551 130Q535 71 500 33Q466 -10 419 -10H414Q367 -10 346 17T325 74Q325 90 361 192T398 345Q398 404 354 404H349Q266 404 205 306L198 293L164 158Q132 28 127 16Q114 -11 83 -11Q69 -11 59 -2T48 16Q48 30 121 320L195 616Q195 629 188 632T149 637H128Q122 643 122 645T124 664Q129 683 137 683Z"></path></g><g data-mml-node="mn" transform="translate(609,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></g></g></g></g></svg></mjx-container>和<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.339ex;" xmlns="http://www.w3.org/2000/svg" width="2.282ex" height="1.339ex" role="img" focusable="false" viewBox="0 -442 1008.6 592"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(605,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></g></svg></mjx-container>分别有一个箭头连接，就表示对<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="2.291ex" height="1.945ex" role="img" focusable="false" viewBox="0 -694 1012.6 859.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="210E" d="M137 683Q138 683 209 688T282 694Q294 694 294 685Q294 674 258 534Q220 386 220 383Q220 381 227 388Q288 442 357 442Q411 442 444 415T478 336Q478 285 440 178T402 50Q403 36 407 31T422 26Q450 26 474 56T513 138Q516 149 519 151T535 153Q555 153 555 145Q555 144 551 130Q535 71 500 33Q466 -10 419 -10H414Q367 -10 346 17T325 74Q325 90 361 192T398 345Q398 404 354 404H349Q266 404 205 306L198 293L164 158Q132 28 127 16Q114 -11 83 -11Q69 -11 59 -2T48 16Q48 30 121 320L195 616Q195 629 188 632T149 637H128Q122 643 122 645T124 664Q129 683 137 683Z"></path></g><g data-mml-node="mn" transform="translate(609,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></g></g></g></g></svg></mjx-container>和<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.339ex;" xmlns="http://www.w3.org/2000/svg" width="2.282ex" height="1.339ex" role="img" focusable="false" viewBox="0 -442 1008.6 592"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(605,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></g></svg></mjx-container>各做了一次变换。</strong></li>
+</ul>
+<p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.339ex;" xmlns="http://www.w3.org/2000/svg" width="2.291ex" height="1.91ex" role="img" focusable="false" viewBox="0 -694 1012.6 844"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="210E" d="M137 683Q138 683 209 688T282 694Q294 694 294 685Q294 674 258 534Q220 386 220 383Q220 381 227 388Q288 442 357 442Q411 442 444 415T478 336Q478 285 440 178T402 50Q403 36 407 31T422 26Q450 26 474 56T513 138Q516 149 519 151T535 153Q555 153 555 145Q555 144 551 130Q535 71 500 33Q466 -10 419 -10H414Q367 -10 346 17T325 74Q325 90 361 192T398 345Q398 404 354 404H349Q266 404 205 306L198 293L164 158Q132 28 127 16Q114 -11 83 -11Q69 -11 59 -2T48 16Q48 30 121 320L195 616Q195 629 188 632T149 637H128Q122 643 122 645T124 664Q129 683 137 683Z"></path></g><g data-mml-node="mn" transform="translate(609,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></g></svg></mjx-container>的计算</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/2" alt="img"></p>
+<p>h2的计算和h1类似。要注意的是，在计算时，<strong>每一步使用的参数U、W、b都是一样的，也就是说每个步骤的参数都是共享的，这是RNN的重要特点，一定要牢记。</strong></p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/3" alt="img"></p>
+<p>依次计算剩下来的</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/4" alt="img"></p>
+<p>得到输出值的方法就是直接通过h进行计算</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/5" alt="img"></p>
+<p><strong>一个箭头就表示对对应的向量做一次类似于f(Wx+b)的变换，这里的这个箭头就表示对h1进行一次变换，得到输出y1。</strong></p>
+<p>剩下的输出类似进行（使用和y1同样的参数V和c）：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-3/6" alt="img"></p>
+<p>这就是最经典的RNN结构，我们像搭积木一样把它搭好了。它的输入是x1, x2, …..xn，输出为y1, y2, …yn，也就是说，<strong>输入和输出序列必须要是等长的</strong>。</p>
+<p>由于这个限制的存在，经典RNN的适用范围比较小，但也有一些问题适合用经典的RNN结构建模，如：</p>
+<ul>
+<li>计算视频中每一帧的分类标签。因为要对每一帧进行计算，因此输入和输出序列等长。</li>
+<li>输入为字符，输出为下一个字符的概率。这就是著名的Char RNN（详细介绍请参考：<a class="link" href="https://link.zhihu.com/?target=http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，Char RNN可以用来生成文章，诗歌，甚至是代码，非常有意思）。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/03/21/nlp-2/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">【学习笔记】史上最详细循环神经网络讲解（RNN/LSTM/GRU）</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%B1%82%E7%BD%91%E7%BB%9C"><span class="nav-text">单层网络</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E7%9A%84RNN%E7%BB%93%E6%9E%84%EF%BC%88N-vs-N%EF%BC%89"><span class="nav-text">经典的RNN结构（N vs N）</span></a></li></ol>
+
+    </div>
 </div>
+        </div>
+    
+</div>
+
+
 
                 
 
@@ -569,6 +648,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-side-tools-container">
