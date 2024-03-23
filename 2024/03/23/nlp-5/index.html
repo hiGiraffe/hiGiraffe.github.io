@@ -13,18 +13,31 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://higiraffe.github.io/page/3/"/>
+    <link rel="canonical" href="https://higiraffe.github.io/2024/03/23/nlp-5/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta property="og:type" content="website">
-<meta property="og:title" content="HiGiraffe">
-<meta property="og:url" content="https://higiraffe.github.io/page/3/index.html">
+        <meta property="og:type" content="article">
+<meta property="og:title" content="【学习笔记】损失函数（Loss Function）">
+<meta property="og:url" content="https://higiraffe.github.io/2024/03/23/nlp-5/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/1">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/2">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/3">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/4">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/5">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/6">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/7">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/8">
+<meta property="og:image" content="https://higiraffe.github.io/images/nlp-5/9">
+<meta property="article:published_time" content="2024-03-23T13:15:44.000Z">
+<meta property="article:modified_time" content="2024-03-23T13:47:59.680Z">
 <meta property="article:author" content="Julian">
+<meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://higiraffe.github.io/images/nlp-5/1">
     
     
     <!--- Icon Part-->
@@ -35,6 +48,8 @@
     <!--- Page Info-->
     
     <title>
+        
+            【学习笔记】损失函数（Loss Function） -
         
         HiGiraffe
     </title>
@@ -229,39 +244,6 @@ mjx-container[display="true"] + br {
 <main class="page-container" id="swup">
 
     
-        <style>
-    .home-article-item,
-    .sidebar-links,
-    .sidebar-content,
-    a.page-number,
-    a.extend,
-    .sidebar-links .links:hover,
-    .right-bottom-tools,
-    footer.footer {
-        background-color: var(--background-color-transparent-80) !important;
-    }
-    .right-bottom-tools:hover,
-    a.page-number:hover,
-    a.extend:hover {
-        background-color: var(--primary-color) !important;
-    }
-    .site-info,
-    .home-article-sticky-label {
-        background-color: var(--background-color-transparent-15) !important;
-    }
-    .home-article-sticky-label {
-        backdrop-filter: none !important;
-    }
-    .home-banner-background {
-        filter: blur(15px);
-    }
-</style>
-
-<div class="home-banner-background">
-</div>
-
-
-    
 
     <div class="main-content-container">
 
@@ -273,9 +255,9 @@ mjx-container[display="true"] + br {
         <div class="left">
             
             <a class="logo-title" href="https://higiraffe.github.io/">
-                <h1>
+                
                 HiGiraffe
-                </h1>
+                
             </a>
         </div>
 
@@ -287,7 +269,7 @@ mjx-container[display="true"] + br {
                         
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="active" 
+                                <a class="" 
                                     href="/"  >
                                     
                                         
@@ -387,7 +369,7 @@ mjx-container[display="true"] + br {
             
                 
                     <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
-                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group active" 
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
                         href="/"  >
                              
                                 
@@ -469,88 +451,60 @@ mjx-container[display="true"] + br {
         <div class="main-content-body">
 
             
-                <div class="home-sidebar-container">
-    <div class="sticky-container">
-        
-            
-            <div class="sidebar-content" >
-                <div class="avatar">
-                    <img src="https://avatars.githubusercontent.com/u/146565245?v=4">
-                </div>
-                <div class="author">
-                    <div class="name">Julian</div>
-                    
-                        <div class="label">Lv3</div>
-                    
-                </div>
-                <div class="statistics">
-                    <a class="item" href="/tags">
-                        <div class="number">3</div>
-                        <div class="label">Tags</div>
-                    </a>
-                    <a class="item" href="/categories">
-                        <div class="number">16</div>
-                        <div class="label">Categories</div>
-                    </a>
-                    <a class="item" href="/archives">
-                        <div class="number">28</div>
-                        <div class="label">Posts</div>
-                    </a>
-                </div>
-            </div>
-        
-
-    </div>
-</div>
-
-            
 
             <div class="main-content">
 
                 
-                    <div class="home-content-container">
-    <ul class="home-article-list">
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">【学习笔记】损失函数（Loss Function）</h1>
+            
+            </div>
+            
+                    
         
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/10/11/graph/">
-                        VSGM:View-Based GPU-Accelerated Subgraph Matching on Large Graphs
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>A paper at the SC 2022 conference.</p>
-
-                    
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/146565245?v=4">
                 </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Wed Oct 11 2023 23:30:16 GMT+0800">
-                
-                    2023-10-11
-                
-            </span>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Julian</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-03-23 21:15:44</span>
+        <span class="mobile">2024-03-23 21:15:44</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-03-23 21:47:59</span>
+            <span class="mobile">2024-03-23 21:47:59</span>
+            <span class="hover-info">Updated</span>
         </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
             <ul>
                 
                 
                     
                         
                         <li>
-                            <a href="/categories/Research/">Research</a>&nbsp;
+                            <a href="/categories/AI/">AI</a>&nbsp;
                         </li>
                     
                     
@@ -560,582 +514,164 @@ mjx-container[display="true"] + br {
                             <li>></li>
                         
                         <li>
-                            <a href="/categories/Research/Subgraph-Matching/">Subgraph Matching</a>&nbsp;
+                            <a href="/categories/AI/Basic-Knowledge-Study-Notes/">Basic Knowledge Study Notes</a>&nbsp;
                         </li>
                     
                     
                 
             </ul>
         </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/10/11/graph/">Read more<span class="seo-reader-text">VSGM:View-Based GPU-Accelerated Subgraph Matching on Large Graphs</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/10/03/dl-systems-1/">
-                        ML Refresher / Softmax Regression
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>Lecture 2 in CME 10-414, Deep Learning Systems.</p>
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Oct 03 2023 12:07:41 GMT+0800">
-                
-                    2023-10-03
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
             <ul>
                 
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/CME-10-414-Deep-Learning-Systems/">CME 10-414:Deep Learning Systems</a>&nbsp;
-                        </li>
-                    
-                    
+                    <li>
+                        <a href="/tags/Artificial-Intelligence/">Artificial Intelligence</a>&nbsp;
+                    </li>
                 
             </ul>
         </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Artificial-Intelligence/">Artificial Intelligence</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
+    
 
-    <a href="/2023/10/03/dl-systems-1/">Read more<span class="seo-reader-text">ML Refresher / Softmax Regression</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    
+    
+    
+    
 </div>
 
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/07/03/openmp/">
-                        OpenMp优化方法
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-                    
+                    </div>
                 </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Jul 03 2023 00:00:00 GMT+0800">
-                
-                    2023-07-03
-                
-            </span>
-        </span>
+            </div>
         
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
+
+        
+
+
+        <div class="article-content markdown-body">
+            <p><a class="link" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/261059231">原文链接 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.726ex" height="1.545ex" role="img" focusable="false" viewBox="0 -683 763 683"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D44C" d="M66 637Q54 637 49 637T39 638T32 641T30 647T33 664T42 682Q44 683 56 683Q104 680 165 680Q288 680 306 683H316Q322 677 322 674T320 656Q316 643 310 637H298Q242 637 242 624Q242 619 292 477T343 333L346 336Q350 340 358 349T379 373T411 410T454 461Q546 568 561 587T577 618Q577 634 545 637Q528 637 528 647Q528 649 530 661Q533 676 535 679T549 683Q551 683 578 682T657 680Q684 680 713 681T746 682Q763 682 763 673Q763 669 760 657T755 643Q753 637 734 637Q662 632 617 587Q608 578 477 424L348 273L322 169Q295 62 295 57Q295 46 363 46Q379 46 384 45T390 35Q390 33 388 23Q384 6 382 4T366 1Q361 1 324 1T232 2Q170 2 138 2T102 1Q84 1 84 9Q84 14 87 24Q88 27 89 30T90 35T91 39T93 42T96 44T101 45T107 45T116 46T129 46Q168 47 180 50T198 63Q201 68 227 171L252 274L129 623Q128 624 127 625T125 627T122 629T118 631T113 633T105 634T96 635T83 636T66 637Z"></path></g></g></g></svg></mjx-container>表示真实值，<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="4.299ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 1900 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D453" d="M118 -162Q120 -162 124 -164T135 -167T147 -168Q160 -168 171 -155T187 -126Q197 -99 221 27T267 267T289 382V385H242Q195 385 192 387Q188 390 188 397L195 425Q197 430 203 430T250 431Q298 431 298 432Q298 434 307 482T319 540Q356 705 465 705Q502 703 526 683T550 630Q550 594 529 578T487 561Q443 561 443 603Q443 622 454 636T478 657L487 662Q471 668 457 668Q445 668 434 658T419 630Q412 601 403 552T387 469T380 433Q380 431 435 431Q480 431 487 430T498 424Q499 420 496 407T491 391Q489 386 482 386T428 385H372L349 263Q301 15 282 -47Q255 -132 212 -173Q175 -205 139 -205Q107 -205 81 -186T55 -132Q55 -95 76 -78T118 -61Q162 -61 162 -103Q162 -122 151 -136T127 -157L118 -162Z"></path></g><g data-mml-node="mo" transform="translate(550,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(939,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mo" transform="translate(1511,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>表示预测值</p>
+<ul>
+<li><h1 id="基于距离度量的损失函数"><a href="#基于距离度量的损失函数" class="headerlink" title="基于距离度量的损失函数"></a>基于距离度量的损失函数</h1><ul>
+<li><h2 id="均方误差损失函数（MSE）"><a href="#均方误差损失函数（MSE）" class="headerlink" title="均方误差损失函数（MSE）"></a>均方误差损失函数（MSE）</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/1" alt="image-20240323214353557"></p>
+<p>在回归问题中，均方误差损失函数用于度量样本点到回归曲线的距离，通过最小化平方损失使样本点可以更好地拟合回归曲线。均方误差损失函数（MSE）的值越小，表示预测模型描述的样本数据具有越好的精确度。尽管MSE在图像和语音处理方面表现较弱，但它仍是评价信号质量的标准，在回归问题中，MSE常被作为模型的经验损失或算法的性能指标。</p>
+</blockquote>
+</li>
+<li><h2 id="L2损失函数"><a href="#L2损失函数" class="headerlink" title="L2损失函数"></a>L2损失函数</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/2" alt="image-20240323214416633"></p>
+<p>L2损失又被称为欧氏距离，是一种常用的距离度量方法，通常用于度量数据点之间的相似度。由于L2损失具有凸性和可微性，且在独立、同分布的高斯噪声情况下，它能提供最大似然估计，使得它成为回归问题、模式识别、图像处理中最常使用的损失函数。</p>
+</blockquote>
+</li>
+<li><h2 id="L1损失函数"><a href="#L1损失函数" class="headerlink" title="L1损失函数"></a>L1损失函数</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/3" alt="image-20240323214430371"></p>
+<p>L1损失又称为曼哈顿距离，表示残差的绝对值之和。L1损失函数对离群点有很好的鲁棒性，但它在残差为零处却不可导。另一个缺点是更新的梯度始终相同，也就是说，即使很小的损失值，梯度也很大，这样不利于模型的收敛。针对它的收敛问题，一般的解决办法是在优化算法中使用变化的学习率，在损失接近最小值时降低学习率。</p>
+</blockquote>
+</li>
+<li><h2 id="Smooth-L1损失函数"><a href="#Smooth-L1损失函数" class="headerlink" title="Smooth L1损失函数"></a>Smooth L1损失函数</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/4" alt="image-20240323214440699"></p>
+<p>Smooth L1损失是由Girshick R在Fast R-CNN中提出的，主要用在目标检测中防止梯度爆炸。</p>
+</blockquote>
+</li>
+<li><h2 id="huber损失函数"><a href="#huber损失函数" class="headerlink" title="huber损失函数"></a>huber损失函数</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/5" alt="image-20240323214454529"></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h1 id="基于概率分布度量的损失函数"><a href="#基于概率分布度量的损失函数" class="headerlink" title="基于概率分布度量的损失函数"></a>基于概率分布度量的损失函数</h1><ul>
+<li><h2 id="KL散度函数（相对熵）"><a href="#KL散度函数（相对熵）" class="headerlink" title="KL散度函数（相对熵）"></a>KL散度函数（相对熵）</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/6" alt="image-20240323214527780"></p>
+<p>KL散度（ Kullback-Leibler divergence）也被称为相对熵，是一种非对称度量方法，常用于度量两个概率分布之间的距离。KL散度也可以衡量两个随机分布之间的距离，两个随机分布的相似度越高的，它们的KL散度越小，当两个随机分布的差别增大时，它们的KL散度也会增大，因此KL散度可以用于比较文本标签或图像的相似性。基于KL散度的演化损失函数有JS散度函数。JS散度也称JS距离，用于衡量两个概率分布之间的相似度，它是基于KL散度的一种变形，消除了KL散度非对称的问题，与KL散度相比，它使得相似度判别更加准确。</p>
+<p>相对熵是恒大于等于0的。当且仅当两分布相同时，相对熵等于0。</p>
+</blockquote>
+</li>
+<li><h2 id="交叉熵损失"><a href="#交叉熵损失" class="headerlink" title="交叉熵损失"></a>交叉熵损失</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/7" alt="image-20240323214542781"></p>
+<p>交叉熵是信息论中的一个概念，最初用于估算平均编码长度，引入机器学习后，用于评估当前训练得到的概率分布与真实分布的差异情况。为了使神经网络的每一层输出从线性组合转为非线性逼近，以提高模型的预测精度，在以交叉熵为损失函数的神经网络模型中一般选用tanh、sigmoid、softmax或ReLU作为激活函数。</p>
+<p>交叉熵损失函数刻画了实际输出概率与期望输出概率之间的相似度，也就是交叉熵的值越小，两个概率分布就越接近，特别是在正负样本不均衡的分类问题中，常用交叉熵作为损失函数。目前，交叉熵损失函数是卷积神经网络中最常使用的分类损失函数，它可以有效避免梯度消散。在二分类情况下也叫做对数损失函数。</p>
+<p>当正负样本不均衡的时候，通常会在交叉熵损失函数类别前面加个参数α</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/8" alt="image-20240323214558874"></p>
+</blockquote>
+</li>
+<li><h2 id="softmax损失函数"><a href="#softmax损失函数" class="headerlink" title="softmax损失函数"></a>softmax损失函数</h2><blockquote>
+<p>公式：</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-5/9" alt="image-20240323214636120"></p>
+<p>从标准形式上看，softmax损失函数应归到对数损失的范畴，在监督学习中，由于它被广泛使用，所以单独形成一个类别。softmax损失函数本质上是逻辑回归模型在多分类任务上的一种延伸，常作为CNN模型的损失函数。softmax损失函数的本质是将一个k维的任意实数向量x映射成另一个k维的实数向量，其中，输出向量中的每个元素的取值范围都是(0,1)，即softmax损失函数输出每个类别的预测概率。由于softmax损失函数具有类间可分性，被广泛用于分类、分割、人脸识别、图像自动标注和人脸验证等问题中，其特点是类间距离的优化效果非常好，但类内距离的优化效果比较差。</p>
+<p>softmax损失函数具有类间可分性，在多分类和图像标注问题中，常用它解决特征分离问题。在基于卷积神经网络的分类问题中，一般使用softmax损失函数作为损失函数，但是softmax损失函数学习到的特征不具有足够的区分性，因此它常与对比损失或中心损失组合使用，以增强区分能力。</p>
+</blockquote>
+</li>
+<li><h2 id="Focal-loss"><a href="#Focal-loss" class="headerlink" title="Focal loss"></a>Focal loss</h2></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+
+        
+            <ul class="post-tags-box">
                 
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Performance-Optimization-Methods/">Performance Optimization Methods</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Performance-Optimization-Methods/OpenMp/">OpenMp</a>&nbsp;
-                        </li>
-                    
-                    
+                    <li class="tag-item">
+                        <a href="/tags/Artificial-Intelligence/">#Artificial Intelligence</a>&nbsp;
+                    </li>
                 
             </ul>
-        </span>
         
+
         
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
+
         
-    </div>
-
-    <a href="/2023/07/03/openmp/">Read more<span class="seo-reader-text">OpenMp优化方法</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/03/22/nlp-4/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">【学习笔记】从零开始实现循环神经网络（无框架）</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
         
-            <li class="home-article-item">
 
-                
 
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/06/01/pv/">
-                        PV操作笔记
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Jun 01 2023 00:39:43 GMT+0800">
-                
-                    2023-06-01
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/Operating-System/">Operating System</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Operating-System/">Operating System</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
         
     </div>
 
-    <a href="/2023/06/01/pv/">Read more<span class="seo-reader-text">PV操作笔记</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/02/15/mit-6-172-hw2/">
-                        HW:Profiling Serial MergeSort
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>Homework 2 in MIT 6.172,Performance Engineering Of Software Systems.</p>
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Wed Feb 15 2023 23:42:57 GMT+0800">
-                
-                    2023-02-15
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/MIT-6-172-Performance-Engineering-of-Software-Systems/">MIT 6.172:Performance Engineering of Software Systems</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/02/15/mit-6-172-hw2/">Read more<span class="seo-reader-text">HW:Profiling Serial MergeSort</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/01/08/mit-6-172-3/">
-                        Bit Hacks
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>Lecture 3 in MIT 6.172,Performance Engineering Of Software Systems.</p>
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sun Jan 08 2023 17:33:59 GMT+0800">
-                
-                    2023-01-08
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/MIT-6-172-Performance-Engineering-of-Software-Systems/">MIT 6.172:Performance Engineering of Software Systems</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/01/08/mit-6-172-3/">Read more<span class="seo-reader-text">Bit Hacks</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/01/07/mit-6-172-2/">
-                        Bentley Rules for Optimizing Work
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>Lecture 2 in MIT 6.172,Performance Engineering Of Software Systems.</p>
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sat Jan 07 2023 12:57:22 GMT+0800">
-                
-                    2023-01-07
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/MIT-6-172-Performance-Engineering-of-Software-Systems/">MIT 6.172:Performance Engineering of Software Systems</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/01/07/mit-6-172-2/">Read more<span class="seo-reader-text">Bentley Rules for Optimizing Work</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2023/01/05/mit-6-172-1/">
-                        Introduction and Matrix Multiplication
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        <p>Lecture 1 in MIT 6.172,Performance Engineering Of Software Systems.</p>
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Jan 05 2023 20:30:04 GMT+0800">
-                
-                    2023-01-05
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/Courses/">Courses</a>&nbsp;
-                        </li>
-                    
-                    
-                
-                    
-                        
-                            <li>></li>
-                        
-                        <li>
-                            <a href="/categories/Courses/MIT-6-172-Performance-Engineering-of-Software-Systems/">MIT 6.172:Performance Engineering of Software Systems</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/Performance-Optimization/">Performance Optimization</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/01/05/mit-6-172-1/">Read more<span class="seo-reader-text">Introduction and Matrix Multiplication</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-    </ul>
-
-    <div class="home-paginator">
-        <div class="paginator">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa-regular fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-</div>
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">【学习笔记】损失函数（Loss Function）</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">基于距离度量的损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88MSE%EF%BC%89"><span class="nav-text">均方误差损失函数（MSE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L2%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">L2损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L1%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">L1损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smooth-L1%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">Smooth L1损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#huber%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">huber损失函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83%E5%BA%A6%E9%87%8F%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">基于概率分布度量的损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#KL%E6%95%A3%E5%BA%A6%E5%87%BD%E6%95%B0%EF%BC%88%E7%9B%B8%E5%AF%B9%E7%86%B5%EF%BC%89"><span class="nav-text">KL散度函数（相对熵）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1"><span class="nav-text">交叉熵损失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-text">softmax损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Focal-loss"><span class="nav-text">Focal loss</span></a></li></ol></li></ol>
 
     </div>
 </div>
+        </div>
+    
+</div>
 
-                    <div class="comment-container pjax"></div>
+
+
                 
 
             </div>
@@ -1191,6 +727,23 @@ mjx-container[display="true"] + br {
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-side-tools-container">
@@ -1315,7 +868,6 @@ mjx-container[display="true"] + br {
     //     document.addEventListener("DOMContentLoaded", () => init());
     // }
 </script>
-
 
 
 
