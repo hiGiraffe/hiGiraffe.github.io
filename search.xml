@@ -1944,6 +1944,12 @@ return result
 <p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 </div></div>
 
+<div class="note-large yellow"><div class="notel-title"><p>VLLM</p>
+</div><div class="notel-content"><p><a class="link" href="https://arxiv.org/abs/2309.06180">VLLM论文 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/681402162">大模型推理框架 vLLM 源码解析（一）：框架概览 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/688660090">大模型推理框架 vLLM 源码解析（二）：Block 模块分配和管理 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div></div>
+
 <div class="note-large yellow"><div class="notel-title"><p>transformer</p>
 </div><div class="notel-content"><p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">李沐Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 <p><a class="link" href="https://www.youtube.com/watch?v=U0s0f995w14&t=824s">Pytorch Transformers from Scratch (Attention is all you need) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
@@ -2447,6 +2453,11 @@ return result
 </li>
 </ul>
 ]]></content>
+  </entry>
+  <entry>
+    <title>【学习笔记】从0开始词嵌入（Word embedding）</title>
+    <url>/2024/03/23/nlp-6/</url>
+    <content><![CDATA[]]></content>
       <categories>
         <category>AI</category>
         <category>Basic Knowledge Study Notes</category>
