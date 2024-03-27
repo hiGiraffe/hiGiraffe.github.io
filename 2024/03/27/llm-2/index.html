@@ -24,7 +24,7 @@
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-03-27T11:20:36.000Z">
-<meta property="article:modified_time" content="2024-03-27T12:11:05.111Z">
+<meta property="article:modified_time" content="2024-03-27T12:29:13.940Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
@@ -479,8 +479,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-03-27 20:11:05</span>
-            <span class="mobile">2024-03-27 20:11:05</span>
+            <span class="desktop">2024-03-27 20:29:13</span>
+            <span class="mobile">2024-03-27 20:29:13</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -571,6 +571,72 @@ mjx-container[display="true"] + br {
 </ul>
 <p>为此，相关工作提出了<strong>梯度异步更新</strong>方法。</p>
 <p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\3)</p>
+<blockquote>
+<ul>
+<li>在第10轮计算中，该Worker正常计算梯度，并向Server发送push&amp;pull梯度请求。</li>
+<li>但是，该Worker并不会实际等到把聚合梯度拿回来，更新完参数W后再做计算。而是直接拿旧的W，吃新的数据，继续第11轮的计算。<strong>这样就保证在通讯的时间里，Worker也在马不停蹄做计算，提升计算通讯比。</strong></li>
+<li>当然，异步也不能太过份。只计算梯度，不更新权重，那模型就无法收敛。图中刻画的是<strong>延迟为1</strong>的异步更新，也就是在开始第12轮对的计算时，必须保证W已经用第10、11轮的梯度做完2次更新了。</li>
+</ul>
+</blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\4)</p>
+<p>可选择的延迟情况：</p>
+<blockquote>
+<ul>
+<li><strong>(a) 无延迟</strong></li>
+<li><strong>(b) 延迟但不指定延迟步数</strong>。也即在迭代2时，用的可能是老权重，也可能是新权重，听天由命。</li>
+<li><strong>(c) 延迟且指定延迟步数为1</strong>。例如做迭代3时，可以不拿回迭代2的梯度，但必须保证迭代0、1的梯度都已拿回且用于参数更新。</li>
+</ul>
+</blockquote>
+<p>很香，但会减慢模型整体收敛速度。</p>
+<h2 id="DDP（分布式数据并行）"><a href="#DDP（分布式数据并行）" class="headerlink" title="DDP（分布式数据并行）"></a>DDP（分布式数据并行）</h2><blockquote>
+<p><strong>DDP首先要解决的就是通讯问题：将Server上的通讯压力均衡转到各个Worker上。实现这一点后，可以进一步去Server，留Worker。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>目前最通用的AllReduce方法：Ring-AllReduce</strong>。它由百度最先提出，非常有效地解决了数据并行中通讯负载不均的问题，使得DDP得以实现。</p>
+</blockquote>
+<h3 id="Ring-AllReduce"><a href="#Ring-AllReduce" class="headerlink" title="Ring-AllReduce"></a>Ring-AllReduce</h3><blockquote>
+<p>假设有4块GPU，每块GPU上的数据也对应被切成4份。AllReduce的最终目标，就是让每块GPU上的数据都变成箭头右边汇总的样子。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\5)</p>
+</blockquote>
+<p>分为两大步骤：<strong>Reduce-Scatter</strong>和<strong>All-Gather。</strong></p>
+<ul>
+<li><p><strong>Reduce-Scatter</strong></p>
+<blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\6)</p>
+<p>定义网络拓扑关系，使得每个GPU只和其相邻的两块GPU通讯。每次发送对应位置的数据进行<strong>累加</strong>。每一次累加更新都形成一个拓扑环，因此被称为Ring。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\7)</p>
+<p>一次累加完毕后，蓝色位置的数据块被更新，被更新的数据块将成为下一次更新的起点，继续做累加操作。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\8)</p>
+<p><strong>3次</strong>更新之后，每块GPU上都有一块数据拥有了对应位置完整的聚合（图中红色）。此时，Reduce-Scatter阶段结束。进入All-Gather阶段。目标是把红色块的数据广播到其余GPU对应的位置上。</p>
+</blockquote>
+</li>
+<li><p><strong>All-Gather</strong></p>
+<blockquote>
+<p>依然按照“相邻GPU对应位置进行通讯”的原则，但对应位置数据不再做相加，而是直接替换。All-Gather以红色块作为起点。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\9)</p>
+<p>以此类推，同样经过<strong>3轮迭代后</strong>，使得每块GPU上都汇总到了完整的数据。</p>
+</blockquote>
+</li>
+</ul>
+<p>这个方法能实现总通讯量相同，但负载会更均衡，太绝了！！！！</p>
+<p>除此之外，也有参数服务器的方法，但没有细看，感兴趣可以再看原文。</p>
+<h2 id="零冗余优化DeepSpeed-ZeRO"><a href="#零冗余优化DeepSpeed-ZeRO" class="headerlink" title="零冗余优化DeepSpeed ZeRO"></a>零冗余优化DeepSpeed ZeRO</h2><p><a class="link" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618865052">原文链接 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>DP的缺点还有一个<strong>显存开销问题</strong>没有解决，<strong>ZeRO的思想就是用通讯换显存</strong>。</p>
+<h3 id="存储消耗分析"><a href="#存储消耗分析" class="headerlink" title="存储消耗分析"></a>存储消耗分析</h3><p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\10)</p>
+<blockquote>
+<p><strong>Model States</strong>指和模型本身息息相关的，必须存储的内容，具体包括：</p>
+<ul>
+<li><strong>optimizer states</strong>：Adam优化算法中的momentum和variance</li>
+<li><strong>gradients</strong>：模型梯度</li>
+<li><strong>parameters</strong>：模型参数W</li>
+</ul>
+<p><strong>Residual States</strong>指并非模型必须的，但在训练过程中会额外产生的内容，具体包括：</p>
+<ul>
+<li><strong>activation</strong>：激活值。在流水线并行中我们曾详细介绍过。在backward过程中使用链式法则计算梯度时会用到。有了它算梯度会更快，但它不是必须存储的，因为可以通过重新做Forward来算它。</li>
+<li><strong>temporary buffers:</strong> 临时存储。例如把梯度发送到某块GPU上做加总聚合时产生的存储。</li>
+<li><strong>unusable fragment memory</strong>：碎片化的存储空间。虽然总存储空间是够的，但是如果取不到连续的存储空间，相关的请求也会被fail掉。对这类空间浪费可以通过内存整理来解决。</li>
+</ul>
+</blockquote>
 
         </div>
 
@@ -635,7 +701,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">【学习笔记】大模型训练：数据并行</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DP%E5%B9%B6%E8%A1%8C"><span class="nav-text">DP并行</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DP%E5%B9%B6%E8%A1%8C"><span class="nav-text">DP并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDP%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C%EF%BC%89"><span class="nav-text">DDP（分布式数据并行）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ring-AllReduce"><span class="nav-text">Ring-AllReduce</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B6%E5%86%97%E4%BD%99%E4%BC%98%E5%8C%96DeepSpeed-ZeRO"><span class="nav-text">零冗余优化DeepSpeed ZeRO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E6%B6%88%E8%80%97%E5%88%86%E6%9E%90"><span class="nav-text">存储消耗分析</span></a></li></ol></li></ol>
 
     </div>
 </div>

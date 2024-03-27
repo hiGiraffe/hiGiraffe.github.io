@@ -1932,32 +1932,75 @@ return result
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>童哥指定NLP学习路线</p>
-</div><div class="notel-content"><p><a class="link" href="https://www.zhihu.com/question/314879954/answer/2789242624">如何自己从零实现一个神经网络? <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/123211148">史上最详细循环神经网络讲解（RNN/LSTM/GRU） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/28054589">完全图解RNN、RNN变体、Seq2Seq、Attention机制 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/226048698">从零开始实现循环神经网络（无框架） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/261059231">损失函数（Loss Function） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/422542949">从0开始词嵌入（Word embedding） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/32829048">自然语言处理中N-Gram模型介绍 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/26306795"> 秒懂词向量Word2vec的本质 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://www.bilibili.com/video/BV1P3411y7nn/">ResNet论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><ul>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://www.zhihu.com/question/314879954/answer/2789242624">如何自己从零实现一个神经网络? <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/123211148">史上最详细循环神经网络讲解（RNN/LSTM/GRU） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/28054589">完全图解RNN、RNN变体、Seq2Seq、Attention机制 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/226048698">从零开始实现循环神经网络（无框架） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/261059231">损失函数（Loss Function） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/422542949">从0开始词嵌入（Word embedding） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/32829048">自然语言处理中N-Gram模型介绍 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/26306795"> 秒懂词向量Word2vec的本质 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://www.bilibili.com/video/BV1P3411y7nn/">ResNet论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://www.bilibili.com/video/BV1PL411M7eQ">BERT 论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>VLLM</p>
-</div><div class="notel-content"><p><a class="link" href="https://arxiv.org/abs/2309.06180">VLLM论文 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/681402162">大模型推理框架 vLLM 源码解析（一）：框架概览 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/688660090">大模型推理框架 vLLM 源码解析（二）：Block 模块分配和管理 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://arxiv.org/abs/2309.06180">VLLM论文 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/681402162">大模型推理框架 vLLM 源码解析（一）：框架概览 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/688660090">大模型推理框架 vLLM 源码解析（二）：Block 模块分配和管理 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>transformer</p>
-</div><div class="notel-content"><p><a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">李沐Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://www.youtube.com/watch?v=U0s0f995w14&t=824s">Pytorch Transformers from Scratch (Attention is all you need) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/more_advanced/transformer_from_scratch/transformer_from_scratch.py">对应源码 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://www.bilibili.com/video/BV1pu411o7BE/">李沐Transformer论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://www.youtube.com/watch?v=U0s0f995w14&t=824s">Pytorch Transformers from Scratch (Attention is all you need) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/more_advanced/transformer_from_scratch/transformer_from_scratch.py">对应源码 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>PEFT</p>
-</div><div class="notel-content"><p><a class="link" href="https://zhuanlan.zhihu.com/p/688336685">LLM从0到1之PEFT <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><ul>
+<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/688336685">LLM从0到1之PEFT <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>Mamba</p>
@@ -1967,51 +2010,125 @@ return result
 
 
 <div class="note-large yellow"><div class="notel-title"><p>ML-system入坑指南</p>
-</div><div class="notel-content"><p><a href="https://fazzie-key.cool/2023/02/21/MLsys/"><strong>Prof Yang You 的 HPC-AI lab中的学生给出的ML System入坑指南</strong></a></p>
+</div><div class="notel-content"><ul>
+<li><input disabled="" type="checkbox"> <a href="https://fazzie-key.cool/2023/02/21/MLsys/"><strong>Prof Yang You 的 HPC-AI lab中的学生给出的ML System入坑指南</strong></a></li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>图解大模型训练系列</p>
-</div><div class="notel-content"><p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/613196255">图解大模型训练之：流水线并行（Pipeline Parallelism），以Gpipe为例 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/617133971">猛猿：图解大模型训练之：数据并行上篇(DP, DDP与ZeRO) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/618865052">猛猿：图解大模型训练之：数据并行下篇(ZeRO，零冗余优化) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/622212228">猛猿：图解大模型系列之：张量模型并行，Megatron-LM <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/629121480">猛猿：图解大模型系列之：Megatron源码解读1，分布式环境初始化 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/634377071">猛猿：图解大模型训练之：Megatron源码解读2，模型并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div><div class="notel-content"><ul>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/613196255">图解大模型训练之：流水线并行（Pipeline Parallelism），以Gpipe为例 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/617133971">猛猿：图解大模型训练之：数据并行上篇(DP, DDP与ZeRO) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/618865052">猛猿：图解大模型训练之：数据并行下篇(ZeRO，零冗余优化) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/622212228">猛猿：图解大模型系列之：张量模型并行，Megatron-LM <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/629121480">猛猿：图解大模型系列之：Megatron源码解读1，分布式环境初始化 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/634377071">猛猿：图解大模型训练之：Megatron源码解读2，模型并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>分布式训练技术分享系列</p>
-</div><div class="notel-content"><p><a href="https://zhuanlan.zhihu.com/p/596296179"><strong>聊聊PyTorch的ZeroRedundancyOptimizer优化器</strong></a></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/615754302">聊聊 PyTorch2.0 中新的Distributed API <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><a href="https://zhuanlan.zhihu.com/p/628232317"><strong>聊聊 Hugging face 模型 + LoRA 低秩矩阵分解的使用</strong></a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/653067104"><strong>聊聊序列并行Sequence parallelism</strong></a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/670301574"><strong>聊聊 Zero Bubble Pipeline Parallelism</strong></a></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/681775092">聊聊 PyTorch 中新的Distributed API （二） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/684619370">聊聊字节 AML 万卡工作 MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<a href="https://zhuanlan.zhihu.com/p/596296179"><strong>聊聊PyTorch的ZeroRedundancyOptimizer优化器</strong></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/615754302">聊聊 PyTorch2.0 中新的Distributed API <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a href="https://zhuanlan.zhihu.com/p/628232317"><strong>聊聊 Hugging face 模型 + LoRA 低秩矩阵分解的使用</strong></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a href="https://zhuanlan.zhihu.com/p/653067104"><strong>聊聊序列并行Sequence parallelism</strong></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a href="https://zhuanlan.zhihu.com/p/670301574"><strong>聊聊 Zero Bubble Pipeline Parallelism</strong></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/681775092">聊聊 PyTorch 中新的Distributed API （二） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/684619370">聊聊字节 AML 万卡工作 MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>大模型分布式训练并行技术</p>
-</div><div class="notel-content"><p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/598714869">大模型分布式训练并行技术（一）-概述 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/650002268">大模型分布式训练并行技术（二）-数据并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/653860567">大模型分布式训练并行技术（三）-流水线并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/657921100">大模型分布式训练并行技术（四）-张量并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/659792351">大模型分布式训练并行技术（五）-序列并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/661279318">大模型分布式训练并行技术（六）-多维混合并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/662517647">大模型分布式训练并行技术（七）-自动并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://zhuanlan.zhihu.com/p/662518387">大模型分布式训练并行技术（八）-MOE并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
-<p><strong><a class="link" href="https://link.zhihu.com/?target=https://juejin.cn/post/7290740395913969705">大模型分布式训练并行技术（九）-总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/598714869">大模型分布式训练并行技术（一）-概述 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/650002268">大模型分布式训练并行技术（二）-数据并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/653860567">大模型分布式训练并行技术（三）-流水线并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/657921100">大模型分布式训练并行技术（四）-张量并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/659792351">大模型分布式训练并行技术（五）-序列并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/661279318">大模型分布式训练并行技术（六）-多维混合并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/662517647">大模型分布式训练并行技术（七）-自动并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://zhuanlan.zhihu.com/p/662518387">大模型分布式训练并行技术（八）-MOE并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<strong><a class="link" href="https://link.zhihu.com/?target=https://juejin.cn/post/7290740395913969705">大模型分布式训练并行技术（九）-总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+</li>
+</ul>
 </div></div>
 
 <div class="note-large yellow《从零实现BERT、GPT及Diffusion类算法》系列"><div class="notel-title"><p>yellow《从零实现BERT、GPT及Diffusion类算法》系列</p>
-</div><div class="notel-content"><p><a class="link" href="https://zhuanlan.zhihu.com/p/624068993">《从零实现BERT、GPT及Diffusion类算法》- 1：文章简介及目录 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/624072556">《从零实现BERT、GPT及Diffusion类算法》- 2：Tokenizer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/624343441">《从零实现BERT、GPT及Diffusion类算法》- 3：Multi-head Attention &amp; Transformer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/625178027">《从零实现BERT、GPT及Diffusion类算法》-4：Bert &amp; GPT1/2/3 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/629929349">《从零实现BERT、GPT及Diffusion类算法》- 5：Greedy Search, Beam Search, Penalty, Sampling <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/635714662">《从零实现BERT、GPT及Diffusion类算法》- 6：模型训练MiniBloomChat: Bloom+SFT <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/647389318">《从零实现BERT、GPT及Diffusion类算法》- 7：分布式训练原理及混合精度、DDP、DeepSpeed、Megatron-LM使用 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/666660654">《从零实现BERT、GPT及Diffusion类算法》- 8：训练优化1-自动混合精度训练amp <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/666665132">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练2-分布式数据并行训练DistributedDataParallel <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/667500496">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练3-流水线并行训练GPipe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/624068993">《从零实现BERT、GPT及Diffusion类算法》- 1：文章简介及目录 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/624072556">《从零实现BERT、GPT及Diffusion类算法》- 2：Tokenizer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/624343441">《从零实现BERT、GPT及Diffusion类算法》- 3：Multi-head Attention &amp; Transformer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/625178027">《从零实现BERT、GPT及Diffusion类算法》-4：Bert &amp; GPT1/2/3 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/629929349">《从零实现BERT、GPT及Diffusion类算法》- 5：Greedy Search, Beam Search, Penalty, Sampling <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/635714662">《从零实现BERT、GPT及Diffusion类算法》- 6：模型训练MiniBloomChat: Bloom+SFT <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/647389318">《从零实现BERT、GPT及Diffusion类算法》- 7：分布式训练原理及混合精度、DDP、DeepSpeed、Megatron-LM使用 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/666660654">《从零实现BERT、GPT及Diffusion类算法》- 8：训练优化1-自动混合精度训练amp <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/666665132">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练2-分布式数据并行训练DistributedDataParallel <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/667500496">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练3-流水线并行训练GPipe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ul>
 </div></div>
 
 ]]></content>
@@ -2579,6 +2696,72 @@ return result
 </ul>
 <p>为此，相关工作提出了<strong>梯度异步更新</strong>方法。</p>
 <p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\3)</p>
+<blockquote>
+<ul>
+<li>在第10轮计算中，该Worker正常计算梯度，并向Server发送push&amp;pull梯度请求。</li>
+<li>但是，该Worker并不会实际等到把聚合梯度拿回来，更新完参数W后再做计算。而是直接拿旧的W，吃新的数据，继续第11轮的计算。<strong>这样就保证在通讯的时间里，Worker也在马不停蹄做计算，提升计算通讯比。</strong></li>
+<li>当然，异步也不能太过份。只计算梯度，不更新权重，那模型就无法收敛。图中刻画的是<strong>延迟为1</strong>的异步更新，也就是在开始第12轮对的计算时，必须保证W已经用第10、11轮的梯度做完2次更新了。</li>
+</ul>
+</blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\4)</p>
+<p>可选择的延迟情况：</p>
+<blockquote>
+<ul>
+<li><strong>(a) 无延迟</strong></li>
+<li><strong>(b) 延迟但不指定延迟步数</strong>。也即在迭代2时，用的可能是老权重，也可能是新权重，听天由命。</li>
+<li><strong>(c) 延迟且指定延迟步数为1</strong>。例如做迭代3时，可以不拿回迭代2的梯度，但必须保证迭代0、1的梯度都已拿回且用于参数更新。</li>
+</ul>
+</blockquote>
+<p>很香，但会减慢模型整体收敛速度。</p>
+<h2 id="DDP（分布式数据并行）"><a href="#DDP（分布式数据并行）" class="headerlink" title="DDP（分布式数据并行）"></a>DDP（分布式数据并行）</h2><blockquote>
+<p><strong>DDP首先要解决的就是通讯问题：将Server上的通讯压力均衡转到各个Worker上。实现这一点后，可以进一步去Server，留Worker。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>目前最通用的AllReduce方法：Ring-AllReduce</strong>。它由百度最先提出，非常有效地解决了数据并行中通讯负载不均的问题，使得DDP得以实现。</p>
+</blockquote>
+<h3 id="Ring-AllReduce"><a href="#Ring-AllReduce" class="headerlink" title="Ring-AllReduce"></a>Ring-AllReduce</h3><blockquote>
+<p>假设有4块GPU，每块GPU上的数据也对应被切成4份。AllReduce的最终目标，就是让每块GPU上的数据都变成箭头右边汇总的样子。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\5)</p>
+</blockquote>
+<p>分为两大步骤：<strong>Reduce-Scatter</strong>和<strong>All-Gather。</strong></p>
+<ul>
+<li><p><strong>Reduce-Scatter</strong></p>
+<blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\6)</p>
+<p>定义网络拓扑关系，使得每个GPU只和其相邻的两块GPU通讯。每次发送对应位置的数据进行<strong>累加</strong>。每一次累加更新都形成一个拓扑环，因此被称为Ring。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\7)</p>
+<p>一次累加完毕后，蓝色位置的数据块被更新，被更新的数据块将成为下一次更新的起点，继续做累加操作。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\8)</p>
+<p><strong>3次</strong>更新之后，每块GPU上都有一块数据拥有了对应位置完整的聚合（图中红色）。此时，Reduce-Scatter阶段结束。进入All-Gather阶段。目标是把红色块的数据广播到其余GPU对应的位置上。</p>
+</blockquote>
+</li>
+<li><p><strong>All-Gather</strong></p>
+<blockquote>
+<p>依然按照“相邻GPU对应位置进行通讯”的原则，但对应位置数据不再做相加，而是直接替换。All-Gather以红色块作为起点。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\9)</p>
+<p>以此类推，同样经过<strong>3轮迭代后</strong>，使得每块GPU上都汇总到了完整的数据。</p>
+</blockquote>
+</li>
+</ul>
+<p>这个方法能实现总通讯量相同，但负载会更均衡，太绝了！！！！</p>
+<p>除此之外，也有参数服务器的方法，但没有细看，感兴趣可以再看原文。</p>
+<h2 id="零冗余优化DeepSpeed-ZeRO"><a href="#零冗余优化DeepSpeed-ZeRO" class="headerlink" title="零冗余优化DeepSpeed ZeRO"></a>零冗余优化DeepSpeed ZeRO</h2><p><a class="link" href="https://zhuanlan.zhihu.com/p/618865052">原文链接 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>DP的缺点还有一个<strong>显存开销问题</strong>没有解决，<strong>ZeRO的思想就是用通讯换显存</strong>。</p>
+<h3 id="存储消耗分析"><a href="#存储消耗分析" class="headerlink" title="存储消耗分析"></a>存储消耗分析</h3><p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-2\10)</p>
+<blockquote>
+<p><strong>Model States</strong>指和模型本身息息相关的，必须存储的内容，具体包括：</p>
+<ul>
+<li><strong>optimizer states</strong>：Adam优化算法中的momentum和variance</li>
+<li><strong>gradients</strong>：模型梯度</li>
+<li><strong>parameters</strong>：模型参数W</li>
+</ul>
+<p><strong>Residual States</strong>指并非模型必须的，但在训练过程中会额外产生的内容，具体包括：</p>
+<ul>
+<li><strong>activation</strong>：激活值。在流水线并行中我们曾详细介绍过。在backward过程中使用链式法则计算梯度时会用到。有了它算梯度会更快，但它不是必须存储的，因为可以通过重新做Forward来算它。</li>
+<li><strong>temporary buffers:</strong> 临时存储。例如把梯度发送到某块GPU上做加总聚合时产生的存储。</li>
+<li><strong>unusable fragment memory</strong>：碎片化的存储空间。虽然总存储空间是够的，但是如果取不到连续的存储空间，相关的请求也会被fail掉。对这类空间浪费可以通过内存整理来解决。</li>
+</ul>
+</blockquote>
 ]]></content>
       <categories>
         <category>AI</category>
