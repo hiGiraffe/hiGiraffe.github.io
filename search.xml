@@ -2653,9 +2653,16 @@ return result
       </tags>
   </entry>
   <entry>
-    <title>llm-3</title>
+    <title>llama2部署记录</title>
     <url>/2024/03/28/llm-3/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>AI</category>
+        <category>LLM</category>
+      </categories>
+      <tags>
+        <tag>Artificial Intelligence</tag>
+      </tags>
   </entry>
   <entry>
     <title>【学习笔记】大模型训练：数据并行</title>
