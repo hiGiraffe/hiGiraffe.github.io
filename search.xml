@@ -2004,6 +2004,13 @@ return result
 
 
 ]]></content>
+      <categories>
+        <category>AI</category>
+        <category>学习路线</category>
+      </categories>
+      <tags>
+        <tag>Artificial Intelligence</tag>
+      </tags>
   </entry>
   <entry>
     <title>【学习笔记】如何从头实现一个神经网络</title>
@@ -2465,5 +2472,15 @@ return result
       <tags>
         <tag>Artificial Intelligence</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>llm-1</title>
+    <url>/2024/03/27/llm-1/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>llm-3</title>
+    <url>/2024/03/28/llm-3/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
