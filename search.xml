@@ -2655,7 +2655,16 @@ return result
   <entry>
     <title>llama2部署记录</title>
     <url>/2024/03/28/llm-3/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<div class="note-large default"><div class="notel-title"><p>llama2跳转地址</p>
+</div><div class="notel-content"><p><a class="link" href="https://llama.meta.com/llama2/">Llama 2: open source, free for research and commercial use <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://huggingface.co/meta-llama">Llama 2 in Hugging Face <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><a class="link" href="https://github.com/meta-llama/llama">Llama 2 in Github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</div></div>
+
+<p>配置好CUDA、Pytorch，下载模型数据</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install -e .</span><br><span class="line">torchrun --nproc_per_node 1 example_text_completion.py \</span><br><span class="line">    --ckpt_dir llama-2-7b/ \</span><br><span class="line">    --tokenizer_path tokenizer.model \</span><br><span class="line">    --max_seq_len 128 --max_batch_size 4</span><br></pre></td></tr></table></figure></div>
+
+]]></content>
       <categories>
         <category>AI</category>
         <category>LLM</category>
