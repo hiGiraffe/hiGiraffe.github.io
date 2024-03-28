@@ -1966,6 +1966,9 @@ return result
 <li><p><input checked="" disabled="" type="checkbox"> 
 <a class="link" href="https://www.bilibili.com/video/BV1PL411M7eQ">BERT 论文逐段精读 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
 </li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+<a class="link" href="https://medium.com/@sntaus/understanding-self-attention-gpt-models-80ec894eebf0">GPT文章解析 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
 </ul>
 </div></div>
 
@@ -2023,7 +2026,7 @@ return result
 <li><p><input checked="" disabled="" type="checkbox"> 
 <strong><a class="link" href="https://zhuanlan.zhihu.com/p/617133971">猛猿：图解大模型训练之：数据并行上篇(DP, DDP与ZeRO) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 </li>
-<li><p><input disabled="" type="checkbox"> 
+<li><p><input checked="" disabled="" type="checkbox"> 
 <strong><a class="link" href="https://zhuanlan.zhihu.com/p/618865052">猛猿：图解大模型训练之：数据并行下篇(ZeRO，零冗余优化) <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
 </li>
 <li><p><input disabled="" type="checkbox"> 
