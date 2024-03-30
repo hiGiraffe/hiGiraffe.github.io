@@ -2882,14 +2882,14 @@ return result
 <p>输入向量通过另一种数学方式生成value向量</p>
 </li>
 </ol>
-<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\nlp-6\1)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-6/1" alt="img"></p>
 <p>数学方法主要是权重矩阵</p>
-<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\nlp-6\2)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-6/2" alt="img"></p>
 <p>并在后续使用softmax保证分数没太大区别。</p>
-<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\nlp-6\3)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-6/3" alt="img"></p>
 </blockquote>
 <h3 id="进一步流程"><a href="#进一步流程" class="headerlink" title="进一步流程"></a>进一步流程</h3><blockquote>
-<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\nlp-6\4)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/nlp-6/4" alt="img"></p>
 </blockquote>
 <h2 id="How-does-all-of-it-happen-so-fast-so-many-times"><a href="#How-does-all-of-it-happen-so-fast-so-many-times" class="headerlink" title="How does all of it happen so fast so many times?"></a>How does all of it happen so fast so many times?</h2><blockquote>
 <p>First, the model does not have to recompute query, key, value vectors each time for the words preceding the last output word since it already did it in previous stages and can re-use those values.</p>
