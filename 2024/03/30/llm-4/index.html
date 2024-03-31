@@ -23,11 +23,26 @@
 <meta property="og:url" content="https://higiraffe.github.io/2024/03/30/llm-4/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/5">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/6">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/3">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/4">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/1">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/2">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/1.gif">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/7">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/2.gif">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/3.gif">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/8">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/9">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/10">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/11">
 <meta property="article:published_time" content="2024-03-30T11:35:07.000Z">
-<meta property="article:modified_time" content="2024-03-30T14:20:56.880Z">
+<meta property="article:modified_time" content="2024-03-31T04:28:24.367Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://higiraffe.github.io/images/llm-4/5">
     
     
     <!--- Icon Part-->
@@ -487,8 +502,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-03-30 22:20:56</span>
-            <span class="mobile">2024-03-30 22:20:56</span>
+            <span class="desktop">2024-03-31 12:28:24</span>
+            <span class="mobile">2024-03-31 12:28:24</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -554,11 +569,19 @@ mjx-container[display="true"] + br {
 
 <a class="button  center regular" target="_blank" rel="noopener" href="https://docs.vllm.ai/en/latest/" title="vLLM官方文档"><i class="fa-solid fa-paperclip"></i> vLLM官方文档</a>
 
-<a class="button  center regular" target="_blank" rel="noopener" href="https://readpaper.feishu.cn/docx/EcZxdsf4uozCoixdU3NcW03snwV" title="国内博客（本文所有动图来源！）"><i class="fa-solid fa-paperclip"></i> 国内博客（本文所有动图来源！）</a>
+<a class="button  center regular" target="_blank" rel="noopener" href="https://readpaper.feishu.cn/docx/EcZxdsf4uozCoixdU3NcW03snwV" title="国内博客"><i class="fa-solid fa-paperclip"></i> 国内博客</a>
 
 
 
-<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="KV-Cache"><a href="#KV-Cache" class="headerlink" title="KV Cache"></a>KV Cache</h2><blockquote>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="transformer的self-attention-layers"><a href="#transformer的self-attention-layers" class="headerlink" title="transformer的self-attention layers"></a>transformer的self-attention layers</h2><blockquote>
+<p>For an input hidden state sequence <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="19.575ex" height="2.497ex" role="img" focusable="false" viewBox="0 -853.7 8652 1103.7"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(389,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(961,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(1461,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="mo" transform="translate(1905.7,0)"><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path></g><g data-mml-node="mo" transform="translate(2350.3,0)"><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path></g><g data-mml-node="mo" transform="translate(2795,0)"><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path></g><g data-mml-node="mo" transform="translate(3239.7,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="mi" transform="translate(3684.3,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mi" transform="translate(4256.3,0)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(4856.3,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(5523.1,0)"><path data-c="2208" d="M84 250Q84 372 166 450T360 539Q361 539 377 539T419 540T469 540H568Q583 532 583 520Q583 511 570 501L466 500Q355 499 329 494Q280 482 242 458T183 409T147 354T129 306T124 272V270H568Q583 262 583 250T568 230H124V228Q124 207 134 177T167 112T231 48T328 7Q355 1 466 0H570Q583 -10 583 -20Q583 -32 568 -40H471Q464 -40 446 -40T417 -41Q262 -41 172 45Q84 127 84 250Z"></path></g><g data-mml-node="msup" transform="translate(6467.9,0)"><g data-mml-node="mi"><path data-c="1D445" d="M230 637Q203 637 198 638T193 649Q193 676 204 682Q206 683 378 683Q550 682 564 680Q620 672 658 652T712 606T733 563T739 529Q739 484 710 445T643 385T576 351T538 338L545 333Q612 295 612 223Q612 212 607 162T602 80V71Q602 53 603 43T614 25T640 16Q668 16 686 38T712 85Q717 99 720 102T735 105Q755 105 755 93Q755 75 731 36Q693 -21 641 -21H632Q571 -21 531 4T487 82Q487 109 502 166T517 239Q517 290 474 313Q459 320 449 321T378 323H309L277 193Q244 61 244 59Q244 55 245 54T252 50T269 48T302 46H333Q339 38 339 37T336 19Q332 6 326 0H311Q275 2 180 2Q146 2 117 2T71 2T50 1Q33 1 33 10Q33 12 36 24Q41 43 46 45Q50 46 61 46H67Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628Q287 635 230 637ZM630 554Q630 586 609 608T523 636Q521 636 500 636T462 637H440Q393 637 386 627Q385 624 352 494T319 361Q319 360 388 360Q466 361 492 367Q556 377 592 426Q608 449 619 486T630 554Z"></path></g><g data-mml-node="TeXAtom" transform="translate(792,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(600,0)"><path data-c="D7" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g data-mml-node="mi" transform="translate(1378,0)"><path data-c="1D451" d="M366 683Q367 683 438 688T511 694Q523 694 523 686Q523 679 450 384T375 83T374 68Q374 26 402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487H491Q506 153 506 145Q506 140 503 129Q490 79 473 48T445 8T417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157Q33 205 53 255T101 341Q148 398 195 420T280 442Q336 442 364 400Q369 394 369 396Q370 400 396 505T424 616Q424 629 417 632T378 637H357Q351 643 351 645T353 664Q358 683 366 683ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path></g></g></g></g></g></svg></mjx-container> , a self-attention layer first applies linear transformations on each position 𝑖 to get the query, key, and value vectors:</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/5" alt="image-20240331111833960"></p>
+<p>Then, the self-attention layer computes the attention score <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.666ex;" xmlns="http://www.w3.org/2000/svg" width="2.596ex" height="1.663ex" role="img" focusable="false" viewBox="0 -441 1147.3 735.2"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D44E" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path></g><g data-mml-node="TeXAtom" transform="translate(562,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(345,0)"><path data-c="1D457" d="M297 596Q297 627 318 644T361 661Q378 661 389 651T403 623Q403 595 384 576T340 557Q322 557 310 567T297 596ZM288 376Q288 405 262 405Q240 405 220 393T185 362T161 325T144 293L137 279Q135 278 121 278H107Q101 284 101 286T105 299Q126 348 164 391T252 441Q253 441 260 441T272 442Q296 441 316 432Q341 418 354 401T367 348V332L318 133Q267 -67 264 -75Q246 -125 194 -164T75 -204Q25 -204 7 -183T-12 -137Q-12 -110 7 -91T53 -71Q70 -71 82 -81T95 -112Q95 -148 63 -167Q69 -168 77 -168Q111 -168 139 -140T182 -74L193 -32Q204 11 219 72T251 197T278 308T289 365Q289 372 288 376Z"></path></g></g></g></g></g></svg></mjx-container> by multiplying the query vector at one position with all the key vectors before it and compute the output <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.357ex;" xmlns="http://www.w3.org/2000/svg" width="1.837ex" height="1.355ex" role="img" focusable="false" viewBox="0 -441 812 598.8"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D45C" d="M201 -11Q126 -11 80 38T34 156Q34 221 64 279T146 380Q222 441 301 441Q333 441 341 440Q354 437 367 433T402 417T438 387T464 338T476 268Q476 161 390 75T201 -11ZM121 120Q121 70 147 48T206 26Q250 26 289 58T351 142Q360 163 374 216T388 308Q388 352 370 375Q346 405 306 405Q243 405 195 347Q158 303 140 230T121 120Z"></path></g><g data-mml-node="mi" transform="translate(518,-150) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></svg></mjx-container> as the weighted average over the value vectors:</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/6" alt="image-20240331111955260"></p>
+</blockquote>
+<p>简而言之，先把每个位置的词算出其q k v，然后用注意力公式算出每两个词之间的a和o。</p>
+<p>除此之外，transformer including the embedding layer, feed-forward layer, layer normalization, residual connection, output logit computation, and the query, key, and value transformation.</p>
+<h2 id="KV-Cache"><a href="#KV-Cache" class="headerlink" title="KV Cache"></a>KV Cache</h2><blockquote>
 <p>以GPT为代表的Decoder-Only自回归语言模型在生成每一个新的 token 时，接受所有之前生成的 tokens 作为输入。然而，对于这些先前生成的 tokens，每次生成新的 token 时都需要重新计算他们的表示，这个过程造成了大量的计算浪费。KV Cache 的引入就是为了解决这个问题。</p>
 <p>KV Cache实质上是存储了之前计算过的 key-value 对用于下一个Token的生成。在 Transformer 结构中，self-attention 中的k_proj, v_proj会将输入的每个 token 转化为一个 key 和一个 value，然后使用这些 key-value 以及当前的query对来计算下一个 token。引入 KV Cache，我们就可以将之前生成的 tokens 对应的 key-value 对存储起来，当生成新的 token 时，<strong>直接从 KV Cache 中取出这些已经计算好的 key-value 对，再把当前token的key-value做一个连结在进行计算</strong>，这样就避免了KV的重复计算，大大提高了计算效率。</p>
 </blockquote>
@@ -569,13 +592,28 @@ mjx-container[display="true"] + br {
 </blockquote>
 <blockquote>
 <p>无KV Cache生成示例</p>
-<p>![image-20240330213245722](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-4\3)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/3" alt="image-20240330213245722"></p>
 </blockquote>
 <blockquote>
 <p>KV Cache生成示例</p>
-<p>![image-20240330213306988](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-4\4)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/4" alt="image-20240330213306988"></p>
 </blockquote>
 <p>我们可以看到，使用了KV Cache节省了大量的重复计算。</p>
+<h2 id="当前Batching-Techniques-for-LLMs"><a href="#当前Batching-Techniques-for-LLMs" class="headerlink" title="当前Batching Techniques for LLMs"></a>当前Batching Techniques for LLMs</h2><p>困境：</p>
+<ul>
+<li>请求可能在不同时间段到达</li>
+<li>请求序列的长度不同</li>
+</ul>
+<p>目前方法：</p>
+<ul>
+<li>采用细粒度的批处理机制</li>
+</ul>
+<h2 id="Memory-Challenges-in-LLM-Serving"><a href="#Memory-Challenges-in-LLM-Serving" class="headerlink" title="Memory Challenges in LLM Serving"></a>Memory Challenges in LLM Serving</h2><p>挑战：</p>
+<ul>
+<li>KV cache太大了，且GPU的计算能力会比其内存增长得更快。</li>
+<li>decoding算法越来越复杂，如何适配。</li>
+<li>输入输出长度不同的情况下如何调度资源。</li>
+</ul>
 <h1 id="vLLM"><a href="#vLLM" class="headerlink" title="vLLM"></a>vLLM</h1><h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><strong>效果</strong>：</p>
 <blockquote>
 <p> PagedAttention, an attention algorithm inspired by the classical <strong>virtual memory</strong> and <strong>paging techniques</strong> in operating systems</p>
@@ -585,19 +623,62 @@ mjx-container[display="true"] + br {
 <p>vLLM, an LLM serving system that achieves (1) <strong>near-zero waste</strong> in KV cache memory and (2) <strong>flexible sharing of KV cache</strong> within and across requests to further reduce memory usage.</p>
 </blockquote>
 <blockquote>
-<p>![image-20240330194543256](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-4\1)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/1" alt="image-20240330194543256"></p>
 </blockquote>
 <p>左图就是vLLM将KV Cache控制在红色，且用一部分黄色进行激活。所以随着规模扩大，vLLM的内存使用量可以控制得更好。正如右图所示。</p>
 <blockquote>
-<p>![image-20240330194852044](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-4\2)</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/2" alt="image-20240330194852044"></p>
 </blockquote>
 <p>内存资源浪费平均百分比图，可以看到vLLM的有效性。</p>
-<p>![annimation0](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-4\5)</p>
-<h2 id="当前系统问题"><a href="#当前系统问题" class="headerlink" title="当前系统问题"></a>当前系统问题</h2><p>无法有效管理KV Cache。</p>
+<h2 id="PagedAttention"><a href="#PagedAttention" class="headerlink" title="PagedAttention"></a>PagedAttention</h2><p><strong>特色：</strong>允许不连续的KV cache存储方式。方法是采用分块的方式。</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/1.gif" alt="annimation0"></p>
+</blockquote>
+<p>当原文为 Alan Turing is a|computer scientist and mathmatician|renowned for …</p>
+<p>其被分成三个块来完成，这三个块的物理内存不一样。</p>
+<p>计算方式为</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/7" alt="image-20240331114636223"></p>
+</blockquote>
+<p>这样就可以减少KV Cache的浪费，最多浪费3个空。（这也是为什么操作系统引入分页机制）</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/2.gif" alt="fcc6f1bb-484e-43ab-8101-dc5dbbdbcd89"></p>
+</blockquote>
+<p>并且根据操作系统的<strong>写时共享机制</strong>，PagedAttention 可以当产生多个结果时，将下图中的intelligence is复制到多个块上。</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/3.gif" alt="annimation3"></p>
+</blockquote>
+<p>还采用了<strong>束搜索机制</strong></p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/8" alt="image-20240331120042678"></p>
+<p>这是一个束宽为2的<a class="link" target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_recurrent-modern/beam-search.html">束搜索样例 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>。选择最大的两个。</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/9" alt="image-20240331120357189"></p>
+<p>在vLLM中，则是这种效果，跟上图非常相似。</p>
+</blockquote>
+<p>vLLM也考虑到<strong>共享前缀</strong>的问题。</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/10" alt="image-20240331120631554"></p>
+</blockquote>
+<p>对于此类应用vLLM会共享前缀，只在Task Input上有差异。其实就是前文的分页机制。</p>
+<h2 id="Scheduling-and-Preemption"><a href="#Scheduling-and-Preemption" class="headerlink" title="Scheduling and Preemption"></a>Scheduling and Preemption</h2><p>采用<strong>first-come-first-serve</strong> (<strong>FCFS</strong>)，先来先服务。</p>
+<p>问题：</p>
 <ul>
-<li>存在内部和外部内存碎片的问题</li>
-<li>无法利用内存共享KV Cache</li>
+<li>假如满了，应该驱逐哪些块<ul>
+<li>transformer特性→同一个序列的块要么一起被驱逐，要么一起留下。</li>
+<li>假如有束搜索，其将序列分成了很多组，且存在内存共享，组内所有序列的块同时被调度。</li>
 </ul>
+</li>
+<li>假如仍被需要，如何恢复被驱逐的块。<ul>
+<li>交换。放到CPU内存中。</li>
+<li>重新计算。因为解码时的令牌和用户提示链接起来成为新的提示，一次就可以生成KV Cache，所以会比之前算的块。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Distributed-Execution"><a href="#Distributed-Execution" class="headerlink" title="Distributed Execution"></a>Distributed Execution</h2><p>vLLM采用的是集中式调度，一个Scheduler</p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/11" alt="image-20240331122203810"></p>
+<p>In each step, the scheduler first prepares the message with input token IDs for each request in the batch, as well as the block table for each request. Next, the scheduler broadcasts this control message to the GPU workers. Then, the GPU workers start to execute the model with the input token IDs. In the attention layers, the GPU workers read the KV cache according to the block table in the control message. During execution, the GPU workers synchronize the intermediate results with the all-reduce communication primitive without the coordination of the scheduler, as in [47]. In the end, the GPU workers send the sampled tokens of this iteration back to the scheduler. In summary, GPU workers do not need to synchronize on memory management as they only need to receive all the memory management information at the beginning of each decoding iteration along with the step inputs.</p>
+</blockquote>
 
         </div>
 
@@ -625,7 +706,7 @@ mjx-container[display="true"] + br {
                         href="/2024/03/29/nlp-6/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">【学习模式】自回归模型和GPT</span>
+                                <span class="post-nav-title-item">【学习笔记】自回归模型和GPT</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -647,7 +728,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">【学习笔记】vLLM</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E9%97%AE%E9%A2%98"><span class="nav-text">当前系统问题</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E7%9A%84self-attention-layers"><span class="nav-text">transformer的self-attention layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8DBatching-Techniques-for-LLMs"><span class="nav-text">当前Batching Techniques for LLMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Challenges-in-LLM-Serving"><span class="nav-text">Memory Challenges in LLM Serving</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagedAttention"><span class="nav-text">PagedAttention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling-and-Preemption"><span class="nav-text">Scheduling and Preemption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distributed-Execution"><span class="nav-text">Distributed Execution</span></a></li></ol></li></ol>
 
     </div>
 </div>
