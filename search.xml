@@ -3116,10 +3116,31 @@ return result
 </ul>
 </li>
 </ul>
-<h2 id="Distributed-Execution"><a href="#Distributed-Execution" class="headerlink" title="Distributed Execution"></a>Distributed Execution</h2><p>vLLM采用的是集中式调度，一个Scheduler</p>
+<h2 id="Distributed-Execution"><a href="#Distributed-Execution" class="headerlink" title="Distributed Execution"></a>Distributed Execution</h2><blockquote>
+<p>Specifically, the attention operator is split on the attention head dimension, each SPMD process takes care of a subset of attention heads in multi-head attention.</p>
+</blockquote>
+<p>VLLM是将注意力算子在注意力头维度上进行分割。</p>
+<p>且由于每个模型的分片处理相同的输入标记集，所以vLLM采用的是集中式调度，一个Scheduler。</p>
+<blockquote>
+<p>This common mapping allows GPU workers to execute the model with the physical blocks provided by the scheduler for each input request. Although each GPU worker has the same physical block IDs, <strong>a worker only stores a portion of the KV cache for its corresponding attention heads.</strong></p>
+</blockquote>
+<p>由于头不同，管理起来是一样的，但是数据是不一样的。</p>
 <blockquote>
 <p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/11" alt="image-20240331122203810"></p>
-<p>In each step, the scheduler first prepares the message with input token IDs for each request in the batch, as well as the block table for each request. Next, the scheduler broadcasts this control message to the GPU workers. Then, the GPU workers start to execute the model with the input token IDs. In the attention layers, the GPU workers read the KV cache according to the block table in the control message. During execution, the GPU workers synchronize the intermediate results with the all-reduce communication primitive without the coordination of the scheduler, as in [47]. In the end, the GPU workers send the sampled tokens of this iteration back to the scheduler. In summary, GPU workers do not need to synchronize on memory management as they only need to receive all the memory management information at the beginning of each decoding iteration along with the step inputs.</p>
+<ol>
+<li><p>In each step, the scheduler first prepares the message with input token IDs for each request in the batch, as well as the block table for each request. </p>
+</li>
+<li><p>Next, the scheduler broadcasts this control message to the GPU workers. </p>
+</li>
+<li><p>Then, the GPU workers start to execute the model with the input token IDs. </p>
+</li>
+<li><p>In the attention layers, the GPU workers read the KV cache according to the block table in the control message. </p>
+</li>
+<li><p>During execution, the GPU workers synchronize the intermediate results with the all-reduce communication primitive without the coordination of the scheduler, as in [47]. </p>
+</li>
+<li><p>In the end, the GPU workers send the sampled tokens of this iteration back to the scheduler.</p>
+</li>
+</ol>
 </blockquote>
 ]]></content>
       <categories>
