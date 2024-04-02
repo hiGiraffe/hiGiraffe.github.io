@@ -13,16 +13,18 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://higiraffe.github.io/archives/2023/page/2/"/>
+    <link rel="canonical" href="https://higiraffe.github.io/2024/04/01/hpc-ai-1/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta property="og:type" content="website">
-<meta property="og:title" content="HiGiraffe">
-<meta property="og:url" content="https://higiraffe.github.io/archives/2023/page/2/index.html">
+        <meta property="og:type" content="article">
+<meta property="og:title" content="Orca, A Distributed Serving System for Transformer-Based Generative Models">
+<meta property="og:url" content="https://higiraffe.github.io/2024/04/01/hpc-ai-1/index.html">
 <meta property="og:site_name" content="HiGiraffe">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-01T05:43:57.000Z">
+<meta property="article:modified_time" content="2024-04-02T16:20:32.170Z">
 <meta property="article:author" content="Julian">
 <meta name="twitter:card" content="summary">
     
@@ -36,7 +38,7 @@
     
     <title>
         
-            Archive: 2023 -
+            Orca, A Distributed Serving System for Transformer-Based Generative Models -
         
         HiGiraffe
     </title>
@@ -108,7 +110,119 @@
     
     
     
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -170,7 +284,7 @@
                         
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="active" 
+                                <a class="" 
                                     href="/archives"  >
                                     
                                         
@@ -269,7 +383,7 @@
             
                 
                     <li class="drawer-navbar-item text-base my-1.5 flex justify-center items-center">
-                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group active" 
+                        <a class="rounded-3xl py-1.5 px-5 hover:border hover:!text-primary active:!text-primary group " 
                         href="/archives"  >
                              
                                 
@@ -340,237 +454,172 @@
             <div class="main-content">
 
                 
-                    <div class="archive-container ">
-    
-<div class="archive-list-container">
-    
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2024</span>
-                <span class="archive-year-post-count">[19]</span>
+                    <div class="post-page-container">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">Orca, A Distributed Serving System for Transformer-Based Generative Models</h1>
+            
             </div>
-            <ul class="article-list">
-              
-              <li class="article-item" date-is='04-01'>
-                <a href="/2024/04/01/hpc-ai-1/">
-                  <span class="article-title">Orca, A Distributed Serving System for Transformer-Based Generative Models</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-30'>
-                <a href="/2024/03/30/llm-4/">
-                  <span class="article-title">【学习笔记】vLLM</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-29'>
-                <a href="/2024/03/29/nlp-6/">
-                  <span class="article-title">【学习笔记】自回归模型和GPT</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-28'>
-                <a href="/2024/03/28/llm-3/">
-                  <span class="article-title">llama2部署记录</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-27'>
-                <a href="/2024/03/27/llm-2/">
-                  <span class="article-title">【学习笔记】大模型训练：数据并行</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-27'>
-                <a href="/2024/03/27/llm-1/">
-                  <span class="article-title">【学习笔记】大模型训练：流水线并行</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-23'>
-                <a href="/2024/03/23/nlp-5/">
-                  <span class="article-title">【学习笔记】损失函数（Loss Function）</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-22'>
-                <a href="/2024/03/22/nlp-4/">
-                  <span class="article-title">【学习笔记】从零开始实现循环神经网络（无框架）</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-22'>
-                <a href="/2024/03/22/nlp-3/">
-                  <span class="article-title">【学习笔记】完全图解RNN、RNN变体、Seq2Seq、Attention机制</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-21'>
-                <a href="/2024/03/21/nlp-2/">
-                  <span class="article-title">【学习笔记】史上最详细循环神经网络讲解（RNN/LSTM/GRU）</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-21'>
-                <a href="/2024/03/21/nlp-1/">
-                  <span class="article-title">【学习笔记】如何从头实现一个神经网络</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-20'>
-                <a href="/2024/03/20/mlsys-1/">
-                  <span class="article-title">Machine Learning System学习路线汇总</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-03'>
-                <a href="/2024/03/03/drawing-1/">
-                  <span class="article-title">Scientific Research Drawing Tools</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='03-03'>
-                <a href="/2024/03/03/graph-4/">
-                  <span class="article-title">Fast Subgraph Matching on Large Graphs using Graphics Processors</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-17'>
-                <a href="/2024/01/17/cuda-2/">
-                  <span class="article-title">Cuda Note in CME213 HW3</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-11'>
-                <a href="/2024/01/11/gnn-3/">
-                  <span class="article-title">Link Analysis: PageRank</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-11'>
-                <a href="/2024/01/11/gnn-2/">
-                  <span class="article-title">Node Embeddings</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-05'>
-                <a href="/2024/01/05/lmm-2/">
-                  <span class="article-title">Neural_Network_Basis</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-03'>
-                <a href="/2024/01/03/lmm-1/">
-                  <span class="article-title">NLP_BM_Basic</span>
-                </a>
-              </li>
-              
-            </ul>
-        </section>
+            
+                    
+        
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/146565245?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Julian</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-04-01 13:43:57</span>
+        <span class="mobile">2024-04-01 13:43:57</span>
+        <span class="hover-info">Created</span>
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2023</span>
-                <span class="archive-year-post-count">[15]</span>
-            </div>
-            <ul class="article-list">
-              
-              <li class="article-item" date-is='12-13'>
-                <a href="/2023/12/13/gnn-1/">
-                  <span class="article-title">Traditional Methods for ML on Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-27'>
-                <a href="/2023/10/27/graph-3/">
-                  <span class="article-title">Efficient Multi-GPU Graph Processing with Remote Work Stealing</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-26'>
-                <a href="/2023/10/26/cuda-1/">
-                  <span class="article-title">Cuda Programming Model Notes</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/graph-2/">
-                  <span class="article-title">GPU-Accelerated Subgraph Enumeration on Partitioned Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/mit-6-172-12/">
-                  <span class="article-title">Parallel Storage Allocation</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-17'>
-                <a href="/2023/10/17/thesis-1/">
-                  <span class="article-title">Three Paper Guidances</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-16'>
-                <a href="/2023/10/16/cme213-1/">
-                  <span class="article-title">C++ Code Notes of Homework in CME 213</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-11'>
-                <a href="/2023/10/11/graph/">
-                  <span class="article-title">VSGM:View-Based GPU-Accelerated Subgraph Matching on Large Graphs</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='10-03'>
-                <a href="/2023/10/03/dl-systems-1/">
-                  <span class="article-title">ML Refresher / Softmax Regression</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='07-03'>
-                <a href="/2023/07/03/openmp/">
-                  <span class="article-title">OpenMp优化方法</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='06-01'>
-                <a href="/2023/06/01/pv/">
-                  <span class="article-title">PV操作笔记</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='02-15'>
-                <a href="/2023/02/15/mit-6-172-hw2/">
-                  <span class="article-title">HW:Profiling Serial MergeSort</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-08'>
-                <a href="/2023/01/08/mit-6-172-3/">
-                  <span class="article-title">Bit Hacks</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-07'>
-                <a href="/2023/01/07/mit-6-172-2/">
-                  <span class="article-title">Bentley Rules for Optimizing Work</span>
-                </a>
-              </li>
-              
-              <li class="article-item" date-is='01-05'>
-                <a href="/2023/01/05/mit-6-172-1/">
-                  <span class="article-title">Introduction and Matrix Multiplication</span>
-                </a>
-              </li>
-              
-            </ul>
-        </section>
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-04-03 00:20:32</span>
+            <span class="mobile">2024-04-03 00:20:32</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
     
 </div>
 
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <a class="button " href="ORCA OSDI22论文" title="center regular"><i class="https://www.usenix.org/conference/osdi22/presentation/yu fa-paperclip"></i> center regular</a>
+
+<h1 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h1><p>当前处理方法是按批次的，存在时间浪费的现象。</p>
+<ul>
+<li>一批请求输入，即使某一请求的计算完成了，也需要等待同一批次所有内容才能输出。</li>
+<li>一批新的请求在批次确定后进入，需要等待所有请求完成就能进入。</li>
+</ul>
+<h1 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h1><p>采用迭代级别的调度，更细粒度。新的模型只需要等待一次迭代就可以进行处理。</p>
+<p><strong>会带来新的挑战：</strong></p>
+<ul>
+<li>张量可变，对transformer模型的请求无法以批处理形式处理。</li>
+</ul>
+<p>所以采用selective batching的方法。这部分单独处理，其他都采用批处理。</p>
+<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><h2 id="GPT推理过程"><a href="#GPT推理过程" class="headerlink" title="GPT推理过程"></a>GPT推理过程</h2><blockquote>
+<p>![image-20240401225416690](C:\Data Files\github repo\github blog\hiGiraffe\source\images\hpc-ai-1\1)</p>
+<p>就是之前文章的自回归部分</p>
+<p>At a high level, the Attention operation computes a weighted average of the tokens of interest so that each token in the sequence is aware of the other. It takes three inputs, query, key, and value, computes dot products of the query (for the current token) with all keys (for the tokens of interest), applies Softmax on the dot products to get weights, and conducts weighted average of all values associated with the weights.</p>
+</blockquote>
+<blockquote>
+<p>![image-20240402235301243](C:\Data Files\github repo\github blog\hiGiraffe\source\images\hpc-ai-1\3)</p>
+<p>Prior to the Attention operation, there are the layer normalization operation (LayerNorm) and the QKV Linear (linear and split operations to get the query, key and value). Operations performed after Attention are, in order, a linear operation (Attn Out Linear), an add operation for residual connection (Add), layer normalization operation (LayerNorm), the multilayer perceptron (MLP) operations, and the other residual connection operation (Add).</p>
+</blockquote>
+<blockquote>
+<p>![image-20240402235135695](C:\Data Files\github repo\github blog\hiGiraffe\source\images\hpc-ai-1\2)</p>
+<p>Transformer layer的输入是越来越多的，1：t的；LSTM的输入长度是不变的。</p>
+</blockquote>
+<h2 id="ML-inference-serving-systems"><a href="#ML-inference-serving-systems" class="headerlink" title="ML inference serving systems"></a>ML inference serving systems</h2><p>实现高的加速器利用率，主要依靠批处理</p>
+<ul>
+<li>可以将多个请求的输入张量合并成大的输入张量</li>
+<li>可以重用加载的模型参数</li>
+</ul>
+<blockquote>
+<p>The main component of the serving system (e.g., Tri- ton [7]) is the scheduler, which is responsible for (1) creating a batch of requests by retrieving requests from a queue and (2)scheduling the execution engine (e.g., FasterTransformer [4]) to process the batch. The execution engine (3) processes the received batch by running multiple iterations of the model being served and (4) returns the generated text back to the serving system.</p>
+</blockquote>
+<p>服务系统主要依靠调度器，调度器则主要负责</p>
+<ul>
+<li>从队列中检索请求，创建1个批次的请求</li>
+<li>调度处理引擎去处理一个批次请求</li>
+</ul>
+<p>处理引擎</p>
+<ul>
+<li>运行服务模型的多次迭代来处理接收到的批次</li>
+<li>将生成的文本返回到服务系统</li>
+</ul>
+<p>以下是其中一个示例</p>
+<blockquote>
+<p>![image-20240403001200945](C:\Data Files\github repo\github blog\hiGiraffe\source\images\hpc-ai-1\4)</p>
+</blockquote>
+<h1 id="挑战-1"><a href="#挑战-1" class="headerlink" title="挑战"></a>挑战</h1><h2 id="对于提前完成和晚加入的请求"><a href="#对于提前完成和晚加入的请求" class="headerlink" title="对于提前完成和晚加入的请求"></a>对于提前完成和晚加入的请求</h2><p>服务系统和执行引擎只在以下情况交互信息</p>
+<ul>
+<li>服务系统调度下一批次的请求到空闲的引擎上</li>
+<li>引擎完成当前批次请求的处理</li>
+</ul>
+<p>所以就会面临</p>
+<blockquote>
+<p>![image-20240403001606876](C:\Data Files\github repo\github blog\hiGiraffe\source\images\hpc-ai-1\5)</p>
+<p>问题1：同一批次有的请求很早就完成了，但仍需要等待其他请求完成才能返回。</p>
+<p>问题2：这时候新的请求进来了，也无法调度给引擎处理，即使当前引擎是有能力处理的。</p>
+</blockquote>
+<p>提出的解决方案：<strong>Iteration-level scheduling</strong>（迭代级调度）</p>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/03/30/llm-4/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">【学习笔记】vLLM</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Orca, A Distributed Serving System for Transformer-Based Generative Models</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%91%E6%88%98"><span class="nav-text">挑战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-text">创新点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GPT%E6%8E%A8%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-text">GPT推理过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ML-inference-serving-systems"><span class="nav-text">ML inference serving systems</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%91%E6%88%98-1"><span class="nav-text">挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E6%8F%90%E5%89%8D%E5%AE%8C%E6%88%90%E5%92%8C%E6%99%9A%E5%8A%A0%E5%85%A5%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="nav-text">对于提前完成和晚加入的请求</span></a></li></ol></li></ol>
+
+    </div>
 </div>
+        </div>
+    
+</div>
+
+
 
                 
 
@@ -632,6 +681,23 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-side-tools-container">
