@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-1/11">
 <meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-1/12">
 <meta property="article:published_time" content="2024-04-01T05:43:57.000Z">
-<meta property="article:modified_time" content="2024-04-03T11:46:16.407Z">
+<meta property="article:modified_time" content="2024-04-03T12:00:27.247Z">
 <meta property="article:author" content="Julian">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://higiraffe.github.io/images/hpc-ai-1/1">
@@ -499,8 +499,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-03 19:46:16</span>
-            <span class="mobile">2024-04-03 19:46:16</span>
+            <span class="desktop">2024-04-03 20:27</span>
+            <span class="mobile">2024-04-03 20:27</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -693,6 +693,8 @@ mjx-container[display="true"] + br {
 </tr>
 </tbody></table>
 <p>23-25行是考虑GPU内存限制</p>
+<p>max_tokens就是限定输出的长度</p>
+<p>然后假如加上这个request超出了当前能容纳的内存，就不让该request进</p>
 </blockquote>
 <h3 id="Pipeline-parallelism"><a href="#Pipeline-parallelism" class="headerlink" title="Pipeline parallelism"></a>Pipeline parallelism</h3><p>9-10行，调度器保证数据够的情况下，每个worker都在工作。</p>
 <blockquote>
