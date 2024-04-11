@@ -2019,7 +2019,31 @@ return result
 </div><div class="notel-content"><p>to be continue </p>
 </div></div>
 
-
+<div class="note-large yellow"><div class="notel-title"><p>DeepSpeed-流水线系列</p>
+</div><div class="notel-content"><ul>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/630734624">deepspeed入门教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/648637061">给llama实现流水线并行 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/688873027">从啥也不会到DeepSpeed————一篇大模型分布式训练的学习过程总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/667500496">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练3-流水线并行训练GPipe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://zhuanlan.zhihu.com/p/636488690">DeepSpeed 流水线实战 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://www.deepspeed.ai/tutorials/pipeline/">DeepSpeed Pineline文档1 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+<a class="link" href="https://deepspeed.readthedocs.io/en/latest/pipeline.html">DeepSpeed Pineline文档2 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</li>
+</ul>
+</div></div>
 
 <div class="note-large yellow"><div class="notel-title"><p>ML-system入坑指南</p>
 </div><div class="notel-content"><ul>
@@ -2167,10 +2191,9 @@ return result
 
 
 
-<div class="note-large yellow"><div class="notel-title"><p>DeepSpeed系列</p>
+<div class="note-large yellow"><div class="notel-title"><p>有意思的系列</p>
 </div><div class="notel-content"><ul>
-<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/688873027">从啥也不会到DeepSpeed————一篇大模型分布式训练的学习过程总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
-<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/667500496">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练3-流水线并行训练GPipe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/688161704">优雅玩转实验室服务器（七）优雅地使用ssh或者http访问内网服务器——frp内网穿透教程 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
 </ul>
 </div></div>
 ]]></content>
