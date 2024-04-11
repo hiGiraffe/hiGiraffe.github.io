@@ -3520,6 +3520,7 @@ return result
 <p>微软 DeepSpeed 提出的 PipeDream ，针对这些问题的改进方法就是 1F1B 策略。这种改进策略可以解决缓存 activation 的份数问题，使得 activation 的缓存数量只跟 stage 数相关，从而进一步节省显存，训练更大的模型。其解决思路就是努力减少每个 activation 的保存时间，即这就需要每个微批次数据尽可能早的完成后向计算，从而让每个 activation 尽可能早释放。</p>
 <p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-5/9" alt="img"></p>
 </blockquote>
+<p>to be continue</p>
 ]]></content>
       <categories>
         <category>AI</category>
