@@ -2165,6 +2165,14 @@ return result
 </ul>
 </div></div>
 
+
+
+<div class="note-large yellow"><div class="notel-title"><p>DeepSpeed系列</p>
+</div><div class="notel-content"><ul>
+<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/688873027">从啥也不会到DeepSpeed————一篇大模型分布式训练的学习过程总结 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><input disabled="" type="checkbox"> <a class="link" href="https://zhuanlan.zhihu.com/p/667500496">《从零实现BERT、GPT及Diffusion类算法》- 8：优化训练3-流水线并行训练GPipe <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+</div></div>
 ]]></content>
       <categories>
         <category>AI</category>
@@ -2766,6 +2774,51 @@ return result
 
 <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:06&lt;00:00,  2.21s/it]</span><br><span class="line">You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers</span><br><span class="line">Loading checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3/3 [00:06&lt;00:00,  2.13s/it]</span><br><span class="line">You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.</span><br><span class="line">tokens/sec: 12.0, time 78.71099257469177, total tokens 1000, total prompts 10</span><br><span class="line">device_map is  {'model.embed_tokens': 0, 'model.layers.0': 0, 'model.layers.1': 0, 'model.layers.2': 0, 'model.layers.3': 0, 'model.layers.4': 0, 'model.layers.5': 0, 'model.layers.6': 0, 'model.layers.7': 0, 'model.layers.8': 0, 'model.layers.9': 0, 'model.layers.10': 0, 'model.layers.11': 0, 'model.layers.12': 0, 'model.layers.13': 0, 'model.layers.14': 0, 'model.layers.15': 0, 'model.layers.16': 1, 'model.layers.17': 1, 'model.layers.18': 1, 'model.layers.19': 1, 'model.layers.20': 1, 'model.layers.21': 1, 'model.layers.22': 1, 'model.layers.23': 1, 'model.layers.24': 1, 'model.layers.25': 1, 'model.layers.26': 1, 'model.layers.27': 1, 'model.layers.28': 1, 'model.layers.29': 1, 'model.layers.30': 1, 'model.layers.31': 1, 'model.norm': 1, 'lm_head': 1}</span><br><span class="line">[{'outputs': ['\nThe King is dead. Long live the Queen.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\nThe King is dead. Long live the King.\n', 'They were sent to the country to stay with their eccentric uncle, who lived in a large house that had been in his family for hundreds of years.\nTheir uncle was a very strange man. He was tall and thin and had a long, hooked nose. He was always dressed in a long black cloak, and he had a long, white beard. He was very fond of children, and he was always telling them stories about the witches who lived in the', 'The universe was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters. And God said, "Let there be light," and there was light. And God saw the light, that it was good; and God divided the light from the darkness. And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.\nAnd God said, "Let there', '\nWinston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him.\nThe hallway smelt of boiled cabbage and old rag mats. At one end of it a colored poster, too large for indoor display, had been tacked to the wall. It', '\nIt is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.\n"It is a truth universally acknowledged, that a single man in possession of a good'], 'num_tokens': 500}]</span><br></pre></td></tr></table></figure></div>
 
+<h2 id="Accelerate’s-internal-mechanisms"><a href="#Accelerate’s-internal-mechanisms" class="headerlink" title="Accelerate’s internal mechanisms"></a>Accelerate’s internal mechanisms</h2><a class="button  center regular" href="https://huggingface.co/docs/accelerate/main/en/concept_guides/internal_mechanism" title="Accelerate’s internal mechanisms"><i class="fa-solid fa-paperclip"></i> Accelerate’s internal mechanisms</a>
+
+<p>在Pytorch中加载预训练模型时</p>
+<blockquote>
+<ol>
+<li>Create the model with randomly initialized weights</li>
+<li>Load the model weights (in a dictionary usually called a state dict) from the disk</li>
+<li>Load those weights inside the model</li>
+</ol>
+</blockquote>
+<h2 id="Comparing-performance-between-different-device-setups"><a href="#Comparing-performance-between-different-device-setups" class="headerlink" title="Comparing performance between different device setups"></a>Comparing performance between different device setups</h2><a class="button  center regular" href="https://huggingface.co/docs/accelerate/main/en/concept_guides/performance" title="Comparing performance between different device setups"><i class="fa-solid fa-paperclip"></i> Comparing performance between different device setups</a>
+
+<ul>
+<li>Setting the right seeds</li>
+<li>Observed Batch Sizes</li>
+<li>Learning Rates</li>
+</ul>
+<p>Accelerater类</p>
+<blockquote>
+<p>The provided code snippet is a part of the <code>Accelerator</code> class from the Hugging Face <code>accelerate</code> library. The <code>Accelerator</code> class is designed to simplify distributed training and mixed precision training in deep learning applications. It provides a wrapper around various components such as models, optimizers, data loaders, and schedulers, and offers methods to manage these components in a distributed environment.</p>
+<p>Here’s a brief overview of some key components and functionalities within the provided code snippet:</p>
+<ol>
+<li><p><strong>Initialization (<code>__init__</code> method):</strong> The constructor of the <code>Accelerator</code> class takes several arguments related to distributed training, mixed precision, data loading, and logging. It initializes various plugins like DeepSpeed, FullyShardedDataParallel (FSDP), and MegatronLM if they are available and configured.</p>
+</li>
+<li><p><strong>Attributes:</strong> The class exposes several attributes that provide information about the training setup, such as the device in use, the distributed training configuration, the local and global process indices, and the mixed precision mode.</p>
+</li>
+<li><p><strong>Prepare Methods:</strong> The <code>prepare</code>, <code>prepare_model</code>, <code>prepare_data_loader</code>, <code>prepare_optimizer</code>, and <code>prepare_scheduler</code> methods are used to wrap the respective objects (model, data loader, optimizer, and scheduler) with the necessary components for distributed training and mixed precision. These methods ensure that the objects are correctly set up to be used in a distributed environment.</p>
+</li>
+<li><p><strong>Training Utilities:</strong> Methods like <code>backward</code>, <code>unscale_gradients</code>, <code>clip_grad_norm_</code>, and <code>clip_grad_value_</code> are provided to handle gradient scaling, clipping, and reduction in a distributed and mixed-precision context.</p>
+</li>
+<li><p><strong>Data Handling:</strong> The <code>gather</code>, <code>gather_for_metrics</code>, and <code>pad_across_processes</code> methods are useful for aggregating data across processes and handling unevenly divided datasets in a distributed setting.</p>
+</li>
+<li><p><strong>Checkpointing:</strong> The <code>save_state</code> and <code>load_state</code> methods allow for saving and loading the state of the training, including models, optimizers, schedulers, and other custom objects. These methods can handle sharding large models and work with different serialization methods.</p>
+</li>
+<li><p><strong>Memory Management:</strong> The <code>free_memory</code> and <code>clear</code> methods help in releasing references to internal objects and managing memory efficiently during training.</p>
+</li>
+<li><p><strong>Mixed Precision Training:</strong> The <code>autocast</code> context manager is provided to enable automatic mixed-precision training within a block of code.</p>
+</li>
+<li><p><strong>Hooks and Callbacks:</strong> The class supports registering hooks for pre-saving and pre-loading states, allowing for custom behavior during checkpointing.</p>
+</li>
+<li><p><strong>Device Verification:</strong> The <code>verify_device_map</code> method checks if a model has been prepared with a device map that resembles <code>auto</code>, which is not compatible with distributed training.</p>
+</li>
+</ol>
+<p>This class is a powerful tool for researchers and developers working with deep learning models, as it simplifies the process of adapting training code for distributed environments and mixed-precision training. It abstracts away much of the complexity involved in these processes, making it easier to focus on the model architecture and training logic.</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>AI</category>
@@ -3400,6 +3453,90 @@ return result
 <p>之前一个Batch AB传入，就必须完成AB计算后才能进行下一个Batch。</p>
 <p>但ORCA这样是不是也会收到GPU Memory的限制？</p>
 </blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>【学习笔记】大模型训练：流水线并行</title>
+    <url>/2024/04/11/llm-5/</url>
+    <content><![CDATA[<a class="button  center regular" href="https://zhuanlan.zhihu.com/p/653860567" title="原文链接1"><i class="fa-solid fa-paperclip"></i> 原文链接1</a>
+
+<blockquote>
+<p>所谓流水线并行，就是由于模型太大，无法将整个模型放置到单张GPU卡中；因此，将模型的不同层放置到不同的计算设备，降低单个计算设备的显存消耗，从而实现超大规模模型训练。</p>
+<p>如下图所示，模型共包含四个模型层（如：Transformer层），被切分为三个部分，分别放置到三个不同的计算设备。即第 1 层放置到设备 0，第 2 层和第三 3 层放置到设备 1，第 4 层放置到设备 2。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\1)</p>
+<p>相邻设备间通过通信链路传输数据。具体地讲，前向计算过程中，输入数据首先在设备 0 上通过第 1 层的计算得到中间结果，并将中间结果传输到设备 1，然后在设备 1 上计算得到第 2 层和第 3 层的输出，并将模型第 3 层的输出结果传输到设备 2，在设备 2 上经由最后一层的计算得到前向计算结果。反向传播过程类似。最后，各个设备上的网络层会使用反向传播过程计算得到的梯度更新参数。由于各个设备间传输的仅是相邻设备间的输出张量，而不是梯度信息，因此通信量较小。</p>
+</blockquote>
+<h1 id="朴素流水线并行"><a href="#朴素流水线并行" class="headerlink" title="朴素流水线并行"></a>朴素流水线并行</h1><blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\2)</p>
+<p>下面以 4 层顺序模型为例：</p>
+<div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="code"><pre><span class="line">output=L4(L3(L2(L1(input))))</span><br></pre></td></tr></table></figure></div>
+
+<p>我们将计算分配给两个 GPU，如下所示：</p>
+<ul>
+<li>GPU1 computes: <code>intermediate=L2(L1(input))</code></li>
+<li>GPU2 computes: <code>output=L4(L3(intermediate))</code></li>
+</ul>
+<p>为了完成前向传播，我们在 GPU1 上计算中间值并将结果张量传输到 GPU2。 然后， GPU2 计算模型的输出并开始进行反向传播。 对于反向传播，我们从 GPU2 到 GPU1 的中间发送梯度。 然后， GPU1 根据发送的梯度完成反向传播。 这样，流水线并行训练会产生与单节点训练相同的输出和梯度。 朴素流水线并行训练相当于顺序训练，这使得调试变得更加容易。</p>
+<p>下面说明了朴素流水线并行执行流程。 GPU1 执行前向传播并缓存激活（红色）。 然后，它使用 MPI 将 L2 的输出发送到 GPU2。 GPU2 完成前向传播，并使用目标值计算损失，完成之后开始反向传播。 一旦 GPU2 完成，梯度的输出被发送到 GPU1，从而完成反向传播。</p>
+<p>请注意，这里仅使用了点到点通信（MPI.Send 和 MPI.Recv），并且不需要任何集体通信原语（因此，不需要 MPI.AllReduce）。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\3)</p>
+<p>主要是因为该方案在任意给定时刻，除了一个 GPU 之外的其他所有 GPU 都是空闲的。因此，如果使用 4 个 GPU，则几乎等同于将单个 GPU 的内存量增加四倍，而其他资源 (如计算) 相当于没用上。所以，朴素流水线存在很多的Bubble。朴素流水线的 Bubble 的时间为 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="12.632ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 5583.4 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(763,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mo" transform="translate(1152,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1541,0)"><path data-c="1D458" d="M121 647Q121 657 125 670T137 683Q138 683 209 688T282 694Q294 694 294 686Q294 679 244 477Q194 279 194 272Q213 282 223 291Q247 309 292 354T362 415Q402 442 438 442Q468 442 485 423T503 369Q503 344 496 327T477 302T456 291T438 288Q418 288 406 299T394 328Q394 353 410 369T442 390L458 393Q446 405 434 405H430Q398 402 367 380T294 316T228 255Q230 254 243 252T267 246T293 238T320 224T342 206T359 180T365 147Q365 130 360 106T354 66Q354 26 381 26Q429 26 459 145Q461 153 479 153H483Q499 153 499 144Q499 139 496 130Q455 -11 378 -11Q333 -11 305 15T277 90Q277 108 280 121T283 145Q283 167 269 183T234 206T200 217T182 220H180Q168 178 159 139T145 81T136 44T129 20T122 7T111 -2Q98 -11 83 -11Q66 -11 57 -1T48 16Q48 26 85 176T158 471L195 616Q196 629 188 632T149 637H144Q134 637 131 637T124 640T121 647Z"></path></g><g data-mml-node="mo" transform="translate(2284.2,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(3284.4,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(3784.4,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(4173.4,0)"><g data-mml-node="mo"><path data-c="2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path></g></g><g data-mml-node="mi" transform="translate(4673.4,0)"><path data-c="1D458" d="M121 647Q121 657 125 670T137 683Q138 683 209 688T282 694Q294 694 294 686Q294 679 244 477Q194 279 194 272Q213 282 223 291Q247 309 292 354T362 415Q402 442 438 442Q468 442 485 423T503 369Q503 344 496 327T477 302T456 291T438 288Q418 288 406 299T394 328Q394 353 410 369T442 390L458 393Q446 405 434 405H430Q398 402 367 380T294 316T228 255Q230 254 243 252T267 246T293 238T320 224T342 206T359 180T365 147Q365 130 360 106T354 66Q354 26 381 26Q429 26 459 145Q461 153 479 153H483Q499 153 499 144Q499 139 496 130Q455 -11 378 -11Q333 -11 305 15T277 90Q277 108 280 121T283 145Q283 167 269 183T234 206T200 217T182 220H180Q168 178 159 139T145 81T136 44T129 20T122 7T111 -2Q98 -11 83 -11Q66 -11 57 -1T48 16Q48 26 85 176T158 471L195 616Q196 629 188 632T149 637H144Q134 637 131 637T124 640T121 647Z"></path></g><g data-mml-node="mo" transform="translate(5194.4,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>，<strong>当K越大，即GPU的数量越多时，空置的比例接近1，即GPU的资源都被浪费掉了</strong>，因此，朴素的流水线并行将会导致<strong>GPU使用率过低</strong>。</p>
+<p>另外，还需要加上在<strong>设备之间复制数据的通信开销</strong>；所以， 4 张使用朴素流水线并行的 6GB 卡将能够容纳 1 张 24GB 卡相同大小的模型，而后者训练得更快；因为，它没有数据传输开销。</p>
+<p>还有<strong>通信和计算没有交错</strong>的问题：当我们通过网络发送中间输出 (FWD) 和梯度 (BWD) 时，没有 GPU 执行任何操作。</p>
+<p>除此之外，还存在<strong>高内存需求</strong>的问题：先执行前向传播的GPU（如：GPU1）将保留整个小批量缓存的所有激活，直到最后。如果批量大小很大，可能会产生内存问题。</p>
+</blockquote>
+<h1 id="微批次流水线执行"><a href="#微批次流水线执行" class="headerlink" title="微批次流水线执行"></a>微批次流水线执行</h1><blockquote>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\4)</p>
+<p>微批次（MicroBatch）流水线并行与朴素流水线几乎相同，但它通过将传入的小批次（minibatch）分块为微批次（microbatch），并人为创建流水线来解决 GPU 空闲问题，从而允许不同的 GPU 同时参与计算过程，可以显著提升流水线并行设备利用率，减小设备空闲状态的时间。目前业界常见的流水线并行方法 GPipe 和 PipeDream 都采用微批次流水线并行方案。</p>
+</blockquote>
+<h2 id="GPipe"><a href="#GPipe" class="headerlink" title="GPipe"></a><strong>GPipe</strong></h2><blockquote>
+<p>GPipe（Easy Scaling with Micro-Batch Pipeline Parallelism），由谷歌提出的一种流水线并行方案。最早，谷歌在Lingvo框架下开源了GPipe，基于 TensorFlow 库进行实现的。后来，Kakao Brain的工程师用 PyTorch 来实现了 GPipe，并开源出来，也就是 torchgpipe。之后，Facebook的FairScale库将torchgpipe集成到项目中。再后来，Facebook又将FairScale库中关于torchgpipe的部分代码集成到了PyTorch 1.8.0 之后的版本中。torchgpipe 的这部分代码被合并到 <code>torch/distributed/pipeline/sync</code> 目录下。</p>
+<p>以下代码是基于PyTorch使用包含两个 FC 层的模型跨 GPU0 和 GPU1 进行流水线并行的示例：</p>
+<div class="highlight-container" data-rel="Text"><figure class="iseeu highlight text"><table><tr><td class="code"><pre><span class="line"># Need to initialize RPC framework first.</span><br><span class="line">os.environ['MASTER_ADDR'] = 'localhost'</span><br><span class="line">os.environ['MASTER_PORT'] = '29500'</span><br><span class="line">torch.distributed.rpc.init_rpc('worker', rank=0, world_size=1)</span><br><span class="line"></span><br><span class="line"># 构建模型</span><br><span class="line">fc1 = nn.Linear(16, 8).cuda(0)</span><br><span class="line">fc2 = nn.Linear(8, 4).cuda(1)</span><br><span class="line">model = nn.Sequential(fc1, fc2)</span><br><span class="line"></span><br><span class="line">from torch.distributed.pipeline.sync import Pipe</span><br><span class="line"></span><br><span class="line"># chunks表示micro-batches的大小，默认值为1</span><br><span class="line">model = Pipe(model, chunks=8)</span><br><span class="line">input = torch.rand(16, 16).cuda(0)</span><br><span class="line">output_rref = model(input)</span><br></pre></td></tr></table></figure></div>
+
+<p>Gpipe 流水线并行主要用来解决这两个问题：</p>
+<p>第一，<strong>提高模型训练的并行度</strong>。Gpipe 在朴素流水线并行的基础上，利用数据并行的思想，将 mini-batch 细分为多个更小的 micro-batch，送入GPU进行训练，来提高并行程度。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\5)</p>
+<p>上图即为朴素流水线并行与 GPipe 微批次流水线并行对比，通过 GPipe 可以有效降低流水线并行bubble 空间的比例。其中，F的第一个下标表示 GPU 编号，F的第二个下标表示 micro-batch 编号。假设我们将 mini-batch 划分为 M 个，则 GPipe 流水线并行下， GPipe 流水线 Bubble 时间为： <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="25.098ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 11093.3 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(763,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mo" transform="translate(1152,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1541,0)"><path data-c="1D43E" d="M285 628Q285 635 228 637Q205 637 198 638T191 647Q191 649 193 661Q199 681 203 682Q205 683 214 683H219Q260 681 355 681Q389 681 418 681T463 682T483 682Q500 682 500 674Q500 669 497 660Q496 658 496 654T495 648T493 644T490 641T486 639T479 638T470 637T456 637Q416 636 405 634T387 623L306 305Q307 305 490 449T678 597Q692 611 692 620Q692 635 667 637Q651 637 651 648Q651 650 654 662T659 677Q662 682 676 682Q680 682 711 681T791 680Q814 680 839 681T869 682Q889 682 889 672Q889 650 881 642Q878 637 862 637Q787 632 726 586Q710 576 656 534T556 455L509 418L518 396Q527 374 546 329T581 244Q656 67 661 61Q663 59 666 57Q680 47 717 46H738Q744 38 744 37T741 19Q737 6 731 0H720Q680 3 625 3Q503 3 488 0H478Q472 6 472 9T474 27Q478 40 480 43T491 46H494Q544 46 544 71Q544 75 517 141T485 216L427 354L359 301L291 248L268 155Q245 63 245 58Q245 51 253 49T303 46H334Q340 37 340 35Q340 19 333 5Q328 0 317 0Q314 0 280 1T180 2Q118 2 85 2T49 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q147 65 216 339T285 628Z"></path></g><g data-mml-node="mo" transform="translate(2652.2,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(3652.4,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(4152.4,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="TeXAtom" data-mjx-texclass="ORD" transform="translate(4541.4,0)"><g data-mml-node="mo"><path data-c="2F" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path></g></g><g data-mml-node="mo" transform="translate(5041.4,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(5430.4,0)"><path data-c="1D43E" d="M285 628Q285 635 228 637Q205 637 198 638T191 647Q191 649 193 661Q199 681 203 682Q205 683 214 683H219Q260 681 355 681Q389 681 418 681T463 682T483 682Q500 682 500 674Q500 669 497 660Q496 658 496 654T495 648T493 644T490 641T486 639T479 638T470 637T456 637Q416 636 405 634T387 623L306 305Q307 305 490 449T678 597Q692 611 692 620Q692 635 667 637Q651 637 651 648Q651 650 654 662T659 677Q662 682 676 682Q680 682 711 681T791 680Q814 680 839 681T869 682Q889 682 889 672Q889 650 881 642Q878 637 862 637Q787 632 726 586Q710 576 656 534T556 455L509 418L518 396Q527 374 546 329T581 244Q656 67 661 61Q663 59 666 57Q680 47 717 46H738Q744 38 744 37T741 19Q737 6 731 0H720Q680 3 625 3Q503 3 488 0H478Q472 6 472 9T474 27Q478 40 480 43T491 46H494Q544 46 544 71Q544 75 517 141T485 216L427 354L359 301L291 248L268 155Q245 63 245 58Q245 51 253 49T303 46H334Q340 37 340 35Q340 19 333 5Q328 0 317 0Q314 0 280 1T180 2Q118 2 85 2T49 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q147 65 216 339T285 628Z"></path></g><g data-mml-node="mo" transform="translate(6541.7,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mi" transform="translate(7541.9,0)"><path data-c="1D440" d="M289 629Q289 635 232 637Q208 637 201 638T194 648Q194 649 196 659Q197 662 198 666T199 671T201 676T203 679T207 681T212 683T220 683T232 684Q238 684 262 684T307 683Q386 683 398 683T414 678Q415 674 451 396L487 117L510 154Q534 190 574 254T662 394Q837 673 839 675Q840 676 842 678T846 681L852 683H948Q965 683 988 683T1017 684Q1051 684 1051 673Q1051 668 1048 656T1045 643Q1041 637 1008 637Q968 636 957 634T939 623Q936 618 867 340T797 59Q797 55 798 54T805 50T822 48T855 46H886Q892 37 892 35Q892 19 885 5Q880 0 869 0Q864 0 828 1T736 2Q675 2 644 2T609 1Q592 1 592 11Q592 13 594 25Q598 41 602 43T625 46Q652 46 685 49Q699 52 704 61Q706 65 742 207T813 490T848 631L654 322Q458 10 453 5Q451 4 449 3Q444 0 433 0Q418 0 415 7Q413 11 374 317L335 624L267 354Q200 88 200 79Q206 46 272 46H282Q288 41 289 37T286 19Q282 3 278 1Q274 0 267 0Q265 0 255 0T221 1T157 2Q127 2 95 1T58 0Q43 0 39 2T35 11Q35 13 38 25T43 40Q45 46 65 46Q135 46 154 86Q158 92 223 354T289 629Z"></path></g><g data-mml-node="mo" transform="translate(8815.1,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(9815.3,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(10315.3,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(10704.3,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container>。其中，K为设备，M为将mini-batch切成多少个micro-batch。当M&gt;&gt;K的时候，这个时间可以忽略不计。</p>
+<p>但这样做也有一个坏处，那就是把 batch 拆小了之后，对于那些需要统计量的层（如：Batch Normalization），就会导致计算变得麻烦，需要重新实现。在Gpipe中的方法是，在训练时计算和运用的是micro-batch里的均值和方差，同时持续追踪全部mini-batch的移动平均和方差，以便在测试阶段进行使用。这样 Layer Normalization 则不受影响。</p>
+<p>第二，<strong>通过重计算（Re-materialization）降低显存消耗</strong>。在模型训练过程中的前向传播时，会记录每一个算子的计算结果，用于反向传播时的梯度计算。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\6)</p>
+<p>而 Re-materialization 可以不用保存中间层输出的激活值，在计算梯度的时候会重新计算出来这些激活值从而可以计算梯度。在 GPipe 中，应用了这个技术后，如果一个设备上有多层，那么就可以<strong>只保存多层中的最后一层的输出值</strong>。这样就降低了每个设备上内存占用峰值，同样的模型尺寸需要的显存就少了。</p>
+<p><strong>Re-materialization并非是不需要中间结果，而是有办法在求导过程中实时的计算出之前被舍弃掉的中间结果</strong>。</p>
+<p>简而言之，GPipe 通过纵向对模型进行切分解决了单个设备无法训练大模型的问题；同时，又通过微批量流水线增加了多设备上的并行程度，除此之外，还使用re-materialization降低了单设备上的显存峰值。</p>
+<p>上面讲述了 GPipe 流水线并行方案，接下来讲述一下 PipeDream 。讲述 PipeDream之前，我们先来看看流水线并行策略。</p>
+</blockquote>
+<h1 id="流水线并行策略"><a href="#流水线并行策略" class="headerlink" title="流水线并行策略"></a>流水线并行策略</h1><h2 id="F-then-B-策略"><a href="#F-then-B-策略" class="headerlink" title="F-then-B 策略"></a>F-then-B 策略</h2><blockquote>
+<p>F-then-B 模式，先进行前向计算，再进行反向计算。</p>
+<p>F-then-B 模式由于缓存了多个 micro-batch 的中间变量和梯度，显存的实际利用率并不高。![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\7)</p>
+</blockquote>
+<h2 id="1F1B-策略"><a href="#1F1B-策略" class="headerlink" title="1F1B 策略"></a>1F1B 策略</h2><blockquote>
+<p>1F1B（One Forward pass followed by One Backward pass）模式，一种前向计算和反向计算交叉进行的方式。在 1F1B 模式下，前向计算和反向计算交叉进行，可以及时释放不必要的中间变量。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\8)</p>
+<p>1F1B 示例如下图所示，以 stage4 的 F42（<strong>stage4 的第 2 个 micro-batch 的前向计算</strong>）为例，F42 在计算前，F41 的反向 B41（stage4 的第 1 个 micro-batch 的反向计算）已经计算结束，即可释放 F41 的中间变量，从而 F42 可以<strong>复用</strong> F41 中间变量的显存。</p>
+<p>研究表明，1F1B 方式相比于 F-then-B 方式，峰值显存可以节省 37.5%，对比朴素流水线并行峰值显存明显下降，设备资源利用率显著提升。</p>
+</blockquote>
+<h1 id="PipeDream（非交错式1F1B）-DeepSpeed"><a href="#PipeDream（非交错式1F1B）-DeepSpeed" class="headerlink" title="PipeDream（非交错式1F1B）-DeepSpeed"></a>PipeDream（非交错式1F1B）-DeepSpeed</h1><blockquote>
+<p>微软 DeepSpeed 提出的 PipeDream ，针对这些问题的改进方法就是 1F1B 策略。这种改进策略可以解决缓存 activation 的份数问题，使得 activation 的缓存数量只跟 stage 数相关，从而进一步节省显存，训练更大的模型。其解决思路就是努力减少每个 activation 的保存时间，即这就需要每个微批次数据尽可能早的完成后向计算，从而让每个 activation 尽可能早释放。</p>
+<p>![img](C:\Data Files\github repo\github blog\hiGiraffe\source\images\llm-5\9)</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>AI</category>
+        <category>Distributed Training</category>
+      </categories>
+      <tags>
+        <tag>Artificial Intelligence</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DeepSpeed流水线并行</title>
+    <url>/2024/04/08/hpc-ai-2/</url>
+    <content><![CDATA[<a class="button  center regular" href="https://huggingface.co/docs/accelerate/en/index" title="Accelerate in Hugging Face"><i class="fa-solid fa-paperclip"></i> Accelerate in Hugging Face</a>
+
+
+
+<p>deepspeed是怎么实现流水线并行推理的。重点看1. 如何支持多机多卡的流水线并行 2. 是否可以在不同的GPU上放置不同数量的层数 3. 是否能流水线式执行推理 （同一时间内不同的层在处理不同的请求）</p>
 ]]></content>
   </entry>
 </search>
