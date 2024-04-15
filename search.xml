@@ -3572,9 +3572,41 @@ return result
   <entry>
     <title>【学习笔记】降低LLM推理资源需求</title>
     <url>/2024/04/15/hpc-ai-3/</url>
-    <content><![CDATA[<h1 id="FlexGen-High-Throughput-Generative-Inference-of-Large-Language-Models-with-a-Single-GPU"><a href="#FlexGen-High-Throughput-Generative-Inference-of-Large-Language-Models-with-a-Single-GPU" class="headerlink" title="FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU"></a>FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU</h1><a class="button  center regular" href="https://dl.acm.org/doi/10.5555/3618408.3619696" title="FlexGen"><i class="fa-solid fa-paperclip"></i> FlexGen</a>
+    <content><![CDATA[<h1 id="A-guide-to-LLM-inference-and-performance"><a href="#A-guide-to-LLM-inference-and-performance" class="headerlink" title="A guide to LLM inference and performance"></a>A guide to LLM inference and performance</h1><a class="button  center regular" href="https://www.baseten.co/blog/llm-transformer-inference-guide/" title="A guide to LLM inference and performance"><i class="fa-solid fa-paperclip"></i> A guide to LLM inference and performance</a>
 
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><strong>先前的工作</strong></p>
+
+
+<h1 id="FlexGen-High-Throughput-Generative-Inference-of-Large-Language-Models-with-a-Single-GPU"><a href="#FlexGen-High-Throughput-Generative-Inference-of-Large-Language-Models-with-a-Single-GPU" class="headerlink" title="FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU"></a>FlexGen: High-Throughput Generative Inference of Large Language Models with a Single GPU</h1><a class="button  center regular" href="https://dl.acm.org/doi/10.5555/3618408.3619696" title="FlexGen"><i class="fa-solid fa-paperclip"></i> FlexGen</a>
+
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><blockquote>
+<p>Motivated by the emerging demand for <strong>latency-insensitive tasks</strong> with batched processing, this paper initiates the study of high-throughput LLM inference using limited resources, such as a single commodity GPU.</p>
+</blockquote>
+<p>本文的主要是针对解决<strong>延迟不敏感任务</strong>的新兴需求，提出了一个在GPU内存有限的情况下进行LLM推理的高吞吐量引擎。</p>
+<blockquote>
+<p>By solving <strong>a linear programming problem</strong>, it searches for efﬁcient patterns to store and access tensors.</p>
+</blockquote>
+<p>通过线性规划问题来搜索<strong>如何存储和访问张量</strong>。</p>
+<blockquote>
+<p>FlexGen further compresses the weights and the attention cache to 4 bits with negligible accuracy loss.</p>
+</blockquote>
+<p><strong>模型量化</strong>：在几乎没有精度损失的情况下将weights和attention cache降到4bit</p>
+<blockquote>
+<p>These techniques enable FlexGen to have a <strong>larger space of batch size</strong> choices and thus signiﬁcantly increase maximum throughput.</p>
+</blockquote>
+<p>通过上述方法，FlexGen有着<strong>更大的batch size处理空间</strong>来实现<strong>更大的吞吐量</strong></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><strong>大模型的挑战</strong>：</p>
+<blockquote>
+<p>These models can have billions, if not trillions of parameters (Chowdhery et al., 2022; Fedus et al., 2022), which leads to extremely high computational and memory requirements to run.</p>
+<p>对计算和内存要求高</p>
+</blockquote>
+<p>-&gt; 如何降低LLM推理资源要求</p>
+<p>-&gt;本文重点关注面向吞吐量的生成推理</p>
+<p><strong>当前的需求</strong>：</p>
+<blockquote>
+<p>One key characteristic of these tasks is that they often require running LLM inference in batches over a large number of tokens</p>
+</blockquote>
+<p>存在一部分大模型推理，需要对大量token批量运行LLM推理，且对延迟不太敏感。</p>
+<p><strong>先前降低LLM资源需求的工作</strong></p>
 <blockquote>
 <p>Prior efforts to lower resource requirements of LLM infer- ence correspond to three directions: </p>
 <ol>
@@ -3582,16 +3614,17 @@ return result
 <p>模型压缩</p>
 </li>
 <li><p><strong>collaborative inference</strong> to amortize inference cost via <strong>decentralization</strong> (Borzunov et al., 2022); </p>
-<p>协助推理？这个是什么</p>
+<p>利用CPU协助推理</p>
 </li>
 <li><p><strong>ofﬂoading</strong> to utilize memory from CPU and disk (Aminabadi et al., 2022; HuggingFace, 2022).</p>
+<p>offload到CPU和disk上</p>
 </li>
 </ol>
 </blockquote>
 <p><strong>缺陷</strong></p>
 <blockquote>
-<p>1和2建立在GPU内存能放下模型的基础上</p>
-<p>3的IO调度和tensor放置使得其在单个GPU上性能很差</p>
+<p>1和2建立在GPU内存能放下模型的基础上：很难支持单卡运行175B的大模型</p>
+<p>3的IO调度和tensor放置使得其在单个GPU上性能很差：在小批量要求上，可能效果很差</p>
 </blockquote>
 <p><strong>本文提出解决方案</strong></p>
 <blockquote>
@@ -3599,8 +3632,36 @@ return result
 </blockquote>
 <p><strong>挑战</strong></p>
 <blockquote>
-<p>设计有效的卸载策略</p>
-<p>制定有效的压缩策略</p>
+<ol>
+<li><p>如何设计有效的卸载策略</p>
+<p>主要有三种tensors需要卸载：weights，activations和KV cache</p>
+<p>需要考虑：what tensors to ofﬂoad, where to ofﬂoad them within the three-level memory hierarchy, and when to ofﬂoad them during inference</p>
+<p>The batch-by-batch, token-by-token, and layer-by-layer structure of the computation forms a complex dependency graph where there are multiple ways to conduct computation.</p>
+</li>
+<li><p>如何制定有效的压缩策略</p>
+<p>when combining compression with ofﬂoading for high-throughput inference, the I/O costs and memory reduction of the weights and KV cache become more important</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><blockquote>
+<p>Recent years have witnessed the emergence of systems specialized for LLM inference, such as FasterTransformer (NVIDIA, 2022), Orca (Yu et al., 2022), LightSeq (Wang et al., 2021), PaLM inference (Pope et al., 2022), TurboTransformers (Fang et al., 2021), DeepSpeed Inference (Aminabadi et al., 2022), and Hugging Face Accelerate (HuggingFace, 2022).</p>
+<p>但大多数都专注于具有高端加速器<strong>面向延迟</strong>的场景，限制了在商品级GPU<strong>面向吞吐量</strong>的推理的部署。</p>
+</blockquote>
+<blockquote>
+<p>To enable LLM inference on such commodity hardware, ofﬂoading is an essential technique — as far as we know, among current systems, only <strong>DeepSpeed Zero-Inference</strong> and <strong>Hugging Face Accelerate</strong> support ofﬂoading.</p>
+<p>但都是继承了training systems中的offload方法，忽略了推理的计算属性。</p>
+</blockquote>
+<blockquote>
+<p>Another attempt to enable LLM inference on accessible hardware is collaborative computing proposed by Petals (Borzunov et al., 2022).</p>
+<p>协作计算</p>
+</blockquote>
+<blockquote>
+<p>sparsiﬁcation (Hoeﬂer et al., 2021; Frantar &amp; Alistarh, 2023) and quantization (Kwon et al., 2022; Yao et al., 2022; Park et al., 2022; Xiao et al., 2022; Frantar et al., 2022; Dettmers et al., 2022)</p>
+<p>稀疏化和量化</p>
+</blockquote>
+<blockquote>
+<p>memory optimizations and ofﬂoading have been studied for training (Huang et al., 2020; Ren et al., 2021; Steiner et al., 2022) and linear algebra (Jia-Wei &amp; Kung, 1981; Demmel, 2013).</p>
+<p>内存优化和卸载、线性代数</p>
 </blockquote>
 <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p><strong>Generative Inference</strong></p>
 <blockquote>
@@ -3657,6 +3718,7 @@ return result
 </blockquote>
 <p><strong>搜索策略</strong></p>
 <blockquote>
+<p>设置一个动态规划问题</p>
 </blockquote>
 <p><strong>拓展到多GPU</strong></p>
 <blockquote>
