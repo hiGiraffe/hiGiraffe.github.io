@@ -3718,7 +3718,7 @@ return result
 </blockquote>
 <p><strong>搜索策略</strong></p>
 <blockquote>
-<p>设置一个动态规划问题</p>
+<p>设置一线性规划问题</p>
 </blockquote>
 <p><strong>拓展到多GPU</strong></p>
 <blockquote>
