@@ -25,8 +25,11 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-3/1">
 <meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-3/2">
+<meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-3/3">
+<meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-3/4">
+<meta property="og:image" content="https://higiraffe.github.io/images/hpc-ai-3/5">
 <meta property="article:published_time" content="2024-04-15T06:55:08.000Z">
-<meta property="article:modified_time" content="2024-04-15T15:50:03.069Z">
+<meta property="article:modified_time" content="2024-04-16T05:15:09.849Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
@@ -490,8 +493,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-15 23:50:03</span>
-            <span class="mobile">2024-04-15 23:50:03</span>
+            <span class="desktop">2024-04-16 13:15:09</span>
+            <span class="mobile">2024-04-16 13:15:09</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -671,18 +674,24 @@ mjx-container[display="true"] + br {
 </li>
 </ul>
 </blockquote>
-<p><strong>计算顺序</strong></p>
+<p><strong>计算调度</strong></p>
 <blockquote>
 <p><img lazyload="" src="/images/loading.svg" data-src="/images/hpc-ai-3/2" alt="image-20240415155137311"></p>
 <p>以往的是一行一行的，本论文提出的是一列一列的计算，就可以避免了重复加载model。</p>
 <p>但会面临一个问题，CPU和disk内存的有限的。所以采用了图b中的方法：zig-zag block schedule</p>
+<p>Besides, we propose another more advanced and I/O-optimal schedule,</p>
+<p>提出了另一种更先进的IO优化调度，但仅实现了block的调度，且在文章中没有详细说明。</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/hpc-ai-3/3" alt="image-20240416123651909"></p>
+<p>通过异步传输+计算，实现计算和通信重叠。</p>
 </blockquote>
 <p><strong>张量放置</strong></p>
 <blockquote>
+<p>用w表示权重，h表示激活值，c表示kv cache。记录在gpu memory、cpu memory和disk上的百分比。</p>
+<p>且有三个可以思考的分发角度</p>
 <ul>
 <li>model granularity</li>
 <li>layer granularity</li>
-<li>tenso granularity</li>
+<li>tensor granularity</li>
 </ul>
 <p>Coarser granularity leads to lower runtime overhead but it is less ﬂexible and its cost is difﬁcult to analyze.</p>
 <p>目前采用layer granularity</p>
@@ -690,14 +699,27 @@ mjx-container[display="true"] + br {
 <p><strong>Computation delegation</strong></p>
 <blockquote>
 <p>the computation of attention scores during decoding is I/O-bounded</p>
-<p>CPU计算the attention score</p>
+<p>CPU计算the attention score可以减少IO通信，所以假如kv cache还没存到gpu上时可以用CPU进行计算</p>
 </blockquote>
 <p><strong>成本模型</strong></p>
 <blockquote>
+<ul>
+<li><p>latency</p>
+<p>用<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.65ex;" xmlns="http://www.w3.org/2000/svg" width="3.781ex" height="2.181ex" role="img" focusable="false" viewBox="0 -677 1671.1 964.2"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D447" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path></g><g data-mml-node="TeXAtom" transform="translate(617,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mi" transform="translate(503,0)"><path data-c="1D45F" d="M21 287Q22 290 23 295T28 317T38 348T53 381T73 411T99 433T132 442Q161 442 183 430T214 408T225 388Q227 382 228 382T236 389Q284 441 347 441H350Q398 441 422 400Q430 381 430 363Q430 333 417 315T391 292T366 288Q346 288 334 299T322 328Q322 376 378 392Q356 405 342 405Q286 405 239 331Q229 315 224 298T190 165Q156 25 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 114 189T154 366Q154 405 128 405Q107 405 92 377T68 316T57 280Q55 278 41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mi" transform="translate(954,0)"><path data-c="1D452" d="M39 168Q39 225 58 272T107 350T174 402T244 433T307 442H310Q355 442 388 420T421 355Q421 265 310 237Q261 224 176 223Q139 223 138 221Q138 219 132 186T125 128Q125 81 146 54T209 26T302 45T394 111Q403 121 406 121Q410 121 419 112T429 98T420 82T390 55T344 24T281 -1T205 -11Q126 -11 83 42T39 168ZM373 353Q367 405 305 405Q272 405 244 391T199 357T170 316T154 280T149 261Q149 260 169 260Q282 260 327 284T373 353Z"></path></g></g></g></g></g></svg></mjx-container>表示一个层在预处理阶段的平均latency，<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.667ex;" xmlns="http://www.w3.org/2000/svg" width="3.978ex" height="2.199ex" role="img" focusable="false" viewBox="0 -677 1758.1 972"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D447" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path></g><g data-mml-node="TeXAtom" transform="translate(617,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D454" d="M311 43Q296 30 267 15T206 0Q143 0 105 45T66 160Q66 265 143 353T314 442Q361 442 401 394L404 398Q406 401 409 404T418 412T431 419T447 422Q461 422 470 413T480 394Q480 379 423 152T363 -80Q345 -134 286 -169T151 -205Q10 -205 10 -137Q10 -111 28 -91T74 -71Q89 -71 102 -80T116 -111Q116 -121 114 -130T107 -144T99 -154T92 -162L90 -164H91Q101 -167 151 -167Q189 -167 211 -155Q234 -144 254 -122T282 -75Q288 -56 298 -13Q311 35 311 43ZM384 328L380 339Q377 350 375 354T369 368T359 382T346 393T328 402T306 405Q262 405 221 352Q191 313 171 233T151 117Q151 38 213 38Q269 38 323 108L331 118L384 328Z"></path></g><g data-mml-node="mi" transform="translate(477,0)"><path data-c="1D452" d="M39 168Q39 225 58 272T107 350T174 402T244 433T307 442H310Q355 442 388 420T421 355Q421 265 310 237Q261 224 176 223Q139 223 138 221Q138 219 132 186T125 128Q125 81 146 54T209 26T302 45T394 111Q403 121 406 121Q410 121 419 112T429 98T420 82T390 55T344 24T281 -1T205 -11Q126 -11 83 42T39 168ZM373 353Q367 405 305 405Q272 405 244 391T199 357T170 316T154 280T149 261Q149 260 169 260Q282 260 327 284T373 353Z"></path></g><g data-mml-node="mi" transform="translate(943,0)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g></g></g></g></svg></mjx-container>表示一个层在decoding阶段的平均latency</p>
+<p>然后假设完全重叠，那么平均latency是数据从CPU读到GPU、GPU写到CPU，disk读到CPU、CPU写到disk，计算 这五部分中的最大值。</p>
+<p>通信的估计通过数据量，计算的估计通过计算事件</p>
+</li>
+<li><p>peak memory usage of the GPU、CPU and disk</p>
+</li>
+</ul>
 </blockquote>
 <p><strong>搜索策略</strong></p>
 <blockquote>
-<p>设置一线性规划问题</p>
+<p>包含十一个元素：block size bls, GPU batch size gbs, weight placement wg, wc, wd, activation placement hg, hc, hd, and KV cache placement cg, cc, cd.</p>
+<p>先确定vls和gbs，再确定wg，wc，wd，hg，hc，hd，cg，cc，cd。从而减少了搜索空间</p>
+<p>设置一个线性规划问题</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/hpc-ai-3/4" alt="image-20240416125212093"></p>
+<p>考虑了内存峰值，峰值超过的时候手动调整</p>
 </blockquote>
 <p><strong>拓展到多GPU</strong></p>
 <blockquote>
@@ -719,7 +741,13 @@ mjx-container[display="true"] + br {
 <p>在传输前转换为4bit精度，传输后转换回来再计算。并且该转换不在CPU上运行</p>
 </blockquote>
 <p><strong>Sparse Attention.</strong></p>
-<p>只计算top 10% attention</p>
+<blockquote>
+<p>自注意力有稀疏性，只计算top 10% attention scores</p>
+<p>After computing the attention matrices, for each query, we calculate the indices of its Top-K tokens from the K cache. We then simply drop the other tokens and only load a subset of the V cache according to the indices.</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://arxiv.org/html/2312.04985v1">参考资料 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/hpc-ai-3/5" alt="image-20240416131417612"></p>
+<p>应该是这个意思？但没太懂具体的计算。</p>
+</blockquote>
 
         </div>
 
