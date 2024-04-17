@@ -3766,6 +3766,18 @@ return result
 <p><img lazyload="" src="/images/loading.svg" data-src="/images/hpc-ai-3/5" alt="image-20240416131417612"></p>
 <p>应该是这个意思？但没太懂具体的计算。</p>
 </blockquote>
+<h1 id="动态剪枝"><a href="#动态剪枝" class="headerlink" title="动态剪枝"></a>动态剪枝</h1><a class="button  center regular" href="https://zhuanlan.zhihu.com/p/675585887" title="动态剪枝blog"><i class="fa-solid fa-paperclip"></i> 动态剪枝blog</a>
+
+<p>to be continued</p>
+<h1 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a>矩阵分解</h1><a class="button  center regular" href="https://zhuanlan.zhihu.com/p/678891209" title="矩阵分解blog"><i class="fa-solid fa-paperclip"></i> 矩阵分解blog</a>
+
+<p>to be continued</p>
+<h1 id="大模型稀疏化"><a href="#大模型稀疏化" class="headerlink" title="大模型稀疏化"></a>大模型稀疏化</h1><a class="button  center regular" href="https://zhuanlan.zhihu.com/p/679376718" title="模型稀疏化blog"><i class="fa-solid fa-paperclip"></i> 模型稀疏化blog</a>
+
+<p>to be continued</p>
+<h1 id="KV-Cache量化"><a href="#KV-Cache量化" class="headerlink" title="KV Cache量化"></a>KV Cache量化</h1><a class="button  center regular" href="https://zhuanlan.zhihu.com/p/691537237" title="KV Cache 量化blog"><i class="fa-solid fa-paperclip"></i> KV Cache 量化blog</a>
+
+<p>to be continued</p>
 ]]></content>
       <categories>
         <category>AI</category>
@@ -3847,5 +3859,19 @@ return result
 <h1 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h1><p>需要看视频才看得懂，晚点补</p>
 <h1 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a>Transformer</h1><p><img lazyload="" src="/images/loading.svg" data-src="/images/dl-systems-2/8" alt="image-20240417105236671"></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Towards Efficient Generative Large Language Model Serving: A Survey from Algorithms to Systems</title>
+    <url>/2024/04/17/hpc-ai-4/</url>
+    <content><![CDATA[<a class="button  center regular" href="https://arxiv.org/abs/2312.15234" title="Tianqi Chen 23年末综述论文"><i class="fa-solid fa-paperclip"></i> Tianqi Chen 23年末综述论文</a>
+
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>]]></content>
+      <categories>
+        <category>AI</category>
+        <category>LLM Inference</category>
+      </categories>
+      <tags>
+        <tag>Artificial Intelligence</tag>
+      </tags>
   </entry>
 </search>
