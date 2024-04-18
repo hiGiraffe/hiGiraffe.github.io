@@ -37,8 +37,16 @@
 <meta property="og:image" content="https://higiraffe.github.io/images/llm-4/9">
 <meta property="og:image" content="https://higiraffe.github.io/images/llm-4/10">
 <meta property="og:image" content="https://higiraffe.github.io/images/llm-4/11">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/12">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/13">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/14">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/15">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/16">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/17">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/18">
+<meta property="og:image" content="https://higiraffe.github.io/images/llm-4/19">
 <meta property="article:published_time" content="2024-03-30T11:35:07.000Z">
-<meta property="article:modified_time" content="2024-04-02T15:41:37.475Z">
+<meta property="article:modified_time" content="2024-04-18T16:07:24.765Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
@@ -502,8 +510,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-02 23:41:37</span>
-            <span class="mobile">2024-04-02 23:41:37</span>
+            <span class="desktop">2024-04-19 00:07:24</span>
+            <span class="mobile">2024-04-19 00:07:24</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -700,7 +708,231 @@ mjx-container[display="true"] + br {
 </li>
 </ol>
 </blockquote>
+<h1 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h1><a class="button  center regular" target="_blank" rel="noopener" href="https://github.com/hiGiraffe/vllm" title="源码笔记"><i class="fa-solid fa-paperclip"></i> 源码笔记</a>
 
+<a class="button  center regular" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/691045737" title="图解大模型计算加速系列：vLLM源码解析1，整体架构"><i class="fa-solid fa-paperclip"></i> 图解大模型计算加速系列：vLLM源码解析1，整体架构</a>
+
+<a class="button  center regular" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/692540949" title="图解大模型计算加速系列：vLLM源码解析2，调度器策略(Scheduler)"><i class="fa-solid fa-paperclip"></i> 图解大模型计算加速系列：vLLM源码解析2，调度器策略(Scheduler)</a>
+
+<blockquote>
+<p>在vLLM中，当我们使用离线批处理模式时，表面上是在做“同步”推理，也即batch_size是静态固定的。<strong>但推理内核引擎（LLMEngine）在实际运作时，batch_size是可以动态变更的</strong>：在每一个推理阶段（<strong>prefill算1个推理阶段，每个decode各算1个推理阶段</strong>）处理的batch size可以根据当下显存的实际使用情况而变动。</p>
+<p>举个例子来说：</p>
+<ul>
+<li>给定一个很大的batch，此时尽管vLLM采用了PagedAttention这样的显存优化技术，我们的gpu依然无法同时处理这么大的batch。</li>
+<li>所以batch中的每一条数据，会被先放到一个waiting队列中。vLLM会用自己的调度策略从waiting队列中依次取数，加入running队列中，直到它认为取出的这些数据将会打满它为1个推理阶段分配好的显存。此时waiting队列中可能还会剩一些数据。</li>
+<li>在每1个推理阶段，vLLM对running队列中的数据做推理。如果这1个推理阶段执行完毕后，有的数据已经完成了生成（比如正常遇到<code>&lt;eos&gt;</code>了），就将这些完成的数据从running队列中移开，并释放它占据的物理块显存。</li>
+<li>这时，waiting队列中的数据就可以继续append进running队列中，做下1个阶段的推理。</li>
+<li>因此在每1个推理阶段，vLLM处理的batch size可能会动态变更。</li>
+<li>将LLMEngine包装成离线批处理形式后，所有的数据必须等到一起做完推理才能返给我们。所以从体感上，我们可能很难感知到内核引擎的“动态”逻辑。</li>
+</ul>
+<p><strong>在vLLM中，即使是同步形式的离线批处理，其背后的内核引擎也是按动态batch的形式来实现的</strong></p>
+<p><strong>正是因为LLMEngine这种“动态处理”的特性，才使得它同时也能成为异步在线服务的内核引擎</strong>：当一条条请求发来时，它们都先进入LLMEngine调度器（Scheduler）的waiting队列中（实际并不是直接进入waiting队列中的，而是在传给LLMEngine前先进入asyncio.Queue()中，然后再由LLMEngine调度进waiting队列中的，这些细节我们也放在后面说，这里不影响理解就行）。此时模型正常执行它的1个推理阶段，调度器也正常处理新来的请求。当模型准备执行下1个推理阶段时，调度器再根据设定的策略，决定哪些数据可以进入running队列进行推理。由于在线服务是异步的，先推理完成的数据就可以先发给客户端了（如果采用流式传输，也可以生成多少先发多少）。<br><strong>在这个过程中，vLLM通过PagedAttention技术和“先来先服务（FCFS），后来先抢占，gpu不够就先swap到cpu上”的调度策略，在1个推理阶段处理尽可能多的请求，解决高并发场景下的推理吞吐问题。这就是整个vLLM运作的核心思想。（对这行黑体字里的术语有疑惑的朋友，建议先看vLLM原理篇讲解）</strong></p>
+</blockquote>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/12" alt="img"></p>
+</blockquote>
+<blockquote>
+<p>先来看**<code>LLMEngine</code>**：</p>
+<ul>
+<li><strong><code>add_request()</code><strong>：该方法将每一个请求包装成vLLM能处理的数据类型(SequenceGroup，后面我们会详细解释)，并将其加入调度器（Scheduler）的waiting队列中。</strong>在LLMEngine中，这个函数是按照“同步”的方式设计的</strong>，也就是它被设计为“遍历batch中的每条数据，然后做相应处理”。所以这个函数本身只适合批处理场景。在异步的online serving中将会把它重写成异步的形式。</li>
+<li>**<code>abort_request</code>**：在推理过程中，并不是所有的请求都能有返回结果。比如客户端断开连接时，这个请求的推理就可以终止了（abort），这个函数就被用来做这个操作。</li>
+<li><strong><code>step()</code>：负责执行1次推理过程（1个prefill算1个次推理，每个decode各算1次推理）</strong>。在这个函数中，vLLM的调度器会决定要送那些数据去执行本次推理，并负责给这些数据分配好物理块（这些信息都被作为metadata放在要送给模型做推理的数据中）。模型会根据这些信息，采用PagedAttention方法，实际完成推理。</li>
+</ul>
+</blockquote>
+<h2 id="整体代码架构"><a href="#整体代码架构" class="headerlink" title="整体代码架构"></a>整体代码架构</h2><blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/13" alt="img"></p>
+<h3 id="Centralized-Controller"><a href="#Centralized-Controller" class="headerlink" title="Centralized Controller"></a>Centralized Controller</h3><p>**Centralized Controller，也就是前文我们所说的调度器(Scheduler)**。它和LLMEngine所在的进程是同一个，且两者都是在CPU上的。</p>
+<ul>
+<li><strong>调度器的主要作用就是，在每1个推理阶段，决定要把哪些数据送给模型做推理，同时负责给这些模型分配KV Cache物理块</strong>。但要注意，它只是分配了物理块的id，而不是物理块本身。物理块的实际分配是模型在推理过程中根据物理块id来操作的，也就是CacheEngine做的事情。</li>
+<li><strong>调度器下维护着BlockSpaceManager。它负责管理BlockAllocator（实际参与分配物理块的类）。BlockAllocator又分成gpu和cpu两种类型，分别管理这两类设备上的物理块</strong>。<strong>你可能会问，cpu上的物理块是什么呢</strong>？你还记得调度器有一个swap策略吗？当gpu上显存不足时，它会把后来的请求抢占，并将其相关的KV cache物理块全部都先swap（置换、卸载）在cpu上，等后续gpu显存充足时，再把它们加载回gpu上继续做相关请求的推理。所以在cpu上我们也需要一个管控物理块的BlockAllocator。<strong>实际代码实现时，Block相关的部分可不止这两个class，还有一些更复杂的逻辑细节。这个我们放在本系列后面的文章中讲解</strong>。</li>
+</ul>
+<h3 id="Distributed-Workers"><a href="#Distributed-Workers" class="headerlink" title="Distributed Workers"></a>Distributed Workers</h3><p>Distributed Workers，也就是分布式系统，你可以将每个worker理解成一块gpu。它的作用是将我们要使用的模型load到各块卡上（目前对单卡装不下的模型，vLLM支持tp/pp推理），然后对Controller传来的数据做1次推理，返回相关结果。我们来细看下这块：</p>
+<ul>
+<li><p><strong>Distributed Workers</strong>：图中绘制为Distributed Workers这个绿色块，<strong>其实按vLLM的源码内容，写成Executor会更合适一些</strong>。<strong>它就是所有Workers的管控中心</strong>，它指定了用什么方法管控这些Workers，负责分布式环境的初始化，目前支持的方法有：</p>
+</li>
+<li><ul>
+<li>cpu_executor：（较少用），使用cpu做推理时可考虑</li>
+<li>gpu_executor：单卡（world_size = 1）的情况下可用</li>
+<li>ray_gpu_executor：使用ray这个分布式计算框架实现的executor，适用于多卡环境</li>
+</ul>
+</li>
+<li><p><strong>Worker</strong>：<strong>在硬件上，它指gpu；在代码上，它指的是Worker实例（每个gpu上的进程维护自己的Worker实例）</strong>。在每个Worker实例中又管控着如下两个重要实例：</p>
+</li>
+<li><ul>
+<li><strong>CacheEngine：</strong>负责管控gpu/cpu上的KV cache物理块（调度器的block manager只负责物理块id的分配，CacheEngine则是根据这个id分配结果实打实地在管理物理块中的数据）</li>
+<li><strong>Worker.model</strong>：根据vLLM代码，这里写成<strong>model_runner</strong>会更合适一些。<strong>它负责加载模型，并执行推理</strong>。PagedAttention的相关逻辑，就维护这个实例关联的代码下。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="运行逻辑"><a href="#运行逻辑" class="headerlink" title="运行逻辑"></a>运行逻辑</h2><blockquote>
+<p><strong>在vLLM正式开始处理1条请求（也就是LLMEngine的调度器正式开始运作时），它需要做两件和初始化相关的事：</strong></p>
+<ul>
+<li><strong>加载模型</strong></li>
+<li><strong>预分配显存</strong></li>
+</ul>
+<ol>
+<li>模型加载</li>
+</ol>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/14" alt="img"></p>
+<p>这里在做的事很直观：把你的base model加载到worker上。如果你是online加载的，vLLM默认使用HuggingFace，你也可以在环境变量中把相关配置改成ModelScope。</p>
+<ol start="2">
+<li><p>预分配显存</p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/15" alt="img"></p>
+<p><strong>在模型部署的初始化阶段（推理正式开始前），vLLM会通过模拟实验的方式，来决定gpu/cpu上到底有多少个KV cache物理块可以分配给后续的请求们做推理。vLLM管这个步骤叫<code>determine_num_available_blocks</code>，跟文章中的不一样</strong></p>
+<p><strong>（1）杜撰假数据</strong></p>
+<p><strong>（2）用假数据模拟一次前向推理</strong></p>
+<p><strong>我们现在想知道在1次推理过程中，可以分配多少的显存给KV cache。我们可以使用如下公式计算：</strong><br><strong>分配给KV cache显存 = gpu总显存 - 不使用KV cache做1次推理时的显存占用（包括模型本身和推理过程中的中间数据）</strong></p>
+<p>对于“不使用KV cache做1次推理时的显存占用”，我们就可以用杜撰出来的假数据模拟一次前向推理来计算得出。在前向推理之后，我们把gpu上的缓存清一次，让它不要影响后续模型的正常推理。</p>
+<p><strong>（3）计算可分配的KV cache物理块总数</strong></p>
+<p>CPU上物理块总数也是同理，但与GPU不同的是，它不需要做模拟实验。CPU上可用的内存总数是用户通过参数传进来的（默认是4G）。也就是我们认为只能在这4G的空间上做swap。将上面公式中“分配给KV Cache的显存大小”替换成4G，就能得到CPU上物理块的数量。</p>
+<p><strong>（4）将预分配的KV Cache加载到gpu上</strong></p>
+<p><strong>当我们确定好KV Cache block的大小后，我们就可以创建empty tensor，将其先放置到gpu上，实现显存的预分配。以后这块显存就是专门用来做KV Cache的了。</strong>也正是因为这种预分配，你可能会发现在vLLM初始化后，显存的占用比你预想地要多（高过模型大小），这就是预分配起的作用。相关代码如下（帮助大家更好看一下KV cache tensor的shape）:</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="Scheduler调度"><a href="#Scheduler调度" class="headerlink" title="Scheduler调度"></a>Scheduler调度</h2><blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/16" alt="img"></p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/17" alt="img"></p>
+<p><strong>vLLM的调度策略中有一项叫做：后来先抢占（*Preemption*）</strong>。它是指在准备执行当前这1个推理阶段时，如果gpu上没有足够的资源对running队列中的全部数据完成下1次推理，我们就取出running队列中最后来的数据，将它的KV Cache swapped到CPU上，同时将这个数据从running移到swapped中。<strong>我们重复执行这个步骤，直到当前gpu上有足够的KV Cache空间留给剩在running中的全部数据为止。</strong></p>
+</blockquote>
+<h2 id="LLM函数"><a href="#LLM函数" class="headerlink" title="LLM函数"></a>LLM函数</h2><blockquote>
+<p>当我们调用·<code>outputs = llm.generate(prompts, sampling_params)</code>时，<strong>它实际做了两件事情：</strong></p>
+<ul>
+<li><p><strong><code>_add_request</code><strong>：</strong>将输入数据传给LLMEngine</strong>，它具体做了如下事情：</p>
+</li>
+<li><ul>
+<li><strong>把每1个prompt包装成一个SequenceGroup对象</strong>。从客户端角度看，1个请求可能包含多个prompts，例如离线批处理场景下你可以将1个batch理解成1个请求；但是从LLMEngine的角度看，1个prompt是1个请求，所以它会对输入数据进行预处理。在后文对SequenceGroup的讲解中，我们会来看vLLM这样做的意义。</li>
+<li><strong>把包装成SequenceGroup对象的数据加入调度器（Scheduler）的waiting队列，等待处理</strong>。这一块相关的细节，我们放在后文说。</li>
+</ul>
+</li>
+<li><p><strong><code>_run_engine</code><strong>：</strong>执行推理</strong>。只要调度器的waiting/running/swapped队列非空，我们就认为此时这批batch还没有做完推理，这时我们就会**调用LLMEngine的step()**函数，来完成1次调度以决定要送哪些数据去做推理。</p>
+</li>
+</ul>
+<p><strong>所以，想要知道调度器的运作流程，我们只要从<code>LLMEngine</code>的<code>add_request()</code>和<code>step()</code>两个函数入手就好了</strong>。<strong>不过在正式进入这两个函数的讲解之前，我们先来看和输入数据一个问题：为什么要把每个prompt都包装成一个SequenceGroup实例？SequenceGroup又长什么样呢？</strong></p>
+</blockquote>
+<h2 id="SequenceGroup"><a href="#SequenceGroup" class="headerlink" title="SequenceGroup"></a>SequenceGroup</h2><blockquote>
+<p><strong>可能出现”1个prompt -&gt; 多个outputs”的情况。那是否能设计一种办法，对1个prompt下所有的outputs进行集中管理，来方便vLLM更好做推理呢？</strong></p>
+</blockquote>
+<blockquote>
+<h3 id="SequenceGroup的作用"><a href="#SequenceGroup的作用" class="headerlink" title="SequenceGroup的作用"></a>SequenceGroup的作用</h3><ul>
+<li><p><strong>“1个prompt -&gt; 多个outputs”这样的结构组成一个<code>SequenceGroup</code>实例。</strong></p>
+</li>
+<li><p><strong>其中每组”prompt -&gt; output”组成一个序列（seq，属于<code>Sequence</code>实例），每个seq下有若干状态(status)属性，包括：</strong></p>
+</li>
+<li><ul>
+<li><p><strong><code>WAITING</code>：</strong>正在waiting队列中。waiting队列中的序列都没有做过prefill。</p>
+</li>
+<li><p><strong><code>RUNNING</code>：</strong>正在running队列中，即已经开始做推理。</p>
+</li>
+<li><p><strong><code>SWAPPED</code>：</strong>正在swapped队列中，表示此时gpu资源不足，相关的seq_group被抢占，导致其暂停推理，相关的KV block被置换到cpu上（swap out），等待gpu资源充足时再置换回来重新计算（swap in）。</p>
+</li>
+<li><p><strong>若干和Finish相关的状态</strong>，表示该seq推理已经结束，具体包括：</p>
+</li>
+<li><ul>
+<li><strong><code>FINISHED_STOPPED</code>：</strong>正常执行完毕，例如碰到<code>&lt;eos&gt;</code>符号，该seq的推理正常结束了</li>
+<li>**<code>FINISHED_LENGTH_CAPPED</code>**：因为seq的长度达到最大长度限制，而结束推理</li>
+<li>**<code>FINISHED_ABORTED</code>**：因不正常状态，而被终止的推理。例如客户端断开连接，则服务器会终止相关seq的推理</li>
+<li>**<code>FINISHED_IGNORED</code>**：因prompt过长而被终止执行的推理。本质上也是受到长度限制</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>在vLLM中有一个重要假设：一个seq_group中的所有seq共享1个prompt。</strong></p>
+</li>
+</ul>
+<p>例子：</p>
+<ul>
+<li><p><strong>在推理开始之前</strong>，这个seq_group下只有1条seq，它就是prompt，状态为waiting。</p>
+</li>
+<li><p><strong>在第1个推理阶段</strong>，调度器选中了这个seq_group，由于它的采样参数中<code>n = 4</code>，所以在做完prefill之后，它会生成4个seq，它们的状态都是running。</p>
+</li>
+<li><p><strong>在若干个推理阶段后，gpu上的资源不够了，这个seq_group不幸被调度器抢占（preemption）</strong>，它相关的KV block也被swap out到cpu上。此时所有seq的状态变为swapped。这里要注意，<strong>当一个seq_group被抢占时，对它的处理有两种方式：</strong></p>
+</li>
+<li><ul>
+<li><strong>Swap：如果该seq_group下的seq数量 &gt; 1，此时会采取swap策略</strong>，即把seq_group下【所有】seq的KV block从gpu上卸载到cpu上。（seq数量比较多，直接把算出的KV block抛弃，比较可惜）</li>
+<li><strong>Recomputation：如果该seq_group下的seq数量 = 1，此时会采取recomputation策略</strong>，即把该seq_group相关的物理块都释放掉，然后将它重新放回waiting队列中。等下次它被选中推理时，就是从prefill阶段开始重新推理了，因此被称为“重计算”。（seq数量少，重新计算KV block的成本不高）</li>
+</ul>
+</li>
+</ul>
+<p><strong>【注意，并不是每个seq_group都会经历抢占，具体要看调度器策略和gpu资源使用情况】</strong></p>
+<ul>
+<li><strong>又过了若干个推理阶段，gpu上的资源又充足了，此时执行swap in操作</strong>，将卸载到cpu上的KV block重新读到gpu上，继续对该seq_group做推理，此时seq的状态又变为running。</li>
+<li><strong>又过了若干个推理阶段，该seq_group中有1个seq已经推理完成了，它的状态就被标记为finish</strong>，此后这条已经完成的seq将不参与调度。</li>
+<li><strong>又过了若干个推理阶段，这个seq_group下所有的seq都已经完成推理了</strong>，这样就可以把它作为最终output返回了。</li>
+</ul>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/18" alt="img"></p>
+</blockquote>
+<blockquote>
+<p><strong>SequenceGroup:</strong></p>
+<ul>
+<li>**<code>self.seqs_dict</code>**：{seq_id: seq}，其中每个seq是一个Sequence对象。正如我们前文介绍的那样，一个seq_group下包含若干seqs</li>
+<li>**<code>self.sampling_params</code>**：采样参数</li>
+<li><strong><code>self.metrics</code><strong>：</strong>记录该seq_group相关的指标，例如该seq_group是什么时候被加入LLMEngine的（arrival_time）</strong>，该seq_group第一次被调度器选中调度是什么时候等等。调度器在选择时，会参考seq_groups们的这些指标来做决策。</li>
+<li><strong><code>get_max_num_running_steps</code><strong>：</strong>该seq_group在剩余生命周期内并行running的最大seq数量</strong>。<strong>“剩余生命周期”指从此刻一直到seq_group中所有的seq都做完推理</strong>。举个例子来说，我们看2.2节配图中倒数第3个时刻，此时这个seq_group内所有的seq都还没结束推理，所以若调用这个方法，则返回值为4；再看倒数第2个时刻，此时有1个seq已经完成了推理，所以若调用这个方法，则返回值为3。在后续调度策略代码中，我们将经常看到这个方法被调用，目的是用于估计若当前对一个seq_group做推理，它将消耗多少gpu资源。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Sequence:</p>
+<p>对于一个seq，我们重点来看它的属性<code>self.logical_token_blocks</code>（逻辑块）和方法<code>_append_tokens_to_blocks</code>（生成逻辑块的方法）。<strong>在vLLM中，每个seq都单独维护一份属于自己的逻辑块，不同的逻辑块可以指向同一个物理块</strong>（此刻你一定很关心逻辑块和物理块是如何做映射的，我们会循序渐进地讲解这点，<strong>现在你可以先忽略映射方法，把目光聚焦于“一个seq的逻辑块长什么样，怎么初始化它的逻辑块”</strong>）</p>
+<p>分配 _append_tokens_to_blocks</p>
+</blockquote>
+<h2 id="add-request"><a href="#add-request" class="headerlink" title="add_request()"></a>add_request()</h2><blockquote>
+<p> 将seq_group添加进调度器waiting队列</p>
+</blockquote>
+<h2 id="step"><a href="#step" class="headerlink" title="step()"></a>step()</h2><p><strong>调度器结构</strong></p>
+<blockquote>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/llm-4/19" alt="img"></p>
+<ul>
+<li><p>**<code>self.waiting, self.running, self.swapped</code>**：这三个都是python的deque()实例（双端队列，允许你从队列两侧添加或删除元素）。</p>
+</li>
+<li><ul>
+<li><strong>waiting队列用于存放所有还未开始做推理的seq_group</strong>，“未开始”指连prefill阶段都没有经历过。所以waiting队列中的seq_group只有一个seq，即是原始的prompt。</li>
+<li><strong>running队列用于存放当前正在做推理的seq_group。更准确地说，它存放的是上1个推理阶段被送去做推理的seq_group们</strong>，在开始新一轮推理阶段时，调度器会根据本轮的筛选结果，更新running队列，即决定本轮要送哪些seq_group去做推理。</li>
+<li><strong>swapped队列用于存放被抢占的seq_group</strong>。在2.2节中我们有提过，若一个seq_group被抢占，调度器会对它执行swap或recomputation操作，分别对应着将它送去swapped队列或waiting队列，在后文我们会详细分析抢占处理的代码</li>
+</ul>
+</li>
+<li><p><strong><code>self.policy</code>：是vLLM自定义的一个Policy实例，</strong>目标是根据调度器总策略（<strong>FCFS</strong>，First Come First Serve，先来先服务）原则，<strong>对各个队列里的seq_group按照其arrival time进行排序</strong>。相关代码比较好读，所以这里我们只概述它的作用，后续不再介绍它的代码实现。</p>
+</li>
+<li><p><strong><code>self.prev_time</code><strong>：</strong>上一次调度发起的时间点，初始化为0。</strong>我们知道每执行1次推理阶段前，调度器都要做一次调度，这个变量存放的就是上次调度发起的时间点。</p>
+</li>
+<li><p><strong><code>self.prev_prompt</code><strong>：取值为True/False，初始化为False。</strong>若上一次调度时，调度器有从waiting队列中取出seq_group做推理，即为True，否则为False。</strong></p>
+</li>
+<li><p><strong><code>self.last_prompt_latency</code><strong>：</strong>记录“当前调度时刻（now） - 最后一次有从waiting队列中取数做推理的那个调度时刻”的差值</strong>（并不是每一次调度时，调度器一定都会从waiting队列中取seq_group，它可能依旧继续对running队列中的数据做推理），初始化为0。</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p><strong><code>BlockManager</code><strong>：</strong>物理块管理器</strong>。这也是vLLM自定义的一个class。截止本文写作时，vLLM提供了<code>BlockSpaceManagerV1</code>和<code>BlockSpaceManagerV2</code>两个版本的块管理器。V1是vLLM默认的版本，V2是改进版本（但还没开发完，例如不支持prefix caching等功能）。所以本文依然基于<code>BlockSpaceManagerV1</code>进行讲解。物理块管理器这个class下又维护着两个重要属性：</p>
+</li>
+<li><ul>
+<li><strong><code>BlockAllocator</code>：物理块分配者，负责实际为seq做物理块的分配、释放、拷贝等操作。</strong>这也是我们后文要解读的对象。其下又分成<code>self.gpu_allocator</code>和<code>self.cpu_allocator</code>两种类型，分别管理gpu和cpu上的物理块。</li>
+<li><strong><code>self.block_tables</code>：负责维护每个seq下的物理块列表，本质上它是一个字典，形式如<code>{seq_id: List[PhysicalTokenBlock]}</code>。</strong>注意，这里维护者【所有】seq_group下seq的物理块，而不是单独某一个seq的。因为整个调度器都是全局的，其下的BlockManager自然也是全局的。</li>
+</ul>
+</li>
+<li><p><strong>BlockManager只负责管理和分配物理块，映射关系潜藏在seq中</strong>。理解这点对理解代码非常重要。</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p><strong>如果当前swapped队列为空，那就去检查是否能从waiting队列中调度seq_group，直到不满足调度条件为止（gpu空间不足，或waiting队列已为空等）</strong>。<strong>此时，1个推理阶段中，所有的seq_group都处在prefill阶段。</strong></p>
+</li>
+<li><p><strong>如果当前swapped队列非空，或者无法从waiting队列中调度任何seq_group时：</strong></p>
+</li>
+<li><ul>
+<li>检查是否能从running队列中调度seq_group，直到不满足调度条件为止。</li>
+<li>若本次无新的被抢占的seq_group，且swapped队列非空，就检查是否能从swapped队列中调度seq_group，直到不满足调度条件为止。</li>
+</ul>
+</li>
+</ul>
+<p><strong>此时，1个推理阶段中，所有的seq_group要么全来自running队列，要么来自running + swapped队列，它们都处在decode阶段。</strong></p>
+<p><strong>至此我们要记住vLLM调度中非常重要的一点：在1个推理阶段中，所有的seq_group要么全部处在prefill阶段。要么全部处在decode阶段。</strong></p>
+<p>你可能想问：<strong>为什么要以swapped是否非空为判断入口呢？</strong><br>这是因为，如果当前调度步骤中swapped队列非空，说明在之前的调度步骤中这些可怜的seq_group因为资源不足被抢占，而停滞了推理。所以<strong>根据FCFS规则，当gpu上有充足资源时，我们应该先考虑它们，而不是考虑waiting队列中新来的那些seq_group。</strong><br>同理，在图中你会发现，当我们进入对running队列的调度时（图中红色分支），我们会根据“<strong>本次调度是否有新的被抢占的seq_group</strong>”，来决定要不要调度swapped队列中的数据。这个理由也很简单：在本次调度中，我就是因为考虑到gpu空间不足的风险，我才新抢占了一批序列。既然存在这个风险，我就最好不要再去已有的swapped队列中继续调度seq_group了。</p>
+</blockquote>
+<h2 id="passed-delay"><a href="#passed-delay" class="headerlink" title="_passed_delay()"></a>_passed_delay()</h2><p>判断调度waiting队列的时间点</p>
+<h2 id="can-allocate"><a href="#can-allocate" class="headerlink" title="can_allocate()"></a>can_allocate()</h2>
         </div>
 
         
@@ -764,7 +996,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">【学习笔记】vLLM</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E7%9A%84self-attention-layers"><span class="nav-text">transformer的self-attention layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8DBatching-Techniques-for-LLMs"><span class="nav-text">当前Batching Techniques for LLMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Challenges-in-LLM-Serving"><span class="nav-text">Memory Challenges in LLM Serving</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagedAttention"><span class="nav-text">PagedAttention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling-and-Preemption"><span class="nav-text">Scheduling and Preemption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distributed-Execution"><span class="nav-text">Distributed Execution</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E7%9A%84self-attention-layers"><span class="nav-text">transformer的self-attention layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8DBatching-Techniques-for-LLMs"><span class="nav-text">当前Batching Techniques for LLMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Challenges-in-LLM-Serving"><span class="nav-text">Memory Challenges in LLM Serving</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagedAttention"><span class="nav-text">PagedAttention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling-and-Preemption"><span class="nav-text">Scheduling and Preemption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distributed-Execution"><span class="nav-text">Distributed Execution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="nav-text">整体代码架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Centralized-Controller"><span class="nav-text">Centralized Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Workers"><span class="nav-text">Distributed Workers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">运行逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduler%E8%B0%83%E5%BA%A6"><span class="nav-text">Scheduler调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LLM%E5%87%BD%E6%95%B0"><span class="nav-text">LLM函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SequenceGroup"><span class="nav-text">SequenceGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SequenceGroup%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">SequenceGroup的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-request"><span class="nav-text">add_request()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step"><span class="nav-text">step()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#passed-delay"><span class="nav-text">_passed_delay()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#can-allocate"><span class="nav-text">can_allocate()</span></a></li></ol></li></ol>
 
     </div>
 </div>
