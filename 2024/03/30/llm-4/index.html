@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://higiraffe.github.io/images/llm-4/18">
 <meta property="og:image" content="https://higiraffe.github.io/images/llm-4/19">
 <meta property="article:published_time" content="2024-03-30T11:35:07.000Z">
-<meta property="article:modified_time" content="2024-04-18T16:07:24.765Z">
+<meta property="article:modified_time" content="2024-04-22T02:10:00.825Z">
 <meta property="article:author" content="Julian">
 <meta property="article:tag" content="Artificial Intelligence">
 <meta name="twitter:card" content="summary">
@@ -510,8 +510,8 @@ mjx-container[display="true"] + br {
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-04-19 00:07:24</span>
-            <span class="mobile">2024-04-19 00:07:24</span>
+            <span class="desktop">2024-04-22 10:10</span>
+            <span class="mobile">2024-04-22 10:10</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -932,7 +932,65 @@ mjx-container[display="true"] + br {
 <p>你可能想问：<strong>为什么要以swapped是否非空为判断入口呢？</strong><br>这是因为，如果当前调度步骤中swapped队列非空，说明在之前的调度步骤中这些可怜的seq_group因为资源不足被抢占，而停滞了推理。所以<strong>根据FCFS规则，当gpu上有充足资源时，我们应该先考虑它们，而不是考虑waiting队列中新来的那些seq_group。</strong><br>同理，在图中你会发现，当我们进入对running队列的调度时（图中红色分支），我们会根据“<strong>本次调度是否有新的被抢占的seq_group</strong>”，来决定要不要调度swapped队列中的数据。这个理由也很简单：在本次调度中，我就是因为考虑到gpu空间不足的风险，我才新抢占了一批序列。既然存在这个风险，我就最好不要再去已有的swapped队列中继续调度seq_group了。</p>
 </blockquote>
 <h2 id="passed-delay"><a href="#passed-delay" class="headerlink" title="_passed_delay()"></a>_passed_delay()</h2><p>判断调度waiting队列的时间点</p>
-<h2 id="can-allocate"><a href="#can-allocate" class="headerlink" title="can_allocate()"></a>can_allocate()</h2>
+<blockquote>
+<ul>
+<li><strong>调度间隔设置得太小</strong>，每次调度都只关心waiting中的新请求，这样发送旧请求的用户就迟迟得不到反馈结果。且此时waiting队列中积累的新请求数量可能比较少，不利于做batching，浪费了并发处理的能力。</li>
+<li><strong>调度间隔设置得太大</strong>，waiting中的请求持续挤压，同样对vLLM推理的整体吞吐有影响。</li>
+</ul>
+</blockquote>
+<h2 id="can-allocate-：可以给prefill分配物理块"><a href="#can-allocate-：可以给prefill分配物理块" class="headerlink" title="can_allocate()：可以给prefill分配物理块"></a>can_allocate()：可以给prefill分配物理块</h2><p>确实是否可以给这个seq_group分配物理块，做prefill</p>
+<p>返回结果有三种情况：</p>
+<ul>
+<li><p>AllocStatus.NEVER：不分配；</p>
+</li>
+<li><p>locStatus.OK：可以分配；</p>
+</li>
+<li><p>AllocStatus.LATER：延迟分配</p>
+</li>
+</ul>
+<p>所以，假如我们想分配一个物理块</p>
+<ol>
+<li>先取出其waiting序列</li>
+<li>再选出其逻辑块</li>
+<li>再选出可用的物理块数量</li>
+</ol>
+<blockquote>
+<ul>
+<li><strong><code>self.watermark_blocks</code>：水位线block数量，它起的是一个预警和缓冲的作用</strong>，防止在1次调度中把gpu上预留给KV Cache的显存空间打得过满，出现一些意外风险（毕竟这个预留的显存空间也是我们估计出来的）。</li>
+<li><strong>NEVER和LATER的区别</strong>：<strong>这两者的相同之处在于，都是因为当前显存空间不够，而无法继续调度seq_group</strong>。区别在于，<strong>NEVER是因为这条seq实在太长（即prompt太长），长到动用了gpu上所有的block（num_total_gpu_blocks）都无法处理它</strong>，所以后续步骤中我们会直接把这个seq标记为完成，不再处理它；而<strong>LATER是因为之前可能已经调度了很多seq_group，它们占据了相当一部分显存空间，导致gpu上剩余的可用block（num_free_gpu_blocks）无法再处理它</strong>，所以我们延迟处理。</li>
+</ul>
+</blockquote>
+<h2 id="can-append-slot：可以给decode分配物理块"><a href="#can-append-slot：可以给decode分配物理块" class="headerlink" title="can_append_slot：可以给decode分配物理块"></a>can_append_slot：可以给decode分配物理块</h2><blockquote>
+<p><strong>但这时，我们的物理块空间是用来做decode的（给每个seq分配1个token的位置），而不是用来做prefill的（给每个seq分配若干个token的位置），所以这里我们采取的是另一种判断方法<code>can_append_slot</code>。</strong></p>
+<p>更具体来说，running队列中seq_group下的n个seqs在上1个推理阶段共生成了n个token。在本次调度中，我们要先为这n个token分配物理块空间，用于存放它们在本次调度中即将产生的KV值。</p>
+<p>我们再回到这个seq_group的n个seqs上来，我们知道：</p>
+<ul>
+<li><p>当往1个seq的物理块上添加1个token时，可能有两种情况：</p>
+</li>
+<li><ul>
+<li>之前的物理块满了，所以我新开1个物理块给它</li>
+<li>之前的物理块没满，我直接添加在最后一个物理块的空槽位上</li>
+<li><strong>所以，对于1个seq来说，最坏的情况就是添加1个物理块；对于n个seqs来说，最坏的情况就是添加n个物理块（想想原理篇中讲过的copy-on-write机制）</strong></li>
+</ul>
+</li>
+<li><p><strong>对于1个seq_group，除了那些标记为“finish”的seq外，其余seqs要么一起送去推理，要么一起不送去推理。即它们是集体行动的</strong></p>
+</li>
+</ul>
+<p><strong>所以，判断能否对一个正在running的seq_group继续做推理的最保守的方式，就是判断当前可用的物理块数量是否至少为n。</strong></p>
+</blockquote>
+<h2 id="allocate：给prefill分配物理块"><a href="#allocate：给prefill分配物理块" class="headerlink" title="allocate：给prefill分配物理块"></a>allocate：给prefill分配物理块</h2><p>涉及的细节太多（不同的prefix caching方式，逻辑块到物理块的映射，物理块释放，物理块的refcount即copy-on-write机制等等）</p>
+<h2 id="append-slot：给decode分配物理块"><a href="#append-slot：给decode分配物理块" class="headerlink" title="append_slot：给decode分配物理块"></a>append_slot：给decode分配物理块</h2><p>涉及的细节太多（不同的prefix caching方式，逻辑块到物理块的映射，物理块释放，物理块的refcount即copy-on-write机制等等）</p>
+<h2 id="preempt：抢占策略"><a href="#preempt：抢占策略" class="headerlink" title="preempt：抢占策略"></a>preempt：抢占策略</h2><blockquote>
+<p><strong>在若干个推理阶段后，gpu上的资源不够了，这个seq_group不幸被调度器抢占（preemption）</strong>，它相关的KV block也被swap out到cpu上。此时所有seq的状态变为swapped。这里要注意，<strong>当一个seq_group被抢占时，对它的处理有两种方式：</strong></p>
+<ul>
+<li><strong>Swap：如果该seq_group剩余生命周期中并行运行的最大seq数量 &gt; 1，此时会采取swap策略</strong>，即把seq_group下【所有】seq的KV block从gpu上卸载到cpu上。（seq数量比较多，直接把算出的KV block抛弃，比较可惜）</li>
+<li><strong>Recomputation：如果该seq_group剩余生命周期中并行运行的最大seq数量 = 1，此时会采取recomputation策略</strong>，即把该seq_group相关的物理块都释放掉，然后将它重新放回waiting队列中(<strong>放在最前面</strong>)。等下次它被选中推理时，就是从prefill阶段开始重新推理了，因此被称为“重计算”。（seq数量少，重新计算KV block的成本不高）</li>
+</ul>
+</blockquote>
+<h2 id="Swap"><a href="#Swap" class="headerlink" title="Swap"></a>Swap</h2><p>看block_manager_v1的swap out逻辑</p>
+<h2 id="excute"><a href="#excute" class="headerlink" title="excute"></a>excute</h2><p>llm_emgine到executor到worker。GPU的是Worker，CPU的是CPUWorker。</p>
+<p>然后Wroker执行Swap Cache操作后，通过model_runner进行计算。</p>
+
         </div>
 
         
@@ -996,7 +1054,7 @@ mjx-container[display="true"] + br {
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">【学习笔记】vLLM</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E7%9A%84self-attention-layers"><span class="nav-text">transformer的self-attention layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8DBatching-Techniques-for-LLMs"><span class="nav-text">当前Batching Techniques for LLMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Challenges-in-LLM-Serving"><span class="nav-text">Memory Challenges in LLM Serving</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagedAttention"><span class="nav-text">PagedAttention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling-and-Preemption"><span class="nav-text">Scheduling and Preemption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distributed-Execution"><span class="nav-text">Distributed Execution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="nav-text">整体代码架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Centralized-Controller"><span class="nav-text">Centralized Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Workers"><span class="nav-text">Distributed Workers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">运行逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduler%E8%B0%83%E5%BA%A6"><span class="nav-text">Scheduler调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LLM%E5%87%BD%E6%95%B0"><span class="nav-text">LLM函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SequenceGroup"><span class="nav-text">SequenceGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SequenceGroup%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">SequenceGroup的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-request"><span class="nav-text">add_request()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step"><span class="nav-text">step()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#passed-delay"><span class="nav-text">_passed_delay()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#can-allocate"><span class="nav-text">can_allocate()</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer%E7%9A%84self-attention-layers"><span class="nav-text">transformer的self-attention layers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KV-Cache"><span class="nav-text">KV Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%93%E5%89%8DBatching-Techniques-for-LLMs"><span class="nav-text">当前Batching Techniques for LLMs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Memory-Challenges-in-LLM-Serving"><span class="nav-text">Memory Challenges in LLM Serving</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vLLM"><span class="nav-text">vLLM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PagedAttention"><span class="nav-text">PagedAttention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling-and-Preemption"><span class="nav-text">Scheduling and Preemption</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Distributed-Execution"><span class="nav-text">Distributed Execution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="nav-text">整体代码架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Centralized-Controller"><span class="nav-text">Centralized Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Workers"><span class="nav-text">Distributed Workers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E9%80%BB%E8%BE%91"><span class="nav-text">运行逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduler%E8%B0%83%E5%BA%A6"><span class="nav-text">Scheduler调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LLM%E5%87%BD%E6%95%B0"><span class="nav-text">LLM函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SequenceGroup"><span class="nav-text">SequenceGroup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SequenceGroup%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">SequenceGroup的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-request"><span class="nav-text">add_request()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#step"><span class="nav-text">step()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#passed-delay"><span class="nav-text">_passed_delay()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#can-allocate-%EF%BC%9A%E5%8F%AF%E4%BB%A5%E7%BB%99prefill%E5%88%86%E9%85%8D%E7%89%A9%E7%90%86%E5%9D%97"><span class="nav-text">can_allocate()：可以给prefill分配物理块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#can-append-slot%EF%BC%9A%E5%8F%AF%E4%BB%A5%E7%BB%99decode%E5%88%86%E9%85%8D%E7%89%A9%E7%90%86%E5%9D%97"><span class="nav-text">can_append_slot：可以给decode分配物理块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#allocate%EF%BC%9A%E7%BB%99prefill%E5%88%86%E9%85%8D%E7%89%A9%E7%90%86%E5%9D%97"><span class="nav-text">allocate：给prefill分配物理块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#append-slot%EF%BC%9A%E7%BB%99decode%E5%88%86%E9%85%8D%E7%89%A9%E7%90%86%E5%9D%97"><span class="nav-text">append_slot：给decode分配物理块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#preempt%EF%BC%9A%E6%8A%A2%E5%8D%A0%E7%AD%96%E7%95%A5"><span class="nav-text">preempt：抢占策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swap"><span class="nav-text">Swap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#excute"><span class="nav-text">excute</span></a></li></ol></li></ol>
 
     </div>
 </div>
