@@ -114,7 +114,7 @@ div.scroll {
 }
 .publisher {
   font-size: 3;
-  color: #2F05A0; /*#a26895;#fd31f0*;D35FB7*/
+  color: 	#8D6B61; /*#a26895;#fd31f0*;D35FB7*/
   font-style: italic;
 }
 .publish-type{
@@ -156,9 +156,6 @@ h2{
   height: 40px;
 }
 
-a {
-  color:#1C75FF; /*1E88E5*/
-}
 
 .back-to-top {
   position: fixed;
@@ -220,4 +217,33 @@ pre {
 *:after { /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
     -webkit-box-sizing: inherit;
             box-sizing: inherit;
+}
+
+/* 字体 */
+.custom-font {
+  font-size: 18px;
+  color: #000000;
+  font-family: Arial, sans-serif;
+}
+
+/* 链接颜色 */
+a {
+  color: #8D6B61;
+}
+
+a:hover {
+  color: orange; /* 鼠标悬停时的颜色 */
+}
+
+/* Recent News */
+.news-entry {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #000000;
+  font-family: Arial, sans-serif;
+}
+
+.news-date {
+  color: #8D6B61;
+  font-weight: bold;
 }
