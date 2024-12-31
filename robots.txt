@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://higiraffe.github.io/sitemap.xml
