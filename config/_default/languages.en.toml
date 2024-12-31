@@ -15,10 +15,10 @@ title = "Junlin Chen"
 [params.author]
   name = "Junlin Chen"
   image = "img/junlin.jpg"
-  headline = "I'm only human"
+  headline = "4th-year CS undergraduate student at [Beihang University](https://scse.buaa.edu.cn/)"
   links = [
-    { email = "mailto:hello@your_domain.com" },
-    { github = "https://github.com/username" },
+    { email = "mailto:higiraffe@foxmail.com" },
+    { github = "https://github.com/higiraffe" },
   ]
   # bio = "A little bit about you"
   # links = [
