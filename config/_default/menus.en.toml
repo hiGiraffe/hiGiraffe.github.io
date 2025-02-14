@@ -21,6 +21,14 @@
   weight = 20
 
 [[main]]
+  name = "Notes"
+  url = "https://higiraffe.github.io/notes"
+  weight = 30
+  [main.params]
+    icon = "book"
+    target = "_blank"
+
+[[main]]
   identifier = "search"
   weight = 99
   [main.params]
