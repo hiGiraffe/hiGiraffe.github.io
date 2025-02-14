@@ -17,7 +17,7 @@ title = "Junlin Chen"
   image = "img/junlin.jpg"
   headline = "Incoming CS PhD student at University of Macau"
   links = [
-    { email = "mailto:higiraffe@foxmail.com" },
+    { email = "mailto:chenjulian.buaa@gmail.com" },
     { github = "https://github.com/higiraffe" },
   ]
   # bio = "A little bit about you"
