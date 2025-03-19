@@ -4,10 +4,9 @@ title = 'About'
 
 Personal Introduction
 ---
-
 I am a 4th-year CS undergraduate student at <a href="https://scse.buaa.edu.cn/">Beihang University</a>. I am also an exchange student at <a href="https://www.um.edu.mo/">University of Macau</a>. I will be a first-year PhD student at <a href="https://www.um.edu.mo/">University of Macau</a> in August 2025, under the supervision of <a href="https://www.fst.um.edu.mo/personal/huanlexu/">Prof. Huanle Xu</a>.
 
-Currently I am a research assistant advised by <a href="https://www.fst.um.edu.mo/personal/huanlexu/">Prof. Huanle Xu</a> on LLM inference system optimization and efficient scheduling. Before that, I was advised by <a href="https://scse.buaa.edu.cn/info/1079/2724.htm">Prof. Zhongzhi Luan</a> on performance optimization and parallel computing.
+Currently I am a research assistant in <a href="https://cds-macau.github.io/">CDS Lab</a>, advised by <a href="https://www.fst.um.edu.mo/personal/huanlexu/">Prof. Huanle Xu</a> on LLM inference system optimization and efficient scheduling. Before that, I was advised by <a href="https://scse.buaa.edu.cn/info/1079/2724.htm">Prof. Zhongzhi Luan</a> on performance optimization and parallel computing.
 
 Research Interests
 ---

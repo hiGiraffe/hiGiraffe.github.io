@@ -2,10 +2,11 @@
 title = 'Publications'
 +++
 
-Under submission
+I'm currently incubating my first first-author PhD paper🐣.
+<!-- Under submission
 ---
 - Accelerating LLM Serving with SLO-awareness using CPU and GPU</span> <br>
-<font size="2">Zizhao Mo, **Junlin Chen**, Huanle Xu, et al.</font>
+<font size="2">Zizhao Mo, **Junlin Chen**, Huanle Xu, et al.</font> -->
 
 <!-- Conference
 ---
